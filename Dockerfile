@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libxml2-dev \
     libonig-dev \
+    libsodium-dev \
     git \
     unzip \
     curl \
