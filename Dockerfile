@@ -23,8 +23,6 @@ RUN apt-get update && apt-get install -y \
         sodium \
         mbstring \
         xml \
-        ctype \
-        tokenizer \
         fileinfo \
     && pecl install redis \
     && docker-php-ext-enable redis \
