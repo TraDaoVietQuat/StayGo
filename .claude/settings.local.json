@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan:*)",
+      "Bash(c:/xampp/php/php.exe artisan:*)",
+      "Bash(C:/xampp/php/php.exe artisan:*)",
+      "Bash(C:/xampp/php/php.exe -r \"echo 'OPcache: '; echo ini_get\\('opcache.enable'\\) ? 'BẬT' : 'TẮT'; echo PHP_EOL; echo 'Memory limit: ' . ini_get\\('memory_limit'\\) . PHP_EOL; echo 'Max execution: ' . ini_get\\('max_execution_time'\\) . 's' . PHP_EOL;\")",
+      "Bash(C:/xampp/php/php.exe --ini)",
+      "Bash(C:/xampp/php/php.exe -r \"require 'c:/xampp/htdocs/StayGoLaravel/vendor/autoload.php'; echo class_exists\\('OpenAI\\\\Laravel\\\\Facades\\\\OpenAI'\\) ? 'OpenAI OK' : 'OpenAI MISSING';\")",
+      "Bash(curl -s -X POST http://staygo.local/chatbot -H \"Content-Type: application/json\" -H \"X-CSRF-TOKEN: test\" -d '{\"message\":\"xin chao\"}')",
+      "Bash(/c/xampp/php/php.exe artisan:*)",
+      "Bash(/c/xampp/php/php.exe /c/xampp/htdocs/StayGoLaravel/artisan route:clear)",
+      "Bash(/c/xampp/php/php.exe /c/xampp/htdocs/StayGoLaravel/artisan route:list --path=dat-phong -v)",
+      "Bash(/c/xampp/php/php.exe /c/xampp/htdocs/StayGoLaravel/artisan make:migration alter_bookings_payment_method)"
+    ]
+  }
+}

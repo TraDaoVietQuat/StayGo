@@ -1,0 +1,171 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Booking;
+use App\Models\Payment;
+use App\Services\MoMoService;
+use App\Services\VNPayService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+class PaymentWebhookController extends Controller
+{
+    // =========================================================
+    // VNPay
+    // =========================================================
+
+    /** IPN — VNPay gọi ngầm sau khi thanh toán */
+    public function vnpayIpn(Request $request, VNPayService $vnpay)
+    {
+        $data = $request->all();
+
+        if (!$vnpay->verifyCallback($data)) {
+            Log::warning('VNPay IPN: chữ ký không hợp lệ', $data);
+            return response()->json(['RspCode' => '97', 'Message' => 'Invalid signature']);
+        }
+
+        $orderCode = $vnpay->getOrderCode($data);
+        $booking   = Booking::where('order_code', $orderCode)->first();
+
+        if (!$booking) {
+            return response()->json(['RspCode' => '01', 'Message' => 'Order not found']);
+        }
+
+        if ($booking->payment && $booking->payment->payment_status === 'completed') {
+            return response()->json(['RspCode' => '02', 'Message' => 'Order already confirmed']);
+        }
+
+        DB::transaction(function () use ($booking, $data, $vnpay) {
+            $status = $vnpay->isSuccess($data) ? 'completed' : 'failed';
+            $txnNo  = $vnpay->getTransactionNo($data);
+
+            if ($booking->payment) {
+                $booking->payment->update([
+                    'payment_status' => $status,
+                    'transaction_no' => $txnNo,
+                ]);
+            } else {
+                Payment::create([
+                    'booking_id'     => $booking->id,
+                    'hotel_id'       => $booking->room?->hotel_id,
+                    'hotel_name'     => $booking->room?->hotel?->name,
+                    'room_name'      => $booking->room?->room_name,
+                    'method'         => 'vnpay',
+                    'full_name'      => $booking->full_name,
+                    'email'          => $booking->email,
+                    'phone'          => $booking->phone,
+                    'amount'         => $booking->total_price,
+                    'payment_status' => $status,
+                    'transaction_no' => $txnNo,
+                ]);
+            }
+
+            if ($status === 'completed') {
+                $booking->update(['status' => 'confirmed']);
+            }
+        });
+
+        return response()->json(['RspCode' => '00', 'Message' => 'Confirm success']);
+    }
+
+    /** Return URL — user được redirect về sau khi trả */
+    public function vnpayReturn(Request $request, VNPayService $vnpay)
+    {
+        $data = $request->all();
+
+        if (!$vnpay->verifyCallback($data)) {
+            return redirect()->route('home')->with('error', 'Xác minh thanh toán thất bại.');
+        }
+
+        $orderCode = $vnpay->getOrderCode($data);
+        $booking   = Booking::where('order_code', $orderCode)->with('room.hotel')->first();
+
+        if (!$booking) {
+            return redirect()->route('home')->with('error', 'Không tìm thấy đơn đặt phòng.');
+        }
+
+        if ($vnpay->isSuccess($data)) {
+            return redirect()->route('booking.my')
+                ->with('success', "Thanh toán thành công! Đặt phòng #{$orderCode} đã được xác nhận.");
+        }
+
+        return redirect()->route('payment.show', $booking)
+            ->with('error', 'Thanh toán VNPay không thành công. Vui lòng thử lại.');
+    }
+
+    // =========================================================
+    // MoMo
+    // =========================================================
+
+    /** IPN — MoMo gọi ngầm */
+    public function momoIpn(Request $request, MoMoService $momo)
+    {
+        $data = $request->all();
+
+        if (!$momo->verifySignature($data)) {
+            Log::warning('MoMo IPN: chữ ký không hợp lệ', $data);
+            return response()->json(['message' => 'Invalid signature'], 400);
+        }
+
+        $orderCode = $momo->getOrderCode($data);
+        $booking   = Booking::where('order_code', $orderCode)->first();
+
+        if (!$booking) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        DB::transaction(function () use ($booking, $data, $momo) {
+            $status = $momo->isSuccess($data) ? 'completed' : 'failed';
+            $txnId  = $momo->getTransactionId($data);
+
+            if ($booking->payment) {
+                $booking->payment->update([
+                    'payment_status' => $status,
+                    'transaction_no' => $txnId,
+                ]);
+            } else {
+                Payment::create([
+                    'booking_id'     => $booking->id,
+                    'hotel_id'       => $booking->room?->hotel_id,
+                    'hotel_name'     => $booking->room?->hotel?->name,
+                    'room_name'      => $booking->room?->room_name,
+                    'method'         => 'momo',
+                    'full_name'      => $booking->full_name,
+                    'email'          => $booking->email,
+                    'phone'          => $booking->phone,
+                    'amount'         => $booking->total_price,
+                    'payment_status' => $status,
+                    'transaction_no' => $txnId,
+                ]);
+            }
+
+            if ($status === 'completed') {
+                $booking->update(['status' => 'confirmed']);
+            }
+        });
+
+        return response()->json(['message' => 'OK']);
+    }
+
+    /** Return URL — user được redirect về */
+    public function momoReturn(Request $request, MoMoService $momo)
+    {
+        $data      = $request->all();
+        $orderCode = $momo->getOrderCode($data);
+        $booking   = Booking::where('order_code', $orderCode)->with('room.hotel')->first();
+
+        if (!$booking) {
+            return redirect()->route('home')->with('error', 'Không tìm thấy đơn đặt phòng.');
+        }
+
+        if ($momo->isSuccess($data)) {
+            return redirect()->route('booking.my')
+                ->with('success', "Thanh toán MoMo thành công! Đặt phòng #{$orderCode} đã được xác nhận.");
+        }
+
+        return redirect()->route('payment.show', $booking)
+            ->with('error', 'Thanh toán MoMo không thành công. Vui lòng thử lại.');
+    }
+}
