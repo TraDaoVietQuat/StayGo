@@ -8,7 +8,14 @@ class Location extends Model
 {
     public $timestamps = false;
 
-    protected $fillable = ['name', 'description', 'image'];
+    protected $fillable = ['name', 'description', 'image', 'is_active'];
+
+    protected $casts = ['is_active' => 'boolean'];
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 
     public function hotels()
     {

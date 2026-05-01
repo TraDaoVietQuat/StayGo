@@ -98,7 +98,7 @@ class HotelController extends Controller
         };
 
         $hotels    = $query->paginate(12)->withQueryString();
-        $locations = Cache::remember('all.locations.with_count.v2', 3600, fn() => Location::withCount('hotels')->withAvg('hotels', 'rating')->get());
+        $locations = Cache::remember('all.locations.with_count.v3', 3600, fn() => Location::active()->withCount('hotels')->withAvg('hotels', 'rating')->get());
 
         // Truyền search params để view pre-fill
         $guests   = is_numeric($request->input('guests')) ? max(1, min(20, (int) $request->input('guests'))) : 1;

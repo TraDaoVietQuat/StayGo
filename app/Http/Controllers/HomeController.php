@@ -12,8 +12,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $locations = Cache::remember('home.locations.v2', 3600, fn() =>
-            Location::withCount('hotels')->withAvg('hotels', 'rating')->get()
+        $locations = Cache::remember('home.locations.v3', 3600, fn() =>
+            Location::active()->withCount('hotels')->withAvg('hotels', 'rating')->get()
         );
 
         $weekendDeals = Cache::remember('home.weekend_deals', 1800, fn() =>
@@ -33,8 +33,8 @@ class HomeController extends Controller
                 ->get()
         );
 
-        $featuredByLocation = Cache::remember('home.featured_by_location', 1800, function () {
-            return Location::all()->map(function ($loc) {
+        $featuredByLocation = Cache::remember('home.featured_by_location.v2', 1800, function () {
+            return Location::active()->get()->map(function ($loc) {
                 $hotels = Hotel::where('location_id', $loc->id)
                     ->where('is_active', true)
                     ->orderByDesc('rating')

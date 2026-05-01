@@ -42,6 +42,11 @@ class LocationResource extends Resource
                 ->imageResizeMode('cover')
                 ->maxSize(4096)
                 ->columnSpanFull(),
+
+            Forms\Components\Toggle::make('is_active')
+                ->label('Hiển thị trên website')
+                ->default(true)
+                ->columnSpanFull(),
         ]);
     }
 
@@ -60,6 +65,10 @@ class LocationResource extends Resource
                     ->counts('hotels')
                     ->badge()
                     ->color('info')
+                    ->alignCenter(),
+
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Hiển thị')
                     ->alignCenter(),
 
                 Tables\Columns\TextColumn::make('description')
