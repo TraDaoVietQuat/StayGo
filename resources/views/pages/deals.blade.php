@@ -141,7 +141,7 @@
             @foreach($weekendDeals as $hotel)
             <a href="{{ route('hotels.show', $hotel) }}" class="deals-hotel-card">
                 <div class="deals-hotel-img-wrap">
-                    <img src="{{ asset('assets/images/' . $hotel->image) }}" alt="{{ $hotel->name }}" loading="lazy">
+                    <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}" loading="lazy">
                     <div class="deals-hotel-badge-weekend">Cuối tuần</div>
                     @if($hotel->old_price && $hotel->old_price > $hotel->price)
                     @php $disc = round((1 - $hotel->price / $hotel->old_price) * 100) @endphp

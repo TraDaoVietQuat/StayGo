@@ -94,7 +94,7 @@
             <a href="{{ route('hotels.show', $hotel->id) }}" class="bld-hcard">
                 {{-- Image --}}
                 <div class="bld-hcard-img-wrap">
-                    <img src="{{ asset('assets/images/' . $hotel->image) }}" alt="{{ $hotel->name }}"
+                    <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}"
                         class="bld-hcard-img" loading="lazy"
                         onerror="this.src='{{ asset('assets/images/hotel-placeholder.jpg') }}'">
                     {{-- Stars --}}

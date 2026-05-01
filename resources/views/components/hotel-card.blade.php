@@ -26,7 +26,7 @@ $detailUrl = route('hotels.show', $hotel) . ($searchParams ? '?' . http_build_qu
 <div class="hotel-card">
     <a href="{{ $detailUrl }}" class="hotel-card-link">
         <div class="hotel-card-img">
-            <img src="{{ asset('assets/images/' . ($hotel->image ?? 'placeholder.jpg')) }}" alt="{{ $hotel->name }}" loading="lazy">
+            <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}" loading="lazy">
             <div class="hotel-card-badges">
                 @if($discount)
                 <span class="badge-discount">-{{ $discount }}%</span>

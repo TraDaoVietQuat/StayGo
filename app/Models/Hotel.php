@@ -53,4 +53,18 @@ class Hotel extends Model
     {
         return $this->belongsToMany(User::class, 'favorites');
     }
+
+    public function getImageUrlAttribute(): string
+    {
+        return static::resolveImageUrl($this->image);
+    }
+
+    public static function resolveImageUrl(?string $image): string
+    {
+        if (!$image) return asset('assets/images/placeholder.jpg');
+        if (str_contains($image, '/')) {
+            return \Illuminate\Support\Facades\Storage::url($image);
+        }
+        return asset('assets/images/' . $image);
+    }
 }

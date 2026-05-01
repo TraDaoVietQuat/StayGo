@@ -14,4 +14,9 @@ class HotelImage extends Model
     {
         return $this->belongsTo(Hotel::class);
     }
+
+    public function getImageUrlAttribute(): string
+    {
+        return Hotel::resolveImageUrl($this->image);
+    }
 }

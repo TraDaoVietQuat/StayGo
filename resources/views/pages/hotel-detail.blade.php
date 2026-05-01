@@ -3,7 +3,7 @@
 @section('meta_description', Str::limit($hotel->description, 155))
 @section('og_title', $hotel->name . ' – StayGo')
 @section('og_description', Str::limit($hotel->description, 200))
-@section('og_image', asset('assets/images/' . ($hotel->image ?? 'StayGo.png')))
+@section('og_image', $hotel->image_url)
 
 @php
     $minPrice = $hotel->rooms->min('price') ?? $hotel->price;
@@ -20,9 +20,9 @@
 
     // Build photos array
     $photos = [];
-    $photos[] = ['src' => asset('assets/images/' . ($hotel->image ?? 'placeholder.jpg')), 'caption' => $hotel->name];
+    $photos[] = ['src' => $hotel->image_url, 'caption' => $hotel->name];
     foreach ($hotel->images as $img) {
-        $photos[] = ['src' => asset('assets/images/' . $img->image), 'caption' => $img->caption ?? ''];
+        $photos[] = ['src' => $img->image_url, 'caption' => $img->caption ?? ''];
     }
 
     $roomConfig = [
@@ -677,7 +677,7 @@
                 <div class="hd-rc-title">🏨 Khách sạn tại {{ $hotel->location?->name }}</div>
                 @foreach($relatedHotels as $related)
                 <a href="{{ route('hotels.show', $related) }}" class="hd-rc-item">
-                    <img src="{{ asset('assets/images/' . $related->image) }}" class="hd-rc-img" alt="{{ $related->name }}">
+                    <img src="{{ $related->image_url }}" class="hd-rc-img" alt="{{ $related->name }}">
                     <div class="hd-rc-info">
                         <div class="hd-rc-name">{{ $related->name }}</div>
                         <div class="hd-rc-price">{{ number_format($related->rooms->min('price') ?? $related->price) }}đ<span>/đêm</span></div>

@@ -32,7 +32,7 @@
                     <div class="up-bk-left">
                         <div class="up-bk-hotel-img">
                             @if($booking->room?->hotel?->image)
-                            <img src="{{ asset('assets/images/' . $booking->room->hotel->image) }}" alt="">
+                            <img src="{{ $booking->room->hotel->image_url }}" alt="">
                             @else
                             <div class="up-bk-no-img">🏨</div>
                             @endif
