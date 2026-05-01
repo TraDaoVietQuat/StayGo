@@ -53,5 +53,7 @@ CMD php artisan storage:link --force 2>/dev/null; \
     php artisan config:cache; \
     php artisan route:cache; \
     php artisan view:cache; \
-    php artisan migrate --force 2>/dev/null; \
+    php artisan migrate --force; \
+    php artisan db:seed --class=ReplaceHotelsSeeder --force --no-interaction 2>/dev/null; \
+    php artisan db:seed --class=ReplaceBlogPostsSeeder --force --no-interaction 2>/dev/null; \
     php artisan serve --host=0.0.0.0 --port=${PORT:-8000}

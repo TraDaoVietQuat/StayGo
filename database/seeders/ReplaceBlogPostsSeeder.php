@@ -10,6 +10,12 @@ class ReplaceBlogPostsSeeder extends Seeder
 {
     public function run(): void
     {
+        // Guard: skip nếu đã có dữ liệu
+        if (DB::table('blog_posts')->count() > 0) {
+            $this->command->info('Blog posts already seeded, skipping.');
+            return;
+        }
+
         DB::table('blog_posts')->truncate();
 
         $posts = [

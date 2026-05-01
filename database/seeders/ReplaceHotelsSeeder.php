@@ -10,6 +10,12 @@ class ReplaceHotelsSeeder extends Seeder
 {
     public function run(): void
     {
+        // Guard: skip nếu đã có dữ liệu (tránh re-seed khi container restart)
+        if (DB::table('hotels')->count() > 0) {
+            $this->command->info('Hotels already seeded, skipping.');
+            return;
+        }
+
         $now = Carbon::now();
 
         // ── 1. Xóa dữ liệu cũ (theo thứ tự FK) ──────────────────────────
