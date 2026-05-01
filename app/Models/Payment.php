@@ -12,12 +12,14 @@ class Payment extends Model
 
     protected $fillable = [
         'booking_id', 'hotel_id', 'hotel_name', 'room_name', 'method',
-        'full_name', 'email', 'phone', 'amount', 'payment_status', 'qr_scanned',
+        'full_name', 'email', 'phone', 'amount', 'payment_status',
+        'transaction_no', 'paid_at', 'qr_scanned',
     ];
 
     protected $casts = [
         'qr_scanned' => 'boolean',
         'created_at' => 'datetime',
+        'paid_at'    => 'datetime',
     ];
 
     public function booking()

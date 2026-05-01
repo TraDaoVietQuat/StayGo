@@ -19,13 +19,70 @@
         'bank_transfer'=> '🏦 Chuyển khoản',
         default        => '🏨 Thanh toán tại khách sạn',
     };
+    $isOnlineMethod  = in_array($booking->payment_method, ['bank','bank_transfer','momo','vnpay','card','zalopay']);
+    $isAlreadyPaid   = $payment && $payment->payment_status === 'completed';
 @endphp
 
 <div class="pmt-wrap">
 <div class="pmt-inner">
 
+{{-- ══════════ ALREADY PAID STATE ══════════ --}}
+@if($isAlreadyPaid && !session('success'))
+<div class="pmt-card">
+    <div class="pmt-success-header" style="background:linear-gradient(135deg,#1e40af,#3b82f6)">
+        <div class="pmt-check-circle">✓</div>
+        <h2 class="pmt-success-title">Thanh toán đã hoàn tất!</h2>
+        <p class="pmt-success-sub">Đặt phòng #{{ $booking->order_code }} đã được xác nhận.</p>
+    </div>
+    <div class="pmt-body">
+        <div class="pmt-info-list">
+            <div class="pmt-info-row">
+                <span class="pmt-info-icon">🏨</span>
+                <div><div class="pmt-info-lbl">Khách sạn · Phòng</div>
+                    <div class="pmt-info-val">{{ $booking->room?->hotel?->name }} · {{ $booking->room?->room_name }}</div></div>
+            </div>
+            <div class="pmt-info-row">
+                <span class="pmt-info-icon">📅</span>
+                <div><div class="pmt-info-lbl">Thời gian lưu trú</div>
+                    <div class="pmt-info-val">
+                        {{ \Carbon\Carbon::parse($booking->check_in)->format('d/m/Y') }}
+                        → {{ \Carbon\Carbon::parse($booking->check_out)->format('d/m/Y') }}
+                        <span class="pmt-nights-badge">{{ $nights }} {{ $unit }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pmt-info-row">
+                <span class="pmt-info-icon">💳</span>
+                <div><div class="pmt-info-lbl">Phương thức</div><div class="pmt-info-val">{{ $pmLabel }}</div></div>
+            </div>
+            @if($payment->transaction_no)
+            <div class="pmt-info-row">
+                <span class="pmt-info-icon">🔖</span>
+                <div><div class="pmt-info-lbl">Mã giao dịch</div><div class="pmt-info-val">{{ $payment->transaction_no }}</div></div>
+            </div>
+            @endif
+            @if($payment->paid_at)
+            <div class="pmt-info-row">
+                <span class="pmt-info-icon">🕐</span>
+                <div><div class="pmt-info-lbl">Thời gian thanh toán</div><div class="pmt-info-val">{{ $payment->paid_at->format('d/m/Y H:i') }}</div></div>
+            </div>
+            @endif
+        </div>
+        <div class="pmt-price-box">
+            <div class="pmt-price-total">
+                <span>Tổng đã thanh toán</span>
+                <span class="pmt-total-val">{{ number_format($booking->total_price) }}đ</span>
+            </div>
+        </div>
+        <div class="pmt-actions" style="margin-top:20px">
+            <a href="{{ route('booking.my') }}" class="pmt-btn pmt-btn-primary">Xem đặt phòng của tôi</a>
+            <a href="{{ route('home') }}" class="pmt-btn pmt-btn-outline">Trang chủ</a>
+        </div>
+    </div>
+</div>
+
 {{-- ══════════ SUCCESS STATE ══════════ --}}
-@if(session('success'))
+@elseif(session('success'))
 <div class="pmt-card">
 
     {{-- Header --}}
@@ -102,18 +159,39 @@
         </div>
 
         {{-- Status --}}
+        @if($isOnlineMethod)
+        <div class="pmt-status-box" style="background:#eff6ff;border-color:#bfdbfe;color:#1e40af">
+            🕐 Đơn hàng đang chờ xác nhận thanh toán · Hệ thống sẽ tự động cập nhật sau khi nhận được tiền
+        </div>
+        @else
         <div class="pmt-status-box">
             🕐 Đơn hàng đang chờ xác nhận · Vui lòng thanh toán khi nhận phòng
         </div>
+        @endif
 
         {{-- Next steps --}}
         <div class="pmt-steps-box">
             <div class="pmt-steps-title">Các bước tiếp theo</div>
-            @foreach([
-                'Kiểm tra email xác nhận gửi đến <strong>'.$booking->email.'</strong>',
-                'Đến khách sạn vào <strong>'.\Carbon\Carbon::parse($booking->check_in)->format('d/m/Y').'</strong>, xuất trình mã đơn hàng tại lễ tân',
-                'Thanh toán <strong>'.number_format($booking->total_price).'đ</strong> bằng tiền mặt hoặc thẻ ngân hàng',
-            ] as $i => $step)
+            @php
+                $steps = match(true) {
+                    in_array($booking->payment_method, ['bank','bank_transfer']) => [
+                        'Kiểm tra email xác nhận gửi đến <strong>'.$booking->email.'</strong>',
+                        'Chuyển khoản <strong>'.number_format($booking->total_price).'đ</strong> với nội dung <strong>SEVQR '.$booking->order_code.'</strong>',
+                        'Hệ thống sẽ tự động xác nhận đặt phòng trong vài phút sau khi nhận tiền',
+                    ],
+                    $booking->payment_method === 'momo' => [
+                        'Kiểm tra email xác nhận gửi đến <strong>'.$booking->email.'</strong>',
+                        'Chuyển tiền <strong>'.number_format($booking->total_price).'đ</strong> vào ví MoMo với nội dung <strong>'.$booking->order_code.'</strong>',
+                        'Đặt phòng sẽ được xác nhận sau khi chúng tôi nhận được tiền',
+                    ],
+                    default => [
+                        'Kiểm tra email xác nhận gửi đến <strong>'.$booking->email.'</strong>',
+                        'Đến khách sạn vào <strong>'.\Carbon\Carbon::parse($booking->check_in)->format('d/m/Y').'</strong>, xuất trình mã đơn hàng tại lễ tân',
+                        'Thanh toán <strong>'.number_format($booking->total_price).'đ</strong> bằng tiền mặt hoặc thẻ ngân hàng',
+                    ],
+                };
+            @endphp
+            @foreach($steps as $i => $step)
             <div class="pmt-step-item">
                 <span class="pmt-step-num">{{ $i+1 }}</span>
                 <span class="pmt-step-text">{!! $step !!}</span>
@@ -212,26 +290,54 @@
         </div>
 
         @elseif($booking->payment_method === 'bank' || $booking->payment_method === 'bank_transfer')
-        <div class="pmt-method-box pmt-method-bank">
-            <div class="pmt-method-title">🏦 Chuyển khoản ngân hàng</div>
+        @php
+            $bankId      = 'ICB';           // Vietinbank — đổi nếu dùng ngân hàng khác
+            $bankAccount = '107645394761';
+            $bankName    = 'LE VAN HUY';
+            $vietqrUrl   = "https://img.vietqr.io/image/{$bankId}-{$bankAccount}-compact2.png"
+                         . "?amount={$booking->total_price}"
+                         . "&addInfo=" . urlencode('SEVQR ' . $booking->order_code)
+                         . "&accountName=" . urlencode($bankName);
+        @endphp
+        <div class="pmt-method-box pmt-method-bank" id="pmt-waiting-box">
+            <div class="pmt-method-title">🏦 Chuyển khoản Vietinbank</div>
+            <div class="pmt-qr-wrap">
+                <img src="{{ $vietqrUrl }}" alt="QR Vietinbank" class="pmt-qr-img" onerror="this.style.display='none'">
+            </div>
             <div class="pmt-bank-info">
-                <div>🏦 <strong>Ngân hàng:</strong> Vietcombank</div>
-                <div>💳 <strong>Số tài khoản:</strong> 1234567890</div>
-                <div>👤 <strong>Chủ tài khoản:</strong> NGUYEN VAN A</div>
-                <div>💬 <strong>Nội dung CK:</strong> <span class="pmt-order-ref">{{ $booking->order_code }}</span></div>
+                <div>🏦 <strong>Ngân hàng:</strong> Vietinbank</div>
+                <div>💳 <strong>Số tài khoản:</strong> {{ $bankAccount }}</div>
+                <div>👤 <strong>Chủ tài khoản:</strong> {{ $bankName }}</div>
+                <div>💬 <strong>Nội dung CK:</strong> <span class="pmt-order-ref">SEVQR {{ $booking->order_code }}</span>
+                    <button class="pmt-copy-inline" onclick="navigator.clipboard.writeText('SEVQR {{ $booking->order_code }}').then(()=>this.textContent='✓')">📋</button>
+                </div>
                 <div>💰 <strong>Số tiền:</strong> <span class="pmt-order-ref">{{ number_format($booking->total_price) }}đ</span></div>
             </div>
-            <p class="pmt-method-note">Sau khi chuyển khoản, nhấn xác nhận để chúng tôi kiểm tra.</p>
+            <div class="pmt-polling-status" id="pmt-poll-status">
+                <span class="pmt-poll-dot"></span> Đang chờ xác nhận thanh toán...
+            </div>
         </div>
 
         @elseif($booking->payment_method === 'momo')
-        <div class="pmt-method-box pmt-method-momo">
+        @php
+            $momoPhone  = '0373 848 395';
+            $momoQrUrl  = asset('assets/images/qr_momo.jpg');
+        @endphp
+        <div class="pmt-method-box pmt-method-momo" id="pmt-waiting-box">
             <div class="pmt-method-title">
                 <img src="{{ asset('assets/images/momo.png') }}" style="height:20px;vertical-align:middle;margin-right:6px;">Ví MoMo
             </div>
-            <p>Chuyển tiền đến số: <strong class="pmt-phone-num">0912 345 678</strong></p>
+            <div class="pmt-qr-wrap">
+                <img src="{{ $momoQrUrl }}" alt="QR MoMo" class="pmt-qr-img">
+            </div>
+            <p>Chuyển tiền đến số: <strong class="pmt-phone-num">{{ $momoPhone }}</strong></p>
             <p>Số tiền: <strong class="pmt-order-ref">{{ number_format($booking->total_price) }}đ</strong></p>
-            <p>Nội dung: <strong class="pmt-order-ref">{{ $booking->order_code }}</strong></p>
+            <p>Nội dung: <strong class="pmt-order-ref">{{ $booking->order_code }}</strong>
+                <button class="pmt-copy-inline" onclick="navigator.clipboard.writeText('{{ $booking->order_code }}').then(()=>this.textContent='✓')">📋</button>
+            </p>
+            <div class="pmt-polling-status" id="pmt-poll-status">
+                <span class="pmt-poll-dot"></span> Đang chờ xác nhận thanh toán...
+            </div>
         </div>
 
         @elseif($booking->payment_method === 'vnpay')
@@ -260,9 +366,23 @@
         {{-- Confirm button --}}
         <form method="POST" action="{{ route('payment.process', $booking) }}">
             @csrf
-            <button type="submit" class="pmt-confirm-btn">✅ Xác nhận thanh toán</button>
+            @php
+                $btnLabel = match($booking->payment_method) {
+                    'vnpay'        => '🟢 Tiến hành thanh toán qua VNPay',
+                    'momo'         => '💜 Xác nhận & chuyển khoản MoMo',
+                    'bank','bank_transfer' => '🏦 Tôi đã chuyển khoản, xác nhận đặt phòng',
+                    default        => '✅ Xác nhận đặt phòng',
+                };
+                $btnNote = match($booking->payment_method) {
+                    'vnpay'  => 'Bạn sẽ được chuyển đến cổng thanh toán VNPay an toàn',
+                    'momo'   => 'Hệ thống sẽ tự động xác nhận sau khi nhận tiền qua SePay',
+                    'bank','bank_transfer' => 'Nhấn sau khi đã chuyển khoản. Hệ thống sẽ kiểm tra trong vài phút',
+                    default  => 'Đặt phòng sẽ được xác nhận sau khi chúng tôi kiểm tra (trong 15 phút)',
+                };
+            @endphp
+            <button type="submit" class="pmt-confirm-btn">{{ $btnLabel }}</button>
         </form>
-        <p class="pmt-confirm-note">Đặt phòng sẽ được xác nhận sau khi chúng tôi kiểm tra thanh toán (trong 15 phút)</p>
+        <p class="pmt-confirm-note">{{ $btnNote }}</p>
     </div>
 </div>
 @endif
@@ -369,5 +489,79 @@
 .pmt-btn:hover  { opacity: .85; }
 .pmt-btn-primary { background: linear-gradient(135deg,#e91e8c,#ffa9f9); color: #fff; }
 .pmt-btn-outline { background: #fff; border: 1.5px solid #e2e8f0; color: #374151; }
+
+/* QR */
+.pmt-qr-wrap  { text-align: center; margin: 12px 0; }
+.pmt-qr-img   { width: 180px; height: 180px; border-radius: 12px; border: 2px solid #e2e8f0; }
+
+/* Copy inline */
+.pmt-copy-inline { background: none; border: 1px solid #cbd5e1; border-radius: 5px; padding: 1px 7px; cursor: pointer; font-size: 12px; margin-left: 6px; vertical-align: middle; }
+.pmt-copy-inline:hover { background: #f1f5f9; }
+
+/* Polling status */
+.pmt-polling-status { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 12.5px; color: #64748b; justify-content: center; }
+.pmt-poll-dot { width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; animation: pmt-blink 1.2s ease-in-out infinite; flex-shrink: 0; }
+@keyframes pmt-blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+
+/* Success overlay */
+.pmt-success-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 9999; align-items: center; justify-content: center; }
+.pmt-success-overlay.active { display: flex; }
+.pmt-success-popup { background: #fff; border-radius: 20px; padding: 36px 28px; text-align: center; max-width: 340px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,.2); animation: pmt-pop .4s cubic-bezier(.34,1.56,.64,1); }
+@keyframes pmt-pop { from{transform:scale(.7);opacity:0} to{transform:scale(1);opacity:1} }
+.pmt-success-icon { font-size: 56px; margin-bottom: 12px; }
+.pmt-success-popup h3 { font-size: 20px; font-weight: 800; color: #15803d; margin: 0 0 8px; }
+.pmt-success-popup p  { color: #4b5563; font-size: 14px; margin: 0 0 20px; }
+.pmt-success-popup .pmt-btn-primary { display: inline-block; padding: 12px 28px; text-decoration: none; border-radius: 10px; }
 </style>
+@endpush
+
+@push('scripts')
+@php
+    $needsPolling = in_array($booking->payment_method, ['bank','bank_transfer','momo'])
+                 && (!$payment || $payment->payment_status !== 'completed');
+@endphp
+@if($needsPolling)
+{{-- Success overlay --}}
+<div class="pmt-success-overlay" id="pmt-overlay">
+    <div class="pmt-success-popup">
+        <div class="pmt-success-icon">✅</div>
+        <h3>Thanh toán thành công!</h3>
+        <p>Chúng tôi đã nhận được tiền.<br>Đặt phòng <strong>{{ $booking->order_code }}</strong> đã được xác nhận.</p>
+        <a href="{{ route('booking.my') }}" class="pmt-btn pmt-btn-primary">Xem đơn đặt phòng</a>
+    </div>
+</div>
+
+<script>
+(function () {
+    const statusUrl = '{{ route('payment.status', $booking) }}';
+    const overlay   = document.getElementById('pmt-overlay');
+    const pollEl    = document.getElementById('pmt-poll-status');
+    let done = false;
+
+    function showSuccess() {
+        done = true;
+        if (overlay) overlay.classList.add('active');
+        if (pollEl) {
+            pollEl.innerHTML = '<span style="color:#16a34a;font-weight:700">✓ Đã nhận thanh toán!</span>';
+        }
+    }
+
+    function poll() {
+        if (done) return;
+        fetch(statusUrl, { headers: { 'Accept': 'application/json' } })
+            .then(r => r.json())
+            .then(data => {
+                if (data.payment_status === 'completed' || data.booking_status === 'confirmed') {
+                    showSuccess();
+                }
+            })
+            .catch(() => {});
+    }
+
+    // Poll mỗi 4 giây
+    poll();
+    setInterval(poll, 4000);
+})();
+</script>
+@endif
 @endpush

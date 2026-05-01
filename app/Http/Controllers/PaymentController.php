@@ -28,6 +28,16 @@ class PaymentController extends Controller
         return view('pages.payment', compact('booking', 'payment'));
     }
 
+    public function status(Booking $booking)
+    {
+        abort_if(!$this->canAccess($booking), 403);
+        $payment = $booking->payment;
+        return response()->json([
+            'payment_status' => $payment?->payment_status ?? 'pending',
+            'booking_status' => $booking->status,
+        ]);
+    }
+
     public function process(Request $request, Booking $booking)
     {
         abort_if(!$this->canAccess($booking), 403);

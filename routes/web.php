@@ -94,6 +94,7 @@ Route::get('/dat-phong/{room}',             [BookingController::class, 'create']
 Route::post('/dat-phong',                   [BookingController::class, 'store'])->name('booking.store')->middleware('throttle:5,1');
 Route::get('/thanh-toan/{booking}',         [PaymentController::class, 'show'])->name('payment.show');
 Route::post('/thanh-toan/{booking}',        [PaymentController::class, 'process'])->name('payment.process');
+Route::get('/api/payment/{booking}/status', [PaymentController::class, 'status'])->name('payment.status');
 
 // ==================== AUTHENTICATED USER ROUTES ====================
 Route::middleware('auth')->group(function () {
@@ -141,6 +142,8 @@ Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
     // MoMo
     Route::post('/webhook/momo/ipn',        [PaymentWebhookController::class, 'momoIpn'])->name('webhook.momo.ipn');
     Route::get('/webhook/momo/return',      [PaymentWebhookController::class, 'momoReturn'])->name('webhook.momo.return');
+    // SePay (bank transfer auto-detect)
+    Route::post('/webhook/sepay',           [PaymentWebhookController::class, 'sepayWebhook'])->name('webhook.sepay');
 });
 
 // ==================== SITEMAP ====================

@@ -40,11 +40,13 @@ class PaymentWebhookController extends Controller
         DB::transaction(function () use ($booking, $data, $vnpay) {
             $status = $vnpay->isSuccess($data) ? 'completed' : 'failed';
             $txnNo  = $vnpay->getTransactionNo($data);
+            $paidAt = $status === 'completed' ? now() : null;
 
             if ($booking->payment) {
                 $booking->payment->update([
                     'payment_status' => $status,
                     'transaction_no' => $txnNo,
+                    'paid_at'        => $paidAt,
                 ]);
             } else {
                 Payment::create([
@@ -59,6 +61,7 @@ class PaymentWebhookController extends Controller
                     'amount'         => $booking->total_price,
                     'payment_status' => $status,
                     'transaction_no' => $txnNo,
+                    'paid_at'        => $paidAt,
                 ]);
             }
 
@@ -119,11 +122,13 @@ class PaymentWebhookController extends Controller
         DB::transaction(function () use ($booking, $data, $momo) {
             $status = $momo->isSuccess($data) ? 'completed' : 'failed';
             $txnId  = $momo->getTransactionId($data);
+            $paidAt = $status === 'completed' ? now() : null;
 
             if ($booking->payment) {
                 $booking->payment->update([
                     'payment_status' => $status,
                     'transaction_no' => $txnId,
+                    'paid_at'        => $paidAt,
                 ]);
             } else {
                 Payment::create([
@@ -138,6 +143,7 @@ class PaymentWebhookController extends Controller
                     'amount'         => $booking->total_price,
                     'payment_status' => $status,
                     'transaction_no' => $txnId,
+                    'paid_at'        => $paidAt,
                 ]);
             }
 
@@ -147,6 +153,71 @@ class PaymentWebhookController extends Controller
         });
 
         return response()->json(['message' => 'OK']);
+    }
+
+    // =========================================================
+    // SePay — tự động nhận diện chuyển khoản ngân hàng
+    // =========================================================
+
+    public function sepayWebhook(Request $request)
+    {
+        $data = $request->all();
+        Log::info('SePay webhook received', $data);
+
+        // Chỉ xử lý giao dịch tiền vào
+        if (($data['transferType'] ?? '') !== 'in') {
+            return response()->json(['success' => true]);
+        }
+
+        // Tìm order code trong nội dung chuyển khoản
+        $content = $data['transaction_content'] ?? $data['content'] ?? $data['description'] ?? '';
+        $amount  = (int) ($data['transferAmount'] ?? $data['amount'] ?? 0);
+
+        // Tìm booking khớp với order code trong nội dung (có thể có prefix SEVQR)
+        $booking = Booking::where('status', 'pending')
+            ->get()
+            ->first(fn($b) => str_contains(strtoupper($content), strtoupper($b->order_code)));
+
+        if (!$booking) {
+            Log::warning('SePay: không tìm được booking từ nội dung: ' . $content);
+            return response()->json(['success' => false, 'message' => 'Booking not found']);
+        }
+
+        if ($booking->payment && $booking->payment->payment_status === 'completed') {
+            return response()->json(['success' => true, 'message' => 'Already completed']);
+        }
+
+        DB::transaction(function () use ($booking, $amount, $data) {
+            $txnNo = $data['id'] ?? $data['referenceCode'] ?? null;
+
+            if ($booking->payment) {
+                $booking->payment->update([
+                    'payment_status' => 'completed',
+                    'transaction_no' => $txnNo,
+                    'paid_at'        => now(),
+                ]);
+            } else {
+                Payment::create([
+                    'booking_id'     => $booking->id,
+                    'hotel_id'       => $booking->room?->hotel_id,
+                    'hotel_name'     => $booking->room?->hotel?->name,
+                    'room_name'      => $booking->room?->room_name,
+                    'method'         => 'bank_transfer',
+                    'full_name'      => $booking->full_name,
+                    'email'          => $booking->email,
+                    'phone'          => $booking->phone,
+                    'amount'         => $amount ?: $booking->total_price,
+                    'payment_status' => 'completed',
+                    'transaction_no' => $txnNo,
+                    'paid_at'        => now(),
+                ]);
+            }
+
+            $booking->update(['status' => 'confirmed']);
+        });
+
+        Log::info('SePay: xác nhận thanh toán booking ' . $booking->order_code);
+        return response()->json(['success' => true]);
     }
 
     /** Return URL — user được redirect về */
