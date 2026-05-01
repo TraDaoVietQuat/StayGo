@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     curl \
+    autoconf \
+    g++ \
+    make \
     && docker-php-ext-install \
         intl \
         pdo_mysql \
