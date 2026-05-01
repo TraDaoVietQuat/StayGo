@@ -34,10 +34,10 @@ class ReplaceHotelsSeeder extends Seeder
         // ── 2. Tạo locations mới ─────────────────────────────────────────
         $locIds = [];
         $locations = [
-            ['name' => 'Đà Lạt',   'description' => 'Thành phố ngàn hoa, khí hậu mát mẻ quanh năm, thiên đường du lịch Tây Nguyên.', 'image' => 'hotel1.jpg'],
+            ['name' => 'Đà Lạt',   'description' => 'Thành phố ngàn hoa, khí hậu mát mẻ quanh năm, thiên đường du lịch Tây Nguyên.', 'image' => 'background_ks.jpg'],
             ['name' => 'Nha Trang', 'description' => 'Thành phố biển nổi tiếng với bãi cát trắng, làn nước trong xanh và ẩm thực hải sản phong phú.', 'image' => 'ks-bien1.jpg'],
             ['name' => 'Vũng Tàu', 'description' => 'Thành phố biển gần TP.HCM, điểm nghỉ dưỡng cuối tuần lý tưởng với bãi biển và hải sản tươi ngon.', 'image' => 'anhbien2.jpg'],
-            ['name' => 'Đà Nẵng',  'description' => 'Thành phố đáng sống nhất Việt Nam, sở hữu bãi biển Mỹ Khê, cầu Rồng và gần Hội An – Huế.', 'image' => 'mykhe_beach.jpg'],
+            ['name' => 'Đà Nẵng',  'description' => 'Thành phố đáng sống nhất Việt Nam, sở hữu bãi biển Mỹ Khê, cầu Rồng và gần Hội An – Huế.', 'image' => 'dn.jpg'],
         ];
 
         foreach ($locations as $loc) {
@@ -67,7 +67,7 @@ class ReplaceHotelsSeeder extends Seeder
                 'checkout_time'       => '12:00',
                 'is_active'           => true,
                 'is_weekend_deal'     => true,
-                'image'               => 'hotel1.jpg',
+                'image'               => 'background_ks.jpg',
                 'created_at'          => $now,
                 'rooms' => [
                     ['room_name' => 'Le Petit / Villa Room',  'bed_type' => '1 giường đôi',  'price' => 2400000, 'day_price' => 1080000, 'quantity' => 8,  'max_guests' => 3],
@@ -91,7 +91,7 @@ class ReplaceHotelsSeeder extends Seeder
                 'checkout_time'       => '12:00',
                 'is_active'           => true,
                 'is_weekend_deal'     => false,
-                'image'               => 'hotel2.jpg',
+                'image'               => 'promo.jpg',
                 'created_at'          => $now,
                 'rooms' => [
                     ['room_name' => 'Superior / Deluxe', 'bed_type' => '1 đôi / 2 đơn',  'price' => 1500000, 'day_price' => 675000,  'quantity' => 12, 'max_guests' => 3],
@@ -115,7 +115,7 @@ class ReplaceHotelsSeeder extends Seeder
                 'checkout_time'       => '12:00',
                 'is_active'           => true,
                 'is_weekend_deal'     => false,
-                'image'               => 'hotel3.jpg',
+                'image'               => 'ks-bien2.jpg',
                 'created_at'          => $now,
                 'rooms' => [
                     ['room_name' => 'Superior / Deluxe', 'bed_type' => '1 đôi / 2 đơn', 'price' => 950000, 'day_price' => 427500, 'quantity' => 15, 'max_guests' => 3],
@@ -287,7 +287,7 @@ class ReplaceHotelsSeeder extends Seeder
                 'checkout_time'       => '12:00',
                 'is_active'           => true,
                 'is_weekend_deal'     => true,
-                'image'               => 'mykhe_beach.jpg',
+                'image'               => 'tour-du-lich-da-nang-1.jpg',
                 'created_at'          => $now,
                 'rooms' => [
                     ['room_name' => 'Classic / Terrace Suite', 'bed_type' => '1 giường King lớn', 'price' => 14000000, 'day_price' => 6300000, 'quantity' => 12, 'max_guests' => 3],

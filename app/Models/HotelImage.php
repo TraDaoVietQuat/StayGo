@@ -17,6 +17,6 @@ class HotelImage extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return Hotel::resolveImageUrl($this->image);
+        return asset('assets/images/' . ($this->image ?? 'placeholder.jpg'));
     }
 }
