@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\BookingRefunded;
 use App\Models\AuditLog;
 use App\Models\Booking;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class ProcessRefunds extends Command
 {
@@ -35,7 +37,11 @@ class ProcessRefunds extends Command
             // Thông báo user
             if ($booking->user) {
                 try {
+                    $booking->load('room.hotel');
                     $booking->user->notify(new \App\Notifications\BookingRefundedNotification($booking));
+                    if ($booking->email) {
+                        Mail::to($booking->email)->send(new BookingRefunded($booking));
+                    }
                 } catch (\Exception) {}
             }
 

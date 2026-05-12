@@ -16,6 +16,8 @@ class Booking extends Model
         'check_in', 'check_out', 'total_price', 'payment_method', 'note',
         'stay_type', 'discount_code', 'discount_percent', 'discount_amount',
         'status', 'refund_requested', 'refund_requested_at', 'refund_amount', 'created_at',
+        'reminder_sent_at', 'checkout_reminder_sent_at', 'survey_sent_at',
+        'payment_status',
     ];
 
     protected $casts = [
@@ -23,6 +25,9 @@ class Booking extends Model
         'check_out' => 'date',
         'refund_requested' => 'boolean',
         'refund_requested_at' => 'datetime',
+        'reminder_sent_at' => 'datetime',
+        'checkout_reminder_sent_at' => 'datetime',
+        'survey_sent_at' => 'datetime',
         'created_at' => 'datetime',
     ];
 

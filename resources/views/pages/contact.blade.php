@@ -32,7 +32,7 @@
             </div>
             <div>
                 <div class="ct-stat-label">Email</div>
-                <div class="ct-stat-value">support@staygo.vn</div>
+                <div class="ct-stat-value">supportstaygo@gmail.com</div>
                 <div class="ct-stat-note">Phản hồi trong 2 giờ</div>
             </div>
         </div>

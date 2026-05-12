@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminNewBooking;
+use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmation;
 use App\Models\Booking;
 use App\Models\Promo;
@@ -183,9 +185,12 @@ class BookingController extends Controller
         $booking->load('room.hotel');
         try {
             Mail::to($booking->email)->send(new BookingConfirmation($booking));
-        } catch (\Exception $e) {
-            // Không fail nếu mail lỗi cấu hình
-        }
+        } catch (\Exception $e) {}
+
+        // Thông báo cho admin
+        try {
+            Mail::to(config('mail.from.address'))->send(new AdminNewBooking($booking));
+        } catch (\Exception $e) {}
 
         // Thông báo DB cho user đã đăng nhập
         if (Auth::check()) {
@@ -221,7 +226,11 @@ class BookingController extends Controller
 
         // Thông báo hủy phòng
         try {
+            $booking->load('room.hotel', 'payment');
             $booking->user->notify(new BookingCancelledNotification($booking));
+            if ($booking->email) {
+                Mail::to($booking->email)->send(new BookingCancelled($booking));
+            }
         } catch (\Exception $e) {}
 
         return back()->with('success', 'Đã hủy đặt phòng thành công.');

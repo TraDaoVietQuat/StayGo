@@ -110,7 +110,7 @@ body{margin:0;padding:0;background:#f4f6f8;font-family:'Segoe UI',Arial,sans-ser
   </div>
   <div class="footer">
     <p><strong>StayGo</strong> — Nền tảng đặt phòng khách sạn tại Đà Lạt, Nha Trang, Vũng Tàu &amp; Đà Nẵng</p>
-    <p>Hỗ trợ: support@staygo.vn | © {{ date('Y') }} StayGo</p>
+    <p>Hỗ trợ: supportstaygo@gmail.com | © {{ date('Y') }} StayGo</p>
   </div>
 </div>
 </body>
