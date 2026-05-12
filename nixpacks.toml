@@ -28,8 +28,11 @@ cmds = [
 
 [phases.build]
 cmds = [
-  "npm run build"
+  "npm run build",
+  "rm -rf public/storage",
+  "mkdir -p public/storage",
+  "cp -r storage/app/public/. public/storage/"
 ]
 
 [start]
-cmd = "php artisan storage:link --force && php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "php artisan config:cache && php artisan route:cache && php artisan serve --host=0.0.0.0 --port=$PORT"
