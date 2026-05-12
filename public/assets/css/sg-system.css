@@ -2806,6 +2806,9 @@ html body header.header:not(.header-transparent) .nav-hamburger span { backgroun
 }
 
 /* ─── FIX: luxury-theme.css override corrections ───────────── */
+/* Restore header logo visibility (luxury-theme hides it) */
+.logo-link .logo-img { display: block !important; }
+
 /* Restore footer logo visibility (luxury-theme hides it) */
 .footer-logo img,
 .footer-logo-img { display: block !important; }
