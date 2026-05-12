@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\PaymentConfirmed;
+use App\Mail\PaymentFailed;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Services\MoMoService;
@@ -72,13 +73,17 @@ class PaymentWebhookController extends Controller
             }
         });
 
-        // Gửi email xác nhận thanh toán
-        if ($vnpay->isSuccess($data) && $booking->email) {
+        // Gửi email theo kết quả thanh toán
+        if ($booking->email) {
             try {
                 $booking->load('room.hotel', 'payment');
-                Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+                if ($vnpay->isSuccess($data)) {
+                    Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+                } else {
+                    Mail::to($booking->email)->send(new PaymentFailed($booking));
+                }
             } catch (\Exception $e) {
-                Log::error('PaymentConfirmed email failed (VNPay): ' . $e->getMessage());
+                Log::error('Payment email failed (VNPay): ' . $e->getMessage());
             }
         }
 
@@ -164,13 +169,17 @@ class PaymentWebhookController extends Controller
             }
         });
 
-        // Gửi email xác nhận thanh toán
-        if ($momo->isSuccess($data) && $booking->email) {
+        // Gửi email theo kết quả thanh toán
+        if ($booking->email) {
             try {
                 $booking->load('room.hotel', 'payment');
-                Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+                if ($momo->isSuccess($data)) {
+                    Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+                } else {
+                    Mail::to($booking->email)->send(new PaymentFailed($booking));
+                }
             } catch (\Exception $e) {
-                Log::error('PaymentConfirmed email failed (MoMo): ' . $e->getMessage());
+                Log::error('Payment email failed (MoMo): ' . $e->getMessage());
             }
         }
 

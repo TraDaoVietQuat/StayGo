@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminBookingCancelled;
 use App\Mail\AdminNewBooking;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmation;
@@ -231,7 +232,8 @@ class BookingController extends Controller
             if ($booking->email) {
                 Mail::to($booking->email)->send(new BookingCancelled($booking));
             }
-        } catch (\Exception $e) {}
+            Mail::to(config('mail.from.address'))->send(new AdminBookingCancelled($booking));
+        } catch (\Exception) {}
 
         return back()->with('success', 'Đã hủy đặt phòng thành công.');
     }

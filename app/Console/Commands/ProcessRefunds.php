@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\AdminRefundNotice;
 use App\Mail\BookingRefunded;
 use App\Models\AuditLog;
 use App\Models\Booking;
@@ -34,16 +35,17 @@ class ProcessRefunds extends Command
                 newValues: ['status' => 'refunded', 'triggered_by' => 'scheduler']
             );
 
-            // Thông báo user
-            if ($booking->user) {
-                try {
-                    $booking->load('room.hotel');
+            // Thông báo user + admin
+            try {
+                $booking->load('room.hotel');
+                if ($booking->user) {
                     $booking->user->notify(new \App\Notifications\BookingRefundedNotification($booking));
-                    if ($booking->email) {
-                        Mail::to($booking->email)->send(new BookingRefunded($booking));
-                    }
-                } catch (\Exception) {}
-            }
+                }
+                if ($booking->email) {
+                    Mail::to($booking->email)->send(new BookingRefunded($booking));
+                }
+                Mail::to(config('mail.from.address'))->send(new AdminRefundNotice($booking));
+            } catch (\Exception) {}
 
             $this->line("Refunded booking #{$booking->order_code}");
         }
