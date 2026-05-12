@@ -379,7 +379,7 @@ body {
 .hsb-tabs-wrap {
   display: flex !important;
   gap: 6px !important;
-  margin-bottom: 0 !important;
+  margin-bottom: 14px !important;
 }
 .hsb-tab-btn {
   font-family: var(--sg-font-body) !important;
