@@ -277,13 +277,14 @@
                         <div class="fp-badge-logo" title="VNPay"><img src="{{ asset('assets/images/vnpay.png') }}" alt="VNPay" loading="lazy"></div>
                         <div class="fp-badge-logo" title="MoMo"><img src="{{ asset('assets/images/momo.png') }}" alt="MoMo" loading="lazy"></div>
                         <div class="fp-badge-logo" title="Visa/Mastercard"><img src="{{ asset('assets/images/thanh_toanqt.png') }}" alt="Thẻ quốc tế" loading="lazy"></div>
-                        <div class="fp-badge-logo" title="Chuyển khoản">
-                            <svg width="22" height="18" viewBox="0 0 56 40" fill="none">
-                                <rect x="14" y="2" width="38" height="24" rx="3" stroke="#888" stroke-width="2" fill="transparent" transform="rotate(8 14 2)"/>
-                                <rect x="2" y="14" width="44" height="24" rx="3" stroke="#888" stroke-width="2" fill="transparent"/>
-                                <line x1="2" y1="20" x2="46" y2="20" stroke="#888" stroke-width="1.5"/>
-                                <circle cx="24" cy="26" r="5.5" stroke="#888" stroke-width="2"/>
-                                <text x="24" y="29.5" text-anchor="middle" font-size="6" font-weight="bold" fill="#888" font-family="Arial">$</text>
+                        <div class="fp-badge-logo" title="Chuyển khoản ngân hàng">
+                            <svg width="36" height="28" viewBox="0 0 72 48" fill="none">
+                                <rect x="1" y="1" width="70" height="46" rx="5" fill="#1a56db"/>
+                                <rect x="1" y="13" width="70" height="11" fill="#1338be"/>
+                                <rect x="8" y="30" width="22" height="4" rx="2" fill="rgba(255,255,255,0.6)"/>
+                                <rect x="8" y="36" width="14" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+                                <circle cx="54" cy="34" r="7" fill="#ef4444" opacity="0.9"/>
+                                <circle cx="62" cy="34" r="7" fill="#f59e0b" opacity="0.9"/>
                             </svg>
                         </div>
                     </div>
