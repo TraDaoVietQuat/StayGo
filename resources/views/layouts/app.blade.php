@@ -182,7 +182,7 @@
             </button>
 
 {{-- Hamburger --}}
-            <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()" aria-label="Menu">
+            <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Menu">
                 <span></span><span></span><span></span>
             </button>
 

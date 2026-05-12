@@ -2804,3 +2804,14 @@ html body header.header:not(.header-transparent) .nav-hamburger span { backgroun
   .tz-stats-bar { border-radius: 12px; }
   .tz-sbar-num { font-size: 26px; }
 }
+
+/* ─── FIX: luxury-theme.css override corrections ───────────── */
+/* Restore footer logo visibility (luxury-theme hides it) */
+.footer-logo img,
+.footer-logo-img { display: block !important; }
+
+/* Restore mobile drawer logo visibility (luxury-theme hides it) */
+.mobile-drawer-header img { display: block !important; }
+
+/* Fix payment logo filter — restore full brightness */
+.fp-badge-logo img { filter: none !important; }

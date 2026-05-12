@@ -95,13 +95,13 @@ body {
   filter: none !important;
 }
 
-/* Footer logo */
+/* Footer logo — footer bg is light (#f8f9fa), show original colors */
 .footer-logo-img {
   height: 52px !important;
   width: auto !important;
   object-fit: contain !important;
-  filter: brightness(0) invert(1) !important;
-  opacity: 0.9 !important;
+  filter: none !important;
+  opacity: 1 !important;
 }
 .footer-logo-img:hover { opacity: 1 !important; }
 
