@@ -2816,3 +2816,39 @@ html body header.header:not(.header-transparent) .nav-hamburger span { backgroun
 
 /* Fix payment logo filter — restore full brightness */
 .fp-badge-logo img { filter: none !important; }
+
+/* ─── FIX: Cẩm nang du lịch carousel (no Swiper.js) ─────── */
+/* Convert swiper container to manual horizontal scroll */
+.cndSwiper {
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  scroll-behavior: smooth !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.cndSwiper::-webkit-scrollbar { display: none !important; }
+.cndSwiper .swiper-wrapper {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 20px !important;
+  padding: 8px 0 16px !important;
+  width: max-content !important;
+}
+/* Each slide fixed width so cards don't get squished */
+.cndSwiper .swiper-slide {
+  flex: 0 0 280px !important;
+  width: 280px !important;
+}
+/* Card fills the slide */
+.cndSwiper .swiper-slide .cnd-card {
+  width: 100% !important;
+  height: 320px !important;
+}
+@media (max-width: 768px) {
+  .cndSwiper .swiper-slide { flex: 0 0 240px !important; width: 240px !important; }
+  .cndSwiper .swiper-slide .cnd-card { height: 260px !important; }
+}
+@media (max-width: 480px) {
+  .cndSwiper .swiper-slide { flex: 0 0 200px !important; width: 200px !important; }
+  .cndSwiper .swiper-slide .cnd-card { height: 220px !important; }
+}

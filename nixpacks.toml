@@ -28,10 +28,7 @@ cmds = [
 
 [phases.build]
 cmds = [
-  "npm run build",
-  "rm -rf public/storage",
-  "mkdir -p public/storage",
-  "cp -r storage/app/public/. public/storage/"
+  "npm run build"
 ]
 
 [start]

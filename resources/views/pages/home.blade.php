@@ -620,6 +620,22 @@
         </div>
     </div>
 </section>
+<script>
+(function(){
+    var grid = document.querySelector('.cndSwiper');
+    var prev = document.getElementById('cndPrev');
+    var next = document.getElementById('cndNext');
+    if (!grid || !prev || !next) return;
+    var step = 300;
+    prev.addEventListener('click', function(){ grid.scrollBy({ left: -step, behavior: 'smooth' }); });
+    next.addEventListener('click', function(){ grid.scrollBy({ left:  step, behavior: 'smooth' }); });
+    var isDown = false, startX, scrollLeft;
+    grid.addEventListener('mousedown', function(e){ isDown = true; startX = e.pageX - grid.offsetLeft; scrollLeft = grid.scrollLeft; });
+    grid.addEventListener('mouseleave', function(){ isDown = false; });
+    grid.addEventListener('mouseup',    function(){ isDown = false; });
+    grid.addEventListener('mousemove',  function(e){ if (!isDown) return; e.preventDefault(); grid.scrollLeft = scrollLeft - (e.pageX - grid.offsetLeft - startX) * 1.4; });
+})();
+</script>
 @endif
 
 {{-- ══════════════════════════════════════════════════════
