@@ -83,7 +83,35 @@ body {
   height: 46px !important;
   width: auto !important;
   object-fit: contain !important;
-  transition: opacity 0.3s ease !important;
+  transition: filter 0.3s ease, opacity 0.3s ease !important;
+}
+/* Header trong suốt (over dark hero) → logo trắng */
+.header-transparent .logo-link .logo-img {
+  filter: brightness(0) invert(1) !important;
+}
+/* Header đã scroll (nền trắng) → logo màu gốc */
+.header-transparent.scrolled .logo-link .logo-img,
+.header:not(.header-transparent) .logo-link .logo-img {
+  filter: none !important;
+}
+
+/* Footer logo */
+.footer-logo-img {
+  height: 52px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.9 !important;
+}
+.footer-logo-img:hover { opacity: 1 !important; }
+
+/* Mobile drawer logo */
+.mobile-drawer-logo-link { display: flex; align-items: center; text-decoration: none; }
+.mobile-drawer-logo-img {
+  height: 38px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  filter: brightness(0) invert(1) !important;
 }
 
 /* Nav trái — flex:1 để chiếm giữa, justify-content:center để căn giữa links */

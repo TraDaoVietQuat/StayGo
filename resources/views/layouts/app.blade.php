@@ -87,7 +87,7 @@
 
         {{-- Logo --}}
         <a href="{{ route('home') }}" class="logo-link">
-            <span class="logo-text-stay">Stay</span><span class="logo-text-go">Go</span>
+            <img src="{{ asset('assets/images/StayGo-nobg.png') }}" alt="StayGo" class="logo-img">
         </a>
 
         {{-- Desktop Nav --}}
@@ -221,7 +221,7 @@
             <div>
                 <div class="footer-logo">
                     <a href="{{ route('home') }}" class="footer-logo-link">
-                        <span class="logo-text-stay">Stay</span><span class="logo-text-go">Go</span>
+                        <img src="{{ asset('assets/images/StayGo-nobg.png') }}" alt="StayGo" class="footer-logo-img">
                     </a>
                 </div>
                 <p class="footer-desc">Nền tảng đặt phòng khách sạn và resort hàng đầu tại Đà Lạt, Nha Trang, Vũng Tàu & Đà Nẵng. Giá tốt nhất, trải nghiệm thượng hạng.</p>
@@ -335,7 +335,9 @@
 <div class="mobile-drawer-overlay" id="mobileDrawerOverlay" onclick="toggleMobileMenu()"></div>
 <div class="mobile-drawer" id="mobileDrawer">
     <div class="mobile-drawer-header">
-        <a href="{{ route('home') }}" class="mobile-drawer-logo-text">Stay<span>Go</span></a>
+        <a href="{{ route('home') }}" class="mobile-drawer-logo-link">
+            <img src="{{ asset('assets/images/StayGo-nobg.png') }}" alt="StayGo" class="mobile-drawer-logo-img">
+        </a>
         <button onclick="toggleMobileMenu()" class="mobile-drawer-close">✕</button>
     </div>
     <nav class="mobile-drawer-nav">
