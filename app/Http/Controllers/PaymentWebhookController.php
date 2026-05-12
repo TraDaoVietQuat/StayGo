@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PaymentConfirmed;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Services\MoMoService;
@@ -9,6 +10,7 @@ use App\Services\VNPayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentWebhookController extends Controller
 {
@@ -69,6 +71,16 @@ class PaymentWebhookController extends Controller
                 $booking->update(['status' => 'confirmed']);
             }
         });
+
+        // Gửi email xác nhận thanh toán
+        if ($vnpay->isSuccess($data) && $booking->email) {
+            try {
+                $booking->load('room.hotel', 'payment');
+                Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+            } catch (\Exception $e) {
+                Log::error('PaymentConfirmed email failed (VNPay): ' . $e->getMessage());
+            }
+        }
 
         return response()->json(['RspCode' => '00', 'Message' => 'Confirm success']);
     }
@@ -151,6 +163,16 @@ class PaymentWebhookController extends Controller
                 $booking->update(['status' => 'confirmed']);
             }
         });
+
+        // Gửi email xác nhận thanh toán
+        if ($momo->isSuccess($data) && $booking->email) {
+            try {
+                $booking->load('room.hotel', 'payment');
+                Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+            } catch (\Exception $e) {
+                Log::error('PaymentConfirmed email failed (MoMo): ' . $e->getMessage());
+            }
+        }
 
         return response()->json(['message' => 'OK']);
     }

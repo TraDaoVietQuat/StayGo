@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeGoogle;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
@@ -67,6 +70,15 @@ class SocialAuthController extends Controller
                 'avatar'            => $user->avatar ?: $socialUser->getAvatar(),
                 'email_verified_at' => $user->email_verified_at ?? now(),
             ]);
+        }
+
+        // Gửi email chào mừng cho tài khoản mới
+        if ($user->wasRecentlyCreated && $user->email) {
+            try {
+                Mail::to($user->email)->send(new WelcomeGoogle($user));
+            } catch (\Exception $e) {
+                Log::error('WelcomeGoogle email failed: ' . $e->getMessage());
+            }
         }
 
         Auth::login($user, true);
