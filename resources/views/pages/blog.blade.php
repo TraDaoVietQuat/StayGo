@@ -1,69 +1,100 @@
 @extends('layouts.app')
-@section('title', 'Blog')
+@section('title', 'Cẩm nang du lịch')
 
 @section('content')
-<div class="container" style="padding:32px 16px;max-width:1100px;">
-    <h2 style="font-family:'Playfair Display',serif;margin-bottom:8px;">Blog du lịch</h2>
-    <p style="color:#666;font-size:14px;margin-bottom:24px;">Khám phá những điểm đến tuyệt vời cùng StayGo</p>
 
-    {{-- Category filter --}}
-    @if($categories->count())
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;">
-        <a href="{{ route('blog.index') }}"
-            class="blog-cat-btn {{ !request('category') ? 'blog-cat-btn--active' : '' }}">
-            Tất cả
-        </a>
-        @foreach($categories as $cat)
-        <a href="{{ route('blog.index', ['category' => $cat]) }}"
-            class="blog-cat-btn {{ request('category') === $cat ? 'blog-cat-btn--active' : '' }}">
-            {{ $cat }}
-        </a>
-        @endforeach
+{{-- Page Cover --}}
+<div class="sg-page-cover">
+    <div style="max-width:1200px;margin:0 auto;padding:0 32px;">
+        <span class="sg-label">StayGo Journal</span>
+        <h1>Cẩm Nang <span>Du Lịch</span></h1>
+        <nav class="sg-breadcrumb">
+            <a href="{{ route('home') }}">Trang chủ</a>
+            <span class="sep">/</span>
+            <span class="current">Cẩm nang</span>
+        </nav>
     </div>
-    @endif
-
-    @if($posts->isEmpty())
-    <div style="text-align:center;padding:60px;color:#999;">
-        <div style="font-size:48px;margin-bottom:12px;">📝</div>
-        <p>Chưa có bài viết nào.</p>
-    </div>
-    @else
-    <div class="blog-grid-3">
-        @foreach($posts as $post)
-        <article class="blog-card">
-            @if($post->thumb)
-            <img src="{{ str_starts_with($post->thumb, 'http') ? $post->thumb : asset('storage/' . $post->thumb) }}"
-                alt="{{ $post->title }}" loading="lazy"
-                style="width:100%;height:200px;object-fit:cover;"
-                onerror="this.style.display='none'">
-            @else
-            <div style="width:100%;height:200px;background:linear-gradient(135deg,#1e73be20,#1e73be40);display:flex;align-items:center;justify-content:center;font-size:48px;">📰</div>
-            @endif
-            <div style="padding:18px;">
-                @if($post->category)
-                <span style="display:inline-flex;align-items:center;gap:4px;background:#fff0f6;color:#e91e8c;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;border:1px solid #ffd6eb;">
-                    <svg width="9" height="12" viewBox="0 0 12 16" fill="#e91e8c"><path d="M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 6 3.5 1.5 1.5 0 0 1 6 6.5z"/></svg>
-                    {{ $post->category }}
-                </span>
-                @endif
-                <h3 style="margin:10px 0 8px;font-size:16px;line-height:1.4;">
-                    <a href="{{ route('blog.show', $post) }}" style="color:#1a1a1a;text-decoration:none;">{{ $post->title }}</a>
-                </h3>
-                @if($post->summary)
-                <p style="font-size:13px;color:#666;line-height:1.6;margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;">{{ $post->summary }}</p>
-                @endif
-                <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#aaa;">
-                    <span>{{ $post->created_at?->format('d/m/Y') }}</span>
-                    <a href="{{ route('blog.show', $post) }}" style="color:#1e73be;text-decoration:none;font-weight:600;">Đọc tiếp →</a>
-                </div>
-            </div>
-        </article>
-        @endforeach
-    </div>
-
-    <div style="margin-top:32px;">
-        {{ $posts->links() }}
-    </div>
-    @endif
 </div>
+
+{{-- Blog Content --}}
+<div class="blog-page-section">
+    <div class="blog-page-container">
+
+        {{-- Category Filter --}}
+        @if($categories->count())
+        <div class="blog-cat-bar">
+            <a href="{{ route('blog.index') }}"
+               class="blog-cat-btn {{ !request('category') ? 'blog-cat-btn--active' : '' }}">
+                Tất cả
+            </a>
+            @foreach($categories as $cat)
+            <a href="{{ route('blog.index', ['category' => $cat]) }}"
+               class="blog-cat-btn {{ request('category') === $cat ? 'blog-cat-btn--active' : '' }}">
+                {{ $cat }}
+            </a>
+            @endforeach
+        </div>
+        @endif
+
+        {{-- Posts Grid --}}
+        @if($posts->isEmpty())
+        <div class="blog-empty">
+            <span class="blog-empty-icon">✍</span>
+            <p>Chưa có bài viết nào.</p>
+        </div>
+        @else
+        <div class="blog-grid-3">
+            @foreach($posts as $post)
+            <article class="blog-card">
+
+                {{-- Thumbnail --}}
+                @if($post->thumb)
+                <div class="blog-card-img">
+                    <img src="{{ str_starts_with($post->thumb, 'http') ? $post->thumb : asset('storage/' . $post->thumb) }}"
+                         alt="{{ $post->title }}" loading="lazy"
+                         onerror="this.parentElement.style.display='none'">
+                </div>
+                @else
+                <div class="blog-card-placeholder">📰</div>
+                @endif
+
+                {{-- Body --}}
+                <div class="blog-card-body">
+
+                    @if($post->category)
+                    <span class="blog-card-cat">
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                        {{ $post->category }}
+                    </span>
+                    @endif
+
+                    <a href="{{ route('blog.show', $post) }}" class="blog-card-title">
+                        {{ $post->title }}
+                    </a>
+
+                    @if($post->summary)
+                    <p class="blog-card-excerpt">{{ $post->summary }}</p>
+                    @endif
+
+                    <div class="blog-card-footer">
+                        <span>{{ $post->created_at?->format('d/m/Y') }}</span>
+                        <a href="{{ route('blog.show', $post) }}" class="blog-read-link">
+                            Đọc tiếp
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+
+                </div>
+            </article>
+            @endforeach
+        </div>
+
+        <div class="blog-pagination">
+            {{ $posts->links() }}
+        </div>
+        @endif
+
+    </div>
+</div>
+
 @endsection

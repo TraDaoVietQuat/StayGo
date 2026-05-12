@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Đặt lại mật khẩu')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @push('styles')
 <style>
@@ -73,3 +73,4 @@ html body .auth-rp-input::placeholder { color: rgba(255,255,255,0.45) !important
     </div>
 </div>
 @endsection
+

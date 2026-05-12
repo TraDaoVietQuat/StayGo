@@ -1,0 +1,2806 @@
+/* ================================================================
+   StayGo Design System — XANH & TRẮNG (Traveloka-style)
+   Implements: staygoreadme.md v2.5
+   Loaded last — highest specificity
+   ================================================================ */
+
+/* ─── 0. DESIGN TOKENS ──────────────────────────────────────── */
+:root {
+  /* Brand & text — XANH NưỚC BIỂN */
+  --sg-text-primary:      #111111;
+  --sg-text-sub:          #444444;
+  --sg-text-muted:        #777777;
+  --sg-text-link:         #0066cc;
+  --sg-brand:             #0066cc;
+  --sg-brand-dark:        #0052a3;
+
+  /* Surfaces */
+  --sg-bg-surface:        #ffffff;
+  --sg-bg-page:           #ffffff;
+
+  /* Borders */
+  --sg-border-base:       #e0e0e0;
+
+  /* Danger */
+  --sg-color-danger-50:   #fff0f0;
+  --sg-color-danger-400:  #e53e3e;
+  --sg-color-danger-500:  #c53030;
+
+  /* Success */
+  --sg-color-success-400: #38a169;
+  --sg-color-success-500: #276749;
+
+  /* Spacing scale */
+  --sg-space-1: 4px;
+  --sg-space-2: 8px;
+  --sg-space-3: 12px;
+  --sg-space-4: 16px;
+  --sg-space-5: 20px;
+  --sg-space-6: 24px;
+  --sg-space-8: 32px;
+
+  /* Typography scale */
+  --sg-text-xs:   11px;
+  --sg-text-sm:   13px;
+  --sg-text-base: 15px;
+  --sg-text-md:   16px;
+  --sg-text-lg:   18px;
+  --sg-text-xl:   20px;
+  --sg-text-2xl:  24px;
+  --sg-weight-normal:   400;
+  --sg-weight-semibold: 600;
+  --sg-weight-bold:     700;
+  --sg-leading-normal:  1.5;
+
+  /* Border radius */
+  --sg-radius-sm: 4px;
+  --sg-radius-md: 8px;
+  --sg-radius-lg: 12px;
+  --sg-radius-xl: 16px;
+
+  /* Hero gradient */
+  --sg-hero-gradient: linear-gradient(90deg, #003580, #0066cc);
+
+  /* Button blue — tất cả nút chức năng */
+  --sg-btn-blue:      #0066cc;
+  --sg-btn-blue-dark: #0052a3;
+}
+
+/* ─── DARK MODE TOKENS ──────────────────────────────────────── */
+html.sg-dark {
+  --sg-text-primary:      #f0f0f0;
+  --sg-text-sub:          #a0a0a0;
+  --sg-text-muted:        #666666;
+  --sg-text-link:         #4d9eff;
+  --sg-brand:             #3385d6;
+  --sg-brand-dark:        #2271c2;
+  --sg-bg-surface:        #1e1e1e;
+  --sg-bg-page:           #121212;
+  --sg-border-base:       #333333;
+  --sg-color-danger-400:  #fc6868;
+  --sg-color-danger-500:  #ff4d4d;
+  --sg-color-success-400: #4ade80;
+  --sg-color-success-500: #22c55e;
+}
+
+/* ─── 1. GLOBAL RESET ───────────────────────────────────────── */
+/* Override wildcard selector từ staygo-theme.css (Cormorant Garamond)
+   và luxury-theme.css để đảm bảo font đồng nhất toàn site */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  letter-spacing: normal !important;
+}
+
+html { scroll-behavior: smooth; }
+
+/* Reset dark-mode tokens on body — ghi đè html.sg-dark inherited values
+   cho toàn bộ page content (trừ header/drawer đã hardcode màu) */
+body {
+  /* Reset design tokens */
+  --sg-text-primary:      #111111;
+  --sg-text-sub:          #444444;
+  --sg-text-muted:        #777777;
+  --sg-text-link:         #0066cc;
+  --sg-bg-surface:        #ffffff;
+  --sg-bg-page:           #ffffff;
+  --sg-border-base:       #e0e0e0;
+  --sg-color-danger-50:   #fff0f0;
+  --sg-color-danger-400:  #e53e3e;
+  --sg-color-danger-500:  #c53030;
+  --sg-color-success-400: #38a169;
+  --sg-color-success-500: #276749;
+  /* Reset old staygo-design.css font/color variables */
+  --sg-font-body:    'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  --sg-font-heading: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  --sg-text:         #111111;
+  --sg-navy:         #0066cc;
+  --sg-navy-deep:    #0052a3;
+  --sg-navy-dark:    #0052a3;
+  /* Reset old luxury-theme.css variables */
+  --gold:       #0066cc;
+  --gold-light: #3385d6;
+  --gold-dark:  #0052a3;
+  --obsidian:   #111111;
+  --charcoal:   #f8f9fa;
+  --primary:    #0066cc;
+  /* Reset staygo-design.css yellow-pink button gradient */
+  --sg-btn-gradient:       #ffffff;
+  --sg-btn-gradient-hover: #f0f4ff;
+  --sg-btn-text:           #111111;
+  font-size: var(--sg-text-base) !important;
+  color: #111111 !important;
+  background: #ffffff !important;
+  line-height: var(--sg-leading-normal) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111111 !important;
+  font-weight: 700 !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+}
+
+h1 { font-size: 36px; font-weight: 700 !important; line-height: 1.2; }
+h2 { font-size: 26px; font-weight: 700 !important; line-height: 1.3; }
+h3 { font-size: 20px; font-weight: 600 !important; line-height: 1.4; }
+h4 { font-size: 16px; font-weight: 600 !important; line-height: 1.4; }
+h5 { font-size: 14px; font-weight: 600 !important; line-height: 1.5; }
+
+a { color: var(--sg-text-link); }
+a:hover { text-decoration: underline; }
+
+/* ─── 2. HEADER / NAVBAR ────────────────────────────────────── */
+/* Section 2.1 — Header XANH DOMINANT */
+/* Top bar */
+.sg-topbar { background: #1e293b; color: rgba(255,255,255,0.82); font-size: 13px; padding: 8px 0; position: relative; z-index: 201; }
+.sg-topbar-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; align-items: center; }
+.sg-topbar-left { display: flex; gap: 20px; align-items: center; }
+.sg-topbar-item { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.82); }
+.sg-topbar-right { display: flex; gap: 10px; align-items: center; }
+.sg-topbar-social { color: rgba(255,255,255,0.65); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); transition: all .2s; }
+.sg-topbar-social:hover { color: #fff; border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.1); }
+@media(max-width:600px) { .sg-topbar { display: none; } }
+
+.header {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e8edf2 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+  height: 70px !important;
+  padding: 0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 200 !important;
+  transition: background 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.header-flex {
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 0 var(--sg-space-6) !important;
+  height: 70px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: var(--sg-space-4) !important;
+  position: relative !important;
+}
+
+/* Logo */
+.logo-link,
+.logo-link:hover { text-decoration: none !important; }
+
+.logo-text-stay {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #1a202c !important;
+  letter-spacing: -0.5px !important;
+}
+.logo-text-go {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #004391 !important;
+  letter-spacing: -0.5px !important;
+}
+
+/* Desktop Nav links */
+.nav-left {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  justify-content: center !important;
+  gap: var(--sg-space-1) !important;
+}
+
+.nav-left a,
+#mainNav a {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #374151 !important;
+  text-decoration: none !important;
+  padding: 6px var(--sg-space-3) !important;
+  border-radius: var(--sg-radius-sm) !important;
+  transition: background 0.18s, color 0.18s !important;
+  letter-spacing: normal !important;
+  white-space: nowrap !important;
+}
+
+.nav-left a:hover,
+#mainNav a:hover {
+  background: #f1f5f9 !important;
+  color: #004391 !important;
+  text-decoration: none !important;
+}
+
+.nav-left a.active,
+#mainNav a.active {
+  background: #eff6ff !important;
+  color: #004391 !important;
+  font-weight: 600 !important;
+}
+
+/* Header right controls */
+.header-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--sg-space-2) !important;
+  flex-shrink: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+/* Login button */
+.btn-login-nav,
+.header-transparent .btn-login-nav,
+.header-transparent.scrolled .btn-login-nav {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  background: #004391 !important;
+  text-decoration: none !important;
+  padding: 8px 18px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  clip-path: none !important;
+  transition: background 0.18s, box-shadow 0.18s !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+.btn-login-nav:hover,
+.header-transparent .btn-login-nav:hover,
+.header-transparent.scrolled .btn-login-nav:hover {
+  background: #0052b3 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0,67,145,0.3) !important;
+  text-decoration: none !important;
+}
+
+/* Book now button */
+.nav-book-btn {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: var(--sg-brand) !important;
+  background: #ffffff !important;
+  text-decoration: none !important;
+  padding: 8px 18px !important;
+  border-radius: var(--sg-radius-sm) !important;
+  border: none !important;
+  transition: box-shadow 0.18s, background 0.18s !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+.nav-book-btn:hover {
+  background: rgba(255,255,255,0.92) !important;
+  color: var(--sg-brand) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18) !important;
+  text-decoration: none !important;
+  transform: none !important;
+}
+
+/* User dropdown trigger */
+.user-dropdown .user-trigger {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--sg-space-2) !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+  padding: 6px var(--sg-space-3) !important;
+  border-radius: var(--sg-radius-sm) !important;
+  transition: background 0.18s !important;
+}
+.user-dropdown .user-trigger:hover {
+  background: rgba(255,255,255,0.18) !important;
+}
+
+.user-name {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #ffffff !important;
+}
+
+.user-dropdown .chevron {
+  color: rgba(255,255,255,0.8) !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Dropdown menu — stays white/light */
+.user-dropdown .dropdown-menu {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-md) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.14) !important;
+  min-width: 240px !important;
+}
+
+.user-dropdown .dropdown-header {
+  background: #f8f9fa !important;
+  border-bottom: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-md) var(--sg-radius-md) 0 0 !important;
+}
+
+.user-dropdown .dh-avatar {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+}
+
+.user-dropdown .dh-name {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: var(--sg-text-primary) !important;
+  font-weight: 600 !important;
+}
+
+.user-dropdown .dh-role {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: var(--sg-text-muted) !important;
+}
+
+.user-dropdown .dropdown-item {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  color: var(--sg-text-sub) !important;
+  letter-spacing: normal !important;
+}
+.user-dropdown .dropdown-item:hover {
+  background: #f5f5f5 !important;
+  color: var(--sg-text-primary) !important;
+}
+.user-dropdown .dropdown-item.danger {
+  color: var(--sg-color-danger-400) !important;
+}
+.user-dropdown .dropdown-item.danger:hover {
+  background: var(--sg-color-danger-50) !important;
+}
+
+.notif-badge {
+  background: var(--sg-color-danger-400) !important;
+  color: #ffffff !important;
+  border-radius: 9999px !important;
+  padding: 1px 5px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  min-width: 18px !important;
+  text-align: center !important;
+}
+
+/* Hamburger lines */
+.nav-hamburger span {
+  background: #374151 !important;
+}
+
+/* Header spacer */
+.header-spacer { height: 0 !important; }
+
+/* header-transparent: trong suốt trên hero home, trắng khi scroll */
+.header.header-transparent {
+  background: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+.header.header-transparent .logo-text-stay { color: #ffffff !important; }
+.header.header-transparent .logo-text-go   { color: #ffffff !important; }
+.header.header-transparent .nav-left a,
+.header.header-transparent #mainNav a      { color: rgba(255,255,255,0.9) !important; }
+.header.header-transparent .nav-left a:hover,
+.header.header-transparent #mainNav a:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+.header.header-transparent .nav-left a.active,
+.header.header-transparent #mainNav a.active { background: rgba(255,255,255,0.2) !important; color: #fff !important; }
+.header.header-transparent .nav-hamburger span { background: #ffffff !important; }
+.header.header-transparent [data-sg-dark-toggle] { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+
+.header.header-transparent.scrolled {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e8edf2 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+}
+.header.header-transparent.scrolled .logo-text-stay { color: #1a202c !important; }
+.header.header-transparent.scrolled .logo-text-go   { color: #004391 !important; }
+.header.header-transparent.scrolled .nav-left a,
+.header.header-transparent.scrolled #mainNav a      { color: #374151 !important; }
+.header.header-transparent.scrolled .nav-hamburger span { background: #374151 !important; }
+.header.header-transparent.scrolled [data-sg-dark-toggle] { background: #f1f5f9 !important; color: #374151 !important; }
+
+/* Notif read-all */
+.notif-read-all {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: var(--sg-text-link) !important;
+  font-size: 12px !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+/* ─── 3. MOBILE DRAWER ──────────────────────────────────────── */
+.mobile-drawer {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+}
+
+.mobile-drawer-header {
+  background: var(--sg-brand) !important;
+  padding: var(--sg-space-4) var(--sg-space-5) !important;
+}
+
+.mobile-drawer-logo-text {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: normal !important;
+}
+.mobile-drawer-logo-text span { color: rgba(255,255,255,0.8) !important; }
+
+.mobile-drawer-close {
+  color: #ffffff !important;
+  background: rgba(255,255,255,0.15) !important;
+  border-radius: var(--sg-radius-sm) !important;
+}
+
+.mobile-drawer-nav a {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: var(--sg-text-primary) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+.mobile-drawer-nav a.active {
+  color: var(--sg-brand) !important;
+  font-weight: 600 !important;
+}
+
+/* ─── 4. FOOTER — NỀN TRẮNG ─────────────────────────────────── */
+.site-footer,
+footer.site-footer,
+.footer-main,
+.footer-bottom,
+.footer-container {
+  background: #f8f9fa !important;
+  color: var(--sg-text-sub) !important;
+  border-top: 1px solid var(--sg-border-base) !important;
+}
+
+.footer-main {
+  padding: 48px 0 32px !important;
+  border-top: none !important;
+}
+
+.footer-container {
+  align-items: start !important;
+  grid-template-columns: 1.6fr 1fr 1fr 1.4fr !important;
+  gap: 0 32px !important;
+  border-top: none !important;
+}
+
+.footer-heading {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 700 !important;
+  font-size: var(--sg-text-base) !important;
+  color: var(--sg-text-primary) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  margin-bottom: var(--sg-space-4) !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.footer-desc {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  color: var(--sg-text-muted) !important;
+  line-height: 1.6 !important;
+}
+
+.footer-links a,
+.footer-contact a,
+.site-footer a,
+footer a,
+.footer-links li,
+.footer-bottom span {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  color: #444444 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  font-weight: 400 !important;
+}
+.footer-links a:hover,
+.footer-contact a:hover {
+  color: #0066cc !important;
+  text-decoration: none !important;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--sg-border-base) !important;
+  padding: var(--sg-space-4) 0 !important;
+  background: #f8f9fa !important;
+}
+.footer-bottom span {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  color: var(--sg-text-muted) !important;
+  letter-spacing: normal !important;
+}
+
+.footer-logo-link {
+  text-decoration: none !important;
+}
+.footer-logo-link .logo-text-stay,
+.footer-logo-link .logo-text-go {
+  color: var(--sg-brand) !important;
+  font-size: 22px !important;
+  letter-spacing: normal !important;
+}
+
+/* Footer socials */
+.fsocial {
+  background: var(--sg-border-base) !important;
+  color: var(--sg-text-sub) !important;
+  border: none !important;
+}
+.fsocial:hover {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+}
+
+/* Footer links — remove double underline (::before animation + text-decoration) */
+.footer-links a::before,
+.site-footer a::before,
+footer a::before {
+  content: none !important;
+}
+.footer-links a,
+.footer-contact a,
+.site-footer a,
+footer a {
+  text-decoration: none !important;
+}
+.footer-links a:hover,
+.footer-contact a:hover {
+  color: #0066cc !important;
+  text-decoration: none !important;
+}
+
+/* Footer contact — consistent font & color */
+.footer-contact li {
+  color: #444444 !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  line-height: 1.5 !important;
+}
+.footer-contact li svg {
+  stroke: #777777 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Hotel card — price color & location pin */
+.price-new { color: #0066cc !important; }
+.hotel-name { color: #111111 !important; }
+
+/* Hotel listing type tabs */
+.hl-type-tab.active {
+  background: #0066cc !important;
+  border-color: #0066cc !important;
+  color: #ffffff !important;
+}
+.hl-type-tab:hover {
+  border-color: #0066cc !important;
+  color: #0066cc !important;
+  background: #eff6ff !important;
+}
+
+/* Footer payment icons — uniform sizing */
+.fp-label {
+  color: var(--sg-text-muted) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 10px !important;
+}
+.fp-icons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+.fp-badge-logo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 50px !important;
+  height: 32px !important;
+  padding: 4px 6px !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+  overflow: hidden !important;
+}
+.fp-badge-logo img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+.fp-badge-logo svg {
+  width: 28px !important;
+  height: 22px !important;
+}
+/* bank transfer SVG colors */
+.footer-payment svg line,
+.footer-payment svg rect,
+.footer-payment svg circle,
+.footer-payment svg text {
+  stroke: #888888 !important;
+  fill: #888888 !important;
+}
+
+/* ─── 5. UTILITY CLASSES — Section 4.2 ─────────────────────── */
+
+/* Layout */
+.sg-flex-center    { display: flex; align-items: center; }
+.sg-flex-between   { display: flex; align-items: center; justify-content: space-between; }
+.sg-flex-baseline  { display: flex; align-items: baseline; }
+.sg-flex-col       { display: flex; flex-direction: column; }
+.sg-flex-wrap      { display: flex; flex-wrap: wrap; }
+.sg-grid-2         { display: grid; grid-template-columns: 1fr 1fr; }
+.sg-justify-center { justify-content: center; }
+.sg-mx-auto        { margin-inline: auto; }
+
+/* Sizing */
+.sg-w-full          { width: 100%; }
+.sg-overflow-hidden { overflow: hidden; }
+.sg-cursor-pointer  { cursor: pointer; }
+
+/* Gap */
+.sg-gap-1 { gap: var(--sg-space-1); }
+.sg-gap-2 { gap: var(--sg-space-2); }
+.sg-gap-3 { gap: var(--sg-space-3); }
+.sg-gap-4 { gap: var(--sg-space-4); }
+.sg-gap-6 { gap: var(--sg-space-6); }
+
+/* Padding */
+.sg-p-3  { padding: var(--sg-space-3); }
+.sg-p-4  { padding: var(--sg-space-4); }
+.sg-px-4 { padding-inline: var(--sg-space-4); }
+.sg-py-3 { padding-block: var(--sg-space-3); }
+.sg-pt-2 { padding-top: var(--sg-space-2); }
+
+/* Margin */
+.sg-mb-1 { margin-bottom: var(--sg-space-1); }
+.sg-mb-2 { margin-bottom: var(--sg-space-2); }
+.sg-mb-3 { margin-bottom: var(--sg-space-3); }
+.sg-mb-4 { margin-bottom: var(--sg-space-4); }
+.sg-mb-6 { margin-bottom: var(--sg-space-6); }
+.sg-mt-2 { margin-top: var(--sg-space-2); }
+.sg-mt-3 { margin-top: var(--sg-space-3); }
+.sg-mt-4 { margin-top: var(--sg-space-4); }
+.sg-mt-6 { margin-top: var(--sg-space-6); }
+
+/* Typography */
+.sg-text-xs-muted { font-size: var(--sg-text-xs); color: var(--sg-text-muted); }
+.sg-text-sm-sub   { font-size: var(--sg-text-sm); color: var(--sg-text-sub); }
+.sg-semibold      { font-weight: var(--sg-weight-semibold); }
+.sg-bold          { font-weight: var(--sg-weight-bold); }
+.sg-text-center   { text-align: center; }
+.sg-leading       { line-height: var(--sg-leading-normal); }
+
+/* Dividers */
+.sg-divider-top    { border-top:    1px solid var(--sg-border-base); }
+.sg-divider-bottom { border-bottom: 1px solid var(--sg-border-base); }
+.sg-divider-right  { border-right:  1px solid var(--sg-border-base); }
+
+/* Surface block */
+.sg-surface-block {
+  background: var(--sg-bg-surface);
+  border-radius: var(--sg-radius-md);
+  padding: var(--sg-space-4);
+}
+
+/* ─── 6. BUTTONS — Section 2.5 ──────────────────────────────── */
+.sg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sg-space-2);
+  padding: 12px 24px;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  font-size: var(--sg-text-sm);
+  font-weight: var(--sg-weight-semibold);
+  border: none;
+  border-radius: var(--sg-radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  line-height: 1;
+  letter-spacing: normal;
+}
+
+.sg-btn-primary {
+  background: var(--sg-brand);
+  color: #ffffff;
+}
+.sg-btn-primary:hover {
+  background: var(--sg-brand-dark);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.sg-btn-secondary {
+  background: var(--sg-border-base);
+  color: var(--sg-text-primary);
+  border: 1px solid var(--sg-text-link);
+}
+.sg-btn-secondary:hover {
+  background: var(--sg-bg-surface);
+  text-decoration: none;
+}
+
+.sg-btn-ghost {
+  background: transparent;
+  color: var(--sg-text-link);
+  border: 2px solid var(--sg-text-link);
+}
+.sg-btn-ghost:hover {
+  background: var(--sg-border-base);
+  text-decoration: none;
+}
+
+.sg-btn-danger {
+  background: var(--sg-color-danger-500);
+  color: #ffffff;
+}
+.sg-btn-danger:hover {
+  background: var(--sg-color-danger-400);
+  text-decoration: none;
+}
+
+/* Loading state */
+.sg-btn.is-loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  position: relative;
+}
+.sg-btn.is-loading::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: sg-spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+@keyframes sg-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .sg-btn.is-loading::after { animation: none; }
+}
+
+.sg-btn-link {
+  background: none;
+  border: none;
+  color: var(--sg-text-link);
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+.sg-btn-link:hover { text-decoration: underline; }
+
+/* ─── 7. INPUTS / FORMS — Section 2.6 ──────────────────────── */
+.sg-input, .sg-select, .sg-textarea {
+  width: 100%;
+  border: 1px solid var(--sg-border-base);
+  border-radius: var(--sg-radius-sm);
+  padding: 10px 14px;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  font-size: var(--sg-text-base);
+  color: var(--sg-text-primary);
+  background: var(--sg-bg-surface);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.sg-input:focus, .sg-select:focus, .sg-textarea:focus {
+  border-color: var(--sg-text-link);
+  box-shadow: 0 0 0 3px rgba(26,110,245,0.1);
+}
+.sg-input::placeholder { color: var(--sg-text-muted); }
+.sg-input.is-error, .sg-select.is-error, .sg-textarea.is-error {
+  border-color: var(--sg-color-danger-500);
+  background: var(--sg-color-danger-50);
+}
+.sg-input:disabled, .sg-select:disabled {
+  background: var(--sg-border-base);
+  color: var(--sg-text-muted);
+  cursor: not-allowed;
+}
+.sg-input--bare {
+  border: none; background: none; padding: 0; outline: none;
+  width: 100%; font-family: inherit; font-size: inherit; color: inherit;
+}
+
+.sg-label {
+  display: block;
+  font-size: var(--sg-text-sm);
+  font-weight: var(--sg-weight-semibold);
+  color: var(--sg-text-sub);
+  margin-bottom: var(--sg-space-2);
+}
+.sg-form-group { margin-bottom: var(--sg-space-4); }
+.sg-field-error {
+  color: var(--sg-color-danger-500);
+  font-size: var(--sg-text-xs);
+  margin-top: var(--sg-space-2);
+}
+
+/* ─── 8. HOTEL CARD — Section 2.4 ──────────────────────────── */
+.sg-card, .hotel-card {
+  background: var(--sg-bg-surface) !important;
+  border-radius: var(--sg-radius-lg) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease !important;
+  overflow: hidden !important;
+}
+.sg-card:hover, .hotel-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+  transform: translateY(-4px) !important;
+  border-top: 3px solid var(--sg-brand) !important;
+}
+
+/* Hotel card text overrides */
+.hotel-name {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: var(--sg-text-primary) !important;
+  letter-spacing: normal !important;
+}
+.hotel-location {
+  font-size: 13px !important;
+  color: var(--sg-text-muted) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+.hotel-location svg { color: var(--sg-brand) !important; }
+
+/* Hotel card action buttons */
+.hca-book {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-radius: var(--sg-radius-sm) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  padding: 10px 20px !important;
+  transition: background 0.2s !important;
+}
+.hca-book:hover {
+  background: var(--sg-brand-dark) !important;
+  color: #ffffff !important;
+}
+.hca-detail {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  color: var(--sg-text-link) !important;
+  letter-spacing: normal !important;
+}
+.hca-detail:hover { color: var(--sg-text-link) !important; text-decoration: underline !important; }
+
+/* ─── 9. WISHLIST BUTTON ────────────────────────────────────── */
+.sg-wishlist-btn {
+  width: 34px; height: 34px;
+  border-radius: 9999px; padding: 0;
+  background: rgba(255,255,255,0.9);
+  border: none; cursor: pointer;
+  color: var(--sg-text-sub);
+  transition: color .15s, background .15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.sg-wishlist-btn:hover { background: #fff; color: var(--sg-color-danger-400); }
+
+/* ─── 10. ALERTS ─────────────────────────────────────────────── */
+.alert {
+  padding: 12px 20px;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  font-size: var(--sg-text-sm);
+  margin: 0 auto;
+  max-width: 1280px;
+}
+.alert-success {
+  background: #f0fdf4;
+  border-left: 4px solid var(--sg-color-success-400);
+  color: var(--sg-color-success-500);
+}
+.alert-error {
+  background: var(--sg-color-danger-50);
+  border-left: 4px solid var(--sg-color-danger-400);
+  color: var(--sg-color-danger-500);
+}
+
+/* ─── 11. HERO SECTION — Section 2.2 ───────────────────────── */
+.sg-hero {
+  background: var(--sg-hero-gradient);
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  padding: 60px 40px;
+}
+.sg-hero-title {
+  color: #ffffff;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--sg-space-3);
+}
+.sg-hero-sub {
+  color: rgba(255,255,255,0.85);
+  font-size: var(--sg-text-md);
+  margin-bottom: var(--sg-space-6);
+}
+
+/* Hero search button */
+.hsb-btn {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border: none !important;
+  border-radius: var(--sg-radius-sm) !important;
+  transition: background 0.2s !important;
+}
+.hsb-btn:hover {
+  background: var(--sg-brand-dark) !important;
+  color: #ffffff !important;
+}
+.hsb-tab-btn {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  letter-spacing: normal !important;
+}
+.hsb-fr-chip {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  letter-spacing: normal !important;
+}
+
+/* ─── 12. SKELETON LOADING — Section 5.3 ───────────────────── */
+.sg-skeleton {
+  background: linear-gradient(90deg,
+    var(--sg-border-base) 25%,
+    var(--sg-bg-surface) 50%,
+    var(--sg-border-base) 75%);
+  background-size: 200% 100%;
+  animation: sg-pulse 1.5s infinite;
+  border-radius: var(--sg-radius-sm);
+}
+@keyframes sg-pulse {
+  0%, 100% { background-position: 200% 0; }
+  50% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) { .sg-skeleton { animation: none; } }
+
+/* ─── 13. FLOATING ELEMENTS ─────────────────────────────────── */
+.floating-cta-btn {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border-radius: var(--sg-radius-lg) !important;
+}
+.scroll-top-btn {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-radius: var(--sg-radius-md) !important;
+}
+
+/* ─── 14. EMPTY STATE ────────────────────────────────────────── */
+.sg-empty {
+  text-align: center;
+  padding: 64px 32px;
+}
+.sg-empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: var(--sg-space-4);
+  opacity: 0.4;
+}
+
+/* ─── 15. PAGE COVER — light blue version ───────────────────── */
+.sg-page-cover {
+  background: var(--sg-hero-gradient) !important;
+  border-bottom: none !important;
+  padding: 56px 0 40px !important;
+  text-align: center !important;
+}
+.sg-page-cover h1 {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: clamp(28px, 4vw, 40px) !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 0 12px !important;
+  letter-spacing: normal !important;
+}
+.sg-page-cover h1 span { color: rgba(255,255,255,0.85) !important; }
+
+.sg-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sg-space-2);
+  font-size: 13px !important;
+  color: rgba(255,255,255,0.7) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+.sg-breadcrumb a { color: rgba(255,255,255,0.7) !important; text-decoration: none !important; }
+.sg-breadcrumb a:hover { color: #ffffff !important; text-decoration: underline !important; }
+.sg-breadcrumb .sep { color: rgba(255,255,255,0.4) !important; }
+.sg-breadcrumb .current { color: #ffffff !important; font-weight: 600 !important; }
+
+/* sg-label in page cover area */
+.sg-page-cover .sg-label {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,0.8) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  display: block !important;
+  margin-bottom: var(--sg-space-3) !important;
+}
+
+/* ─── 16. BLOG PAGES — light redesign ──────────────────────── */
+.blog-page-section {
+  background: var(--sg-bg-page) !important;
+  min-height: 60vh !important;
+  padding: 48px 0 80px !important;
+}
+.blog-page-container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+}
+
+/* Category filter */
+.blog-cat-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 36px !important;
+  padding-bottom: 20px !important;
+  border-bottom: 1px solid var(--sg-border-base) !important;
+}
+.blog-cat-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: var(--sg-text-sub) !important;
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: 20px !important;
+  text-decoration: none !important;
+  transition: all 0.2s !important;
+}
+.blog-cat-btn:hover {
+  border-color: var(--sg-text-link) !important;
+  color: var(--sg-text-link) !important;
+  text-decoration: none !important;
+}
+.blog-cat-btn--active {
+  background: var(--sg-brand) !important;
+  border-color: var(--sg-brand) !important;
+  color: #ffffff !important;
+}
+
+/* Blog card */
+.blog-card {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-lg) !important;
+  overflow: hidden !important;
+  transition: box-shadow 0.25s, transform 0.25s !important;
+}
+.blog-card:hover {
+  border-color: var(--sg-border-base) !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+}
+
+.blog-card-body {
+  padding: 20px !important;
+  gap: 8px !important;
+}
+
+.blog-card-cat {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--sg-brand) !important;
+}
+
+.blog-card-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: var(--sg-text-primary) !important;
+  line-height: 1.4 !important;
+  letter-spacing: normal !important;
+}
+.blog-card-title:hover { color: var(--sg-brand) !important; text-decoration: none !important; }
+
+.blog-card-excerpt {
+  font-size: 14px !important;
+  color: var(--sg-text-muted) !important;
+  line-height: 1.6 !important;
+}
+
+.blog-card-footer {
+  border-top: 1px solid var(--sg-border-base) !important;
+  color: var(--sg-text-muted) !important;
+  font-size: 12px !important;
+}
+
+.blog-read-link {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: var(--sg-text-link) !important;
+}
+.blog-read-link:hover { color: var(--sg-brand) !important; text-decoration: none !important; }
+
+/* Blog empty */
+.blog-empty {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-lg) !important;
+}
+.blog-empty p { color: var(--sg-text-muted) !important; font-size: 15px !important; letter-spacing: normal !important; }
+.blog-empty-icon { opacity: 0.5 !important; }
+
+/* Blog pagination */
+.blog-pagination .page-item .page-link {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  color: var(--sg-text-sub) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  border-radius: var(--sg-radius-sm) !important;
+}
+.blog-pagination .page-item.active .page-link {
+  background: var(--sg-brand) !important;
+  border-color: var(--sg-brand) !important;
+  color: #ffffff !important;
+}
+.blog-pagination .page-item .page-link:hover {
+  border-color: var(--sg-text-link) !important;
+  color: var(--sg-text-link) !important;
+  background: #eff6ff !important;
+}
+
+/* ─── 17. BLOG DETAIL — light redesign ─────────────────────── */
+.bld-wrap {
+  background: var(--sg-bg-page) !important;
+  min-height: 100vh !important;
+  padding: 48px 0 80px !important;
+}
+.bld-article {
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+}
+
+.bld-breadcrumb {
+  font-size: 12px !important;
+  color: var(--sg-text-muted) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+}
+.bld-breadcrumb a { color: var(--sg-text-muted) !important; text-decoration: none !important; }
+.bld-breadcrumb a:hover { color: var(--sg-text-link) !important; }
+.bld-breadcrumb span { color: var(--sg-border-base) !important; }
+
+.bld-cat-badge {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--sg-brand) !important;
+  border: 1px solid rgba(232,71,63,0.3) !important;
+  border-radius: var(--sg-radius-sm) !important;
+  padding: 3px 12px !important;
+}
+
+.bld-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: clamp(28px, 4vw, 44px) !important;
+  font-weight: 700 !important;
+  color: var(--sg-text-primary) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.5px !important;
+}
+
+.bld-meta {
+  color: var(--sg-text-muted) !important;
+  font-size: 13px !important;
+  letter-spacing: normal !important;
+  border-bottom: 1px solid var(--sg-border-base) !important;
+}
+.bld-meta svg { color: var(--sg-text-link) !important; opacity: 1 !important; }
+
+/* Article content */
+.bld-content {
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+  color: var(--sg-text-sub) !important;
+  letter-spacing: normal !important;
+}
+.bld-content h2, .bld-content h3, .bld-content h4 {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--sg-text-primary) !important;
+}
+.bld-content h2 { font-size: 26px !important; }
+.bld-content h3 { font-size: 20px !important; }
+.bld-content a { color: var(--sg-text-link) !important; }
+.bld-content blockquote {
+  border-left: 3px solid var(--sg-text-link) !important;
+  background: #eff6ff !important;
+  color: var(--sg-text-sub) !important;
+  font-style: italic !important;
+}
+.bld-content ul, .bld-content ol { color: var(--sg-text-sub) !important; }
+
+/* Tags */
+.bld-tags { border-top: 1px solid var(--sg-border-base) !important; }
+.bld-tag {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  color: var(--sg-text-sub) !important;
+  border-radius: 20px !important;
+}
+.bld-tag:hover { border-color: var(--sg-text-link) !important; color: var(--sg-text-link) !important; }
+
+/* Suggested hotels in blog detail */
+.bld-hotels-section, .bld-suggested {
+  border-top: 1px solid var(--sg-border-base) !important;
+}
+.bld-hotels-title, .bld-suggested-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: var(--sg-text-primary) !important;
+  letter-spacing: normal !important;
+}
+.bld-hotels-title span, .bld-suggested-title span { color: var(--sg-brand) !important; }
+.bld-hotels-see-all {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: var(--sg-text-link) !important;
+}
+
+/* Blog detail hotel card */
+.bld-hcard {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-lg) !important;
+}
+.bld-hcard:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+  border-color: var(--sg-border-base) !important;
+}
+.bld-hcard-type { color: var(--sg-brand) !important; letter-spacing: normal !important; text-transform: none !important; }
+.bld-hcard-name { font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important; color: var(--sg-text-primary) !important; letter-spacing: normal !important; }
+.bld-hcard-score { background: rgba(26,110,245,0.08) !important; border-color: rgba(26,110,245,0.25) !important; color: var(--sg-text-link) !important; }
+.bld-hcard-reviews { color: var(--sg-text-muted) !important; }
+.bld-hcard-price-from { color: var(--sg-text-muted) !important; }
+.bld-hcard-price-amt { font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important; color: var(--sg-brand) !important; }
+.bld-hcard-price-unit { color: var(--sg-text-muted) !important; }
+
+/* Related posts */
+.bld-related { border-top: 1px solid var(--sg-border-base) !important; }
+.bld-related-title { font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important; color: var(--sg-text-primary) !important; font-weight: 700 !important; letter-spacing: normal !important; }
+.bld-rcard { background: var(--sg-bg-surface) !important; border: 1px solid var(--sg-border-base) !important; border-radius: var(--sg-radius-md) !important; }
+.bld-rcard:hover { border-color: var(--sg-border-base) !important; box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; }
+.bld-rcard-cat { color: var(--sg-brand) !important; }
+.bld-rcard-title { font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important; color: var(--sg-text-primary) !important; }
+.bld-rcard-date { color: var(--sg-text-muted) !important; }
+.bld-rcard-no-img { background: #f0f5ff !important; }
+
+/* Back link */
+.bld-back a { color: var(--sg-text-muted) !important; letter-spacing: normal !important; text-transform: none !important; font-size: 13px !important; }
+.bld-back a:hover { color: var(--sg-text-link) !important; }
+.bld-suggested-sub { color: var(--sg-text-muted) !important; letter-spacing: normal !important; }
+
+/* ─── 18. USER DASHBOARD — light redesign ───────────────────── */
+/* Up-wrap = user page wrapper */
+.up-wrap {
+  background: var(--sg-bg-page) !important;
+  min-height: 100vh !important;
+  padding: 40px 0 80px !important;
+}
+
+.up-layout {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+  display: grid !important;
+  grid-template-columns: 260px 1fr !important;
+  gap: 24px !important;
+  align-items: start !important;
+}
+
+/* Sidebar */
+.up-sidebar {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-lg) !important;
+  padding: 24px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06) !important;
+  position: sticky !important;
+  top: 90px !important;
+}
+
+.up-avatar-wrap {
+  border-bottom: 1px solid var(--sg-border-base) !important;
+}
+
+.up-avatar, .up-avatar-img {
+  border: 2px solid var(--sg-brand) !important;
+  background: rgba(232,71,63,0.08) !important;
+  color: var(--sg-brand) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 28px !important;
+}
+
+.up-user-name {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--sg-text-primary) !important;
+  letter-spacing: normal !important;
+}
+
+.up-user-email {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  color: var(--sg-text-muted) !important;
+  letter-spacing: normal !important;
+}
+
+.up-joined {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 12px !important;
+  color: var(--sg-text-muted) !important;
+  letter-spacing: normal !important;
+}
+
+.up-pending-badge {
+  background: rgba(232,71,63,0.08) !important;
+  border-color: rgba(232,71,63,0.25) !important;
+  color: var(--sg-brand) !important;
+  letter-spacing: normal !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+}
+
+/* Sidebar nav items */
+.up-nav-item {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  color: var(--sg-text-sub) !important;
+  border-left: 2px solid transparent !important;
+  letter-spacing: normal !important;
+  border-radius: var(--sg-radius-sm) !important;
+}
+.up-nav-item:hover {
+  color: var(--sg-brand) !important;
+  background: rgba(232,71,63,0.04) !important;
+  border-left-color: rgba(232,71,63,0.3) !important;
+}
+.up-nav-item.active {
+  color: var(--sg-brand) !important;
+  border-left-color: var(--sg-brand) !important;
+  background: rgba(232,71,63,0.05) !important;
+}
+.up-nav-logout { color: var(--sg-color-danger-400) !important; }
+.up-nav-logout:hover { color: var(--sg-color-danger-500) !important; border-left-color: var(--sg-color-danger-400) !important; }
+
+.up-nav-count {
+  background: rgba(232,71,63,0.08) !important;
+  border-color: rgba(232,71,63,0.2) !important;
+  color: var(--sg-brand) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+}
+
+/* Stats row */
+.up-stats { border-top: 1px solid var(--sg-border-base) !important; }
+.up-stat-num {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: var(--sg-brand) !important;
+}
+.up-stat-lbl {
+  font-size: 11px !important;
+  color: var(--sg-text-muted) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Main content */
+.up-main { display: flex; flex-direction: column; gap: 20px; }
+
+.up-alert {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  border-radius: var(--sg-radius-sm) !important;
+  letter-spacing: normal !important;
+}
+.up-alert-success {
+  background: #f0fdf4 !important;
+  border-left-color: var(--sg-color-success-400) !important;
+  color: var(--sg-color-success-500) !important;
+}
+.up-alert-error {
+  background: var(--sg-color-danger-50) !important;
+  border-left-color: var(--sg-color-danger-400) !important;
+  color: var(--sg-color-danger-500) !important;
+}
+
+/* Up card */
+.up-card {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-lg) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+.up-card-header {
+  padding: 16px 20px !important;
+  border-bottom: 1px solid var(--sg-border-base) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--sg-text-primary) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  letter-spacing: normal !important;
+}
+.up-card-header svg { color: var(--sg-brand) !important; }
+
+/* Up forms */
+.up-form { padding: 20px !important; }
+.up-grid-2 { gap: 14px !important; }
+
+.up-field label {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--sg-text-sub) !important;
+}
+.up-field input,
+.up-field select,
+.up-field textarea {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  color: var(--sg-text-primary) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 14px !important;
+  border-radius: var(--sg-radius-sm) !important;
+  padding: 10px 14px !important;
+}
+.up-field input:focus,
+.up-field select:focus,
+.up-field textarea:focus {
+  border-color: var(--sg-text-link) !important;
+  box-shadow: 0 0 0 3px rgba(26,110,245,0.1) !important;
+  background: var(--sg-bg-surface) !important;
+}
+.up-error { font-size: 12px !important; color: var(--sg-color-danger-400) !important; letter-spacing: normal !important; }
+
+/* Up buttons */
+.up-btn {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border-radius: var(--sg-radius-sm) !important;
+}
+.up-btn-primary {
+  background: var(--sg-brand) !important;
+  border-color: var(--sg-brand) !important;
+  color: #ffffff !important;
+}
+.up-btn-primary:hover {
+  background: var(--sg-brand-dark) !important;
+  border-color: var(--sg-brand-dark) !important;
+  color: #ffffff !important;
+}
+.up-btn-green {
+  background: var(--sg-bg-surface) !important;
+  border-color: var(--sg-border-base) !important;
+  color: var(--sg-text-link) !important;
+}
+.up-btn-green:hover {
+  background: #eff6ff !important;
+  border-color: var(--sg-text-link) !important;
+}
+
+/* Social link blocks */
+.up-card .up-form [style*="background:#f8fafc"],
+.up-card > div > div > div[style*="background:#f8fafc"] {
+  background: var(--sg-bg-page) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-sm) !important;
+  color: var(--sg-text-sub) !important;
+}
+
+/* ─── 19. MY BOOKINGS — light redesign ──────────────────────── */
+.booking-list-wrap {
+  background: var(--sg-bg-page) !important;
+  min-height: 100vh !important;
+  padding: 40px 0 80px !important;
+}
+.booking-layout {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 32px !important;
+  display: grid !important;
+  grid-template-columns: 260px 1fr !important;
+  gap: 24px !important;
+  align-items: start !important;
+}
+
+/* Booking cards */
+.bk-card {
+  background: var(--sg-bg-surface) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  border-radius: var(--sg-radius-lg) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+.bk-card:hover { border-color: var(--sg-border-base) !important; box-shadow: 0 6px 16px rgba(0,0,0,0.1) !important; }
+
+.bk-hotel-name {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: var(--sg-text-primary) !important;
+  letter-spacing: normal !important;
+}
+.bk-hotel-name:hover { color: var(--sg-brand) !important; }
+
+.bk-meta {
+  color: var(--sg-text-muted) !important;
+  font-size: 13px !important;
+  letter-spacing: normal !important;
+}
+.bk-meta svg { color: var(--sg-text-link) !important; }
+
+.bk-price {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: var(--sg-brand) !important;
+}
+.bk-price small { color: var(--sg-text-muted) !important; }
+
+.bk-id-badge {
+  background: var(--sg-bg-page) !important;
+  border: 1px solid var(--sg-border-base) !important;
+  color: var(--sg-text-muted) !important;
+  border-radius: var(--sg-radius-sm) !important;
+}
+
+/* Status badges */
+.status-badge--pending   { background: rgba(234,179,8,0.1) !important;  color: #b45309 !important; border: 1px solid rgba(234,179,8,0.3) !important; }
+.status-badge--confirmed { background: rgba(34,197,94,0.1) !important;  color: #166534 !important; border: 1px solid rgba(34,197,94,0.3) !important; }
+.status-badge--cancelled { background: rgba(239,68,68,0.08) !important; color: var(--sg-color-danger-500) !important; border: 1px solid rgba(239,68,68,0.25) !important; }
+.status-badge--completed { background: rgba(99,102,241,0.08) !important;color: #4338ca !important; border: 1px solid rgba(99,102,241,0.25) !important; }
+
+/* Up booking rows */
+.up-booking-row { border-bottom: 1px solid var(--sg-border-base) !important; }
+.up-bk-code { color: var(--sg-text-muted) !important; font-family: 'Inter', monospace !important; letter-spacing: normal !important; }
+.up-bk-hotel { font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important; color: var(--sg-text-primary) !important; font-size: 16px !important; }
+.up-bk-room, .up-bk-dates, .up-bk-pm { color: var(--sg-text-muted) !important; letter-spacing: normal !important; }
+.up-bk-price { font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important; color: var(--sg-brand) !important; font-size: 20px !important; }
+
+.up-st-pending   { background: rgba(234,179,8,0.1) !important;  color: #b45309 !important; border: 1px solid rgba(234,179,8,0.3) !important; }
+.up-st-confirmed { background: rgba(34,197,94,0.1) !important;  color: #166534 !important; border: 1px solid rgba(34,197,94,0.3) !important; }
+.up-st-cancelled { background: rgba(239,68,68,0.08) !important; color: var(--sg-color-danger-500) !important; border: 1px solid rgba(239,68,68,0.25) !important; }
+.up-st-completed { background: rgba(99,102,241,0.08) !important;color: #4338ca !important; border: 1px solid rgba(99,102,241,0.25) !important; }
+
+/* Up btn small */
+.up-btn-sm {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border-radius: var(--sg-radius-sm) !important;
+}
+.up-btn-blue { border-color: rgba(26,110,245,0.3) !important; color: var(--sg-text-link) !important; background: rgba(26,110,245,0.05) !important; }
+.up-btn-blue:hover { background: var(--sg-text-link) !important; color: #ffffff !important; }
+.up-btn-red { border-color: rgba(239,68,68,0.3) !important; color: var(--sg-color-danger-400) !important; background: rgba(239,68,68,0.04) !important; }
+.up-btn-red:hover { background: rgba(239,68,68,0.1) !important; border-color: var(--sg-color-danger-400) !important; }
+.up-btn-outline { border-color: var(--sg-border-base) !important; color: var(--sg-text-sub) !important; }
+.up-btn-outline:hover { border-color: var(--sg-text-link) !important; color: var(--sg-text-link) !important; }
+
+/* Up empty */
+.up-empty-icon { opacity: 0.35 !important; }
+.up-empty p { color: var(--sg-text-muted) !important; letter-spacing: normal !important; }
+
+/* Status strip (left accent) */
+.bk-status-strip--pending  { background: #eab308 !important; }
+.bk-status-strip--confirmed { background: #22c55e !important; }
+.bk-status-strip--cancelled { background: var(--sg-color-danger-400) !important; }
+.bk-status-strip--completed { background: #6366f1 !important; }
+
+/* ─── 20. SUPPORT POPUP ──────────────────────────────────────── */
+.support-popup {
+  background: var(--sg-bg-surface) !important;
+  border-radius: var(--sg-radius-lg) !important;
+  color: var(--sg-text-primary) !important;
+}
+.support-popup h3 {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: var(--sg-text-primary) !important;
+}
+.sp-submit {
+  background: var(--sg-brand) !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  border-radius: var(--sg-radius-sm) !important;
+}
+
+/* ─── 21. OVERRIDE TẤT CẢ NÚT CŨ → XANH NưỚC BIỂN ──────────── */
+
+/* Override staygo-design.css gradient buttons (màu hồng/tím) */
+[class*="btn"],
+button[type="submit"],
+input[type="submit"],
+input[type="button"] {
+  letter-spacing: normal !important;
+}
+
+/* Chip/filter buttons — xanh thay vì hồng */
+.hsb-fr-chip {
+  background: #f0f7ff !important;
+  color: var(--sg-brand) !important;
+  border: 1px solid rgba(0,102,204,0.25) !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  padding: 4px 12px !important;
+  transition: all 0.18s !important;
+}
+.hsb-fr-chip:hover, .hsb-fr-chip.active {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-color: var(--sg-brand) !important;
+  text-decoration: none !important;
+}
+
+/* Tab buttons trong hero search */
+.hsb-tab-btn {
+  background: rgba(255,255,255,0.15) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.4) !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  transition: all 0.18s !important;
+}
+.hsb-tab-btn:hover, .hsb-tab-btn.active {
+  background: rgba(255,255,255,0.3) !important;
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,0.7) !important;
+}
+
+/* Search button TÌM PHÒNG */
+.hsb-btn, .hsb-search-btn, [class*="hsb-btn"] {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-color: var(--sg-brand) !important;
+}
+.hsb-btn:hover, .hsb-search-btn:hover {
+  background: var(--sg-brand-dark) !important;
+  color: #ffffff !important;
+}
+
+/* Override gradient button từ staygo-design.css */
+.btn-sg-primary, .sg-btn-gradient,
+a[style*="background: linear-gradient"],
+button[style*="background: linear-gradient"] {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+}
+
+/* Override gold button từ luxury/staygo-theme */
+.btn-primary-gold, .up-btn-primary,
+.hca-book, .sp-submit {
+  background: var(--sg-brand) !important;
+  border-color: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+.btn-primary-gold:hover, .up-btn-primary:hover,
+.hca-book:hover, .sp-submit:hover {
+  background: var(--sg-brand-dark) !important;
+  border-color: var(--sg-brand-dark) !important;
+  color: #ffffff !important;
+}
+
+/* Nav "Đặt ngay" button trong header */
+.nav-book-btn {
+  background: #ffffff !important;
+  color: var(--sg-brand) !important;
+  border: 2px solid rgba(255,255,255,0.8) !important;
+  font-weight: 700 !important;
+}
+.nav-book-btn:hover {
+  background: rgba(255,255,255,0.9) !important;
+  color: var(--sg-brand) !important;
+}
+
+/* Login button trong nav — navy brand */
+.btn-login-nav,
+.header-transparent .btn-login-nav,
+.header-transparent.scrolled .btn-login-nav {
+  background: #1B3A6B !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  clip-path: none !important;
+  border-radius: 8px !important;
+  padding: 9px 22px !important;
+  font-size: 14px !important;
+}
+.btn-login-nav:hover,
+.header-transparent .btn-login-nav:hover,
+.header-transparent.scrolled .btn-login-nav:hover {
+  background: #2D5BE3 !important;
+  color: #ffffff !important;
+}
+
+/* sg-btn chính */
+.sg-btn-primary {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-color: var(--sg-brand) !important;
+}
+.sg-btn-primary:hover {
+  background: var(--sg-brand-dark) !important;
+}
+
+/* ─── HOME PAGE — Override font & color cho tất cả class cụ thể ── */
+
+/* Section headings — Inter thay Cormorant Garamond */
+.home-section-title,
+h2.home-section-title,
+h1.home-section-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  color: #111111 !important;
+  letter-spacing: normal !important;
+}
+
+.home-section-sub,
+p.home-section-sub {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  color: #666666 !important;
+  letter-spacing: normal !important;
+}
+
+/* Cnd section title (Cẩm nang du lịch) */
+.cnd-title,
+h2.cnd-title,
+h1.cnd-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 700 !important;
+  color: #111111 !important;
+  letter-spacing: normal !important;
+}
+
+/* Service section — override Dancing Script và gold color */
+.sg-service-cursive,
+h2.sg-service-cursive,
+h1.sg-service-cursive {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  color: #111111 !important;
+  letter-spacing: normal !important;
+  font-style: normal !important;
+}
+
+.sg-service-label,
+span.sg-service-label {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #0066cc !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+.sg-service-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 700 !important;
+  color: #111111 !important;
+}
+
+.sg-service-desc {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #666666 !important;
+}
+
+/* Testimonials section heading */
+.sg-testi-title,
+h2.sg-testi-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 700 !important;
+  color: #111111 !important;
+}
+
+/* Story section */
+.sg-story-title,
+.sg-story-subtitle {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #111111 !important;
+}
+
+/* Showcase "Đặt phòng" button */
+.sg-showcase-btn,
+a.sg-showcase-btn,
+.sg-service-btn,
+a.sg-service-btn {
+  background: #0066cc !important;
+  color: #ffffff !important;
+  border-color: #0066cc !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+}
+.sg-showcase-btn:hover,
+.sg-service-btn:hover { background: #0052a3 !important; color: #ffffff !important; }
+
+/* Nút ĐẶT NGAY trong trang chi tiết khách sạn */
+.hd-btn-reserve {
+  background: #1B3A6B !important;
+  color: #ffffff !important;
+  clip-path: none !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+}
+.hd-btn-reserve:hover {
+  background: #2D5BE3 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Story cursive text — override cursive font */
+.sg-story-cursive {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-style: normal !important;
+  color: #111111 !important;
+  letter-spacing: normal !important;
+}
+
+/* Rooms editorial section */
+.sg-rooms-editorial-label {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #0066cc !important;
+  letter-spacing: 0.1em !important;
+}
+.sg-rooms-editorial-title,
+h2.sg-rooms-editorial-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #111111 !important;
+}
+.sg-rooms-editorial-desc {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #666666 !important;
+}
+
+/* Showcase */
+.sg-showcase-badge {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #0066cc !important;
+}
+.sg-showcase-title {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #111111 !important;
+}
+.sg-showcase-desc {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: #666666 !important;
+}
+
+/* Category bar blog */
+.blog-cat-btn--active {
+  background: var(--sg-brand) !important;
+  border-color: var(--sg-brand) !important;
+  color: #ffffff !important;
+}
+.blog-cat-btn:hover {
+  border-color: var(--sg-brand) !important;
+  color: var(--sg-brand) !important;
+}
+
+/* Filter chips / rating chips nói chung */
+[class*="chip"][class*="active"],
+[class*="filter"][class*="active"],
+[class*="rating"][class*="active"] {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+  border-color: var(--sg-brand) !important;
+}
+
+/* Auth form submit button — nền xanh, chữ trắng */
+.auth-btn,
+button.auth-btn,
+input.auth-btn {
+  background: #0066cc !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+}
+.auth-btn:hover {
+  background: #0052a3 !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+/* Scroll to top button */
+.scroll-top-btn {
+  background: var(--sg-brand) !important;
+  color: #ffffff !important;
+}
+
+/* ─── OVERRIDE TEXT COLORS → ĐEN ────────────────────────────── */
+/* Đảm bảo text chính luôn đen, không còn màu navy/gold/obsidian */
+p, span, div, li, td, th, label,
+.hotel-name, .hotel-location,
+.blog-card-title, .bld-title,
+.up-user-name, .bk-hotel-name {
+  color: inherit;
+}
+
+/* Prices — giữ màu xanh brand cho giá tiền */
+.price, [class*="price"], .bk-price, .up-bk-price {
+  color: var(--sg-brand) !important;
+}
+
+/* ─── 21. MISC ───────────────────────────────────────────────── */
+/* Override old sg-label (gold luxury version) */
+.sg-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sg-brand);
+  display: block;
+  margin-bottom: var(--sg-space-3);
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+}
+
+/* Override old sg-divider (gold shimmer) */
+.sg-divider {
+  border: none !important;
+  height: 1px !important;
+  background: var(--sg-border-base) !important;
+  margin: 32px 0 !important;
+}
+
+/* Override old sg-title-line */
+.sg-title-line {
+  width: 40px !important;
+  height: 3px !important;
+  background: var(--sg-brand) !important;
+  margin-top: 12px !important;
+  border-radius: 2px !important;
+}
+
+/* Accordion */
+.sg-accordion__trigger {
+  font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important;
+  color: var(--sg-text-primary) !important;
+}
+.sg-accordion__trigger:hover .sg-accordion__title { color: var(--sg-text-link) !important; }
+.sg-accordion__body { font-family: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif !important; }
+
+/* ─── 22. RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .up-layout, .booking-layout {
+    grid-template-columns: 220px 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .header { height: 60px !important; }
+  .header-flex { height: 60px !important; padding: 0 var(--sg-space-4) !important; }
+
+  .sg-hero { min-height: 300px; padding: 40px 20px; }
+  .sg-hero-title { font-size: 24px; }
+
+  .up-layout, .booking-layout {
+    grid-template-columns: 1fr !important;
+    padding: 0 16px !important;
+  }
+  .up-sidebar { position: static !important; }
+
+  .blog-grid-3 { grid-template-columns: 1fr !important; }
+  .up-grid-2   { grid-template-columns: 1fr !important; }
+  .bld-article { padding: 0 16px !important; }
+
+  .bld-related-grid { grid-template-columns: 1fr !important; }
+  .bld-hotels-grid  { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+@media (min-width: 576px) and (max-width: 960px) {
+  .blog-grid-3 { grid-template-columns: 1fr 1fr !important; }
+  .bld-hotels-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* ─── 23. FORCE WHITE BACKGROUND — ĐỒng bộ NỀN TRẮNG ────────── */
+/* Override tất cả background tối từ style.css / staygo-design.css /
+   luxury-theme.css / staygo-theme.css để toàn site dùng nền trắng */
+
+/* HTML & body */
+html,
+body {
+  background: #ffffff !important;
+}
+
+/* Main page wrapper */
+.page-home,
+.page-hotels,
+.page-blog,
+.page-detail,
+[class^="page-"],
+[class*=" page-"] {
+  background: #ffffff !important;
+}
+
+/* Home page sections — dark backgrounds từ staygo-design.css */
+.hero-section,
+.destinations-section,
+.destinations,
+.dest-section,
+.sg-story-section,
+.sg-deals-section,
+.sg-blog-section,
+.sg-features-section,
+.sg-cta-section,
+.section-why,
+.section-deals,
+.section-blog,
+.why-section,
+.features-section,
+.cta-section,
+.hotel-section,
+.hotels-section,
+.review-section,
+.testimonial-section,
+.partner-section,
+.section-wrapper {
+  background: #ffffff !important;
+  color: var(--sg-text-primary) !important;
+}
+
+/* Các section có nền xám nhạt — đổi sang trắng */
+.section-alt,
+.bg-light,
+.bg-gray,
+.bg-grey,
+.section-light {
+  background: #f8f9fa !important;
+}
+
+/* Section headings trong nền trắng */
+.section-title,
+.section-subtitle,
+.section-desc,
+.dest-title,
+.deal-title,
+.feature-title {
+  color: var(--sg-text-primary) !important;
+}
+.section-title span,
+.section-subtitle span {
+  color: var(--sg-brand) !important;
+}
+
+/* Destination cards — giữ nền trắng */
+.dest-card,
+.destination-card,
+.feature-card,
+.deal-card,
+.why-card,
+.reason-card {
+  background: #ffffff !important;
+  border: 1px solid var(--sg-border-base) !important;
+  color: var(--sg-text-primary) !important;
+}
+
+/* Override nền tối cho các block có inline style dark */
+[style*="background:#0D0D0F"],
+[style*="background: #0D0D0F"],
+[style*="background:#111"],
+[style*="background: #111"],
+[style*="background:#121212"],
+[style*="background: #121212"],
+[style*="background:#1a1a1a"],
+[style*="background: #1a1a1a"],
+[style*="background:#222"],
+[style*="background: #222"],
+[style*="background:#1e1e1e"],
+[style*="background: #1e1e1e"],
+[style*="background:#111827"],
+[style*="background: #111827"],
+[style*="background:#0d0d0f"],
+[style*="background: #0d0d0f"] {
+  background: #ffffff !important;
+  color: var(--sg-text-primary) !important;
+}
+
+/* Override text màu trắng bên trong nền tối cũ */
+[style*="color:#fff"]:not(.header *):not(.mobile-drawer-header *):not(.sg-page-cover *):not(.sg-hero *),
+[style*="color: #fff"]:not(.header *):not(.mobile-drawer-header *):not(.sg-page-cover *):not(.sg-hero *),
+[style*="color:white"]:not(.header *):not(.mobile-drawer-header *):not(.sg-page-cover *):not(.sg-hero *),
+[style*="color: white"]:not(.header *):not(.mobile-drawer-header *):not(.sg-page-cover *):not(.sg-hero *) {
+  color: var(--sg-text-primary) !important;
+}
+
+/* Override rgba trắng trên nền tối */
+[style*="color:rgba(255,255,255"]:not(.header *):not(.mobile-drawer-header *):not(.sg-page-cover *):not(.sg-hero *) {
+  color: var(--sg-text-sub) !important;
+}
+
+/* Dark mode — giữ nền trắng VÀ chữ đen cho toàn page content */
+html.sg-dark body {
+  background: #ffffff !important;
+  color: #111111 !important;
+  --sg-text-primary:      #111111;
+  --sg-text-sub:          #444444;
+  --sg-text-muted:        #777777;
+  --sg-bg-surface:        #ffffff;
+  --sg-bg-page:           #ffffff;
+  --sg-border-base:       #e0e0e0;
+}
+html.sg-dark .page-home,
+html.sg-dark .destinations-section,
+html.sg-dark .sg-story-section,
+html.sg-dark .sg-deals-section,
+html.sg-dark .sg-blog-section,
+html.sg-dark .sg-cta-section,
+html.sg-dark .hero-section {
+  background: #ffffff !important;
+  color: #111111 !important;
+}
+
+/* Home page sections — override dark/gradient từ staygo-design.css */
+.sg-testimonials-section {
+  background: #ffffff !important;
+}
+.sg-service-section {
+  background: #f8f9fa !important;
+}
+.home-section-title {
+  color: var(--sg-text-primary) !important;
+  font-weight: 700 !important;
+}
+.home-section-sub {
+  color: var(--sg-text-muted) !important;
+  font-weight: 400 !important;
+}
+
+/* Deals page */
+.deals-hero {
+  background: var(--sg-hero-gradient) !important;
+  color: #ffffff !important;
+}
+.deals-hero * { color: #ffffff !important; }
+.deals-hero-btn,
+.deals-hero-btn:hover { background: #ffffff !important; color: #7c3aed !important; }
+
+/* Booking list wrap (user dashboard pages) */
+.booking-list-wrap {
+  background: #ffffff !important;
+}
+
+/* Header vẫn giữ màu xanh khi toggle dark mode */
+html.sg-dark .header { background: var(--sg-brand) !important; }
+
+/* Footer luôn trắng dù dark mode bật/tắt */
+html.sg-dark .site-footer,
+html.sg-dark .footer-main,
+html.sg-dark .footer-bottom,
+html.sg-dark .footer-container {
+  background: #f8f9fa !important;
+  color: #444444 !important;
+}
+html.sg-dark .footer-heading { color: #111111 !important; }
+html.sg-dark .footer-desc { color: #777777 !important; }
+html.sg-dark .footer-links a,
+html.sg-dark .footer-contact a { color: #444444 !important; }
+html.sg-dark .footer-links a:hover,
+html.sg-dark .footer-contact a:hover { color: #0066cc !important; }
+html.sg-dark .footer-bottom { background: #f8f9fa !important; border-top-color: #e0e0e0 !important; }
+html.sg-dark .footer-bottom span { color: #777777 !important; }
+html.sg-dark .footer-logo-link .logo-text-stay,
+html.sg-dark .footer-logo-link .logo-text-go { color: #0066cc !important; }
+
+/* =============================================
+   AUTH FORM — glassmorphism dark → solid white
+   ============================================= */
+
+/* Hide the dark background image — page shows white */
+.auth-bg,
+.auth-bg img,
+.auth-bg-overlay {
+  display: none !important;
+}
+
+/* Card — solid white with subtle shadow */
+.auth-card {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.08) !important;
+}
+
+/* Card text */
+.auth-card-title { color: #111111 !important; }
+.auth-card-sub   { color: #666666 !important; }
+.auth-alert {
+  background: rgba(220,38,38,0.08) !important;
+  border: 1px solid rgba(220,38,38,0.25) !important;
+  color: #dc2626 !important;
+}
+
+/* Floating-label inputs */
+.auth-ig-icon { stroke: #999999 !important; }
+.auth-ig-input {
+  color: #111111 !important;
+  caret-color: #111111 !important;
+  border-bottom-color: #cccccc !important;
+}
+.auth-ig-input:-webkit-autofill,
+.auth-ig-input:-webkit-autofill:hover,
+.auth-ig-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #111111 !important;
+}
+.auth-ig-label { color: #888888 !important; }
+.auth-ig-input:focus ~ .auth-ig-label,
+.auth-ig-input:valid ~ .auth-ig-label { color: #0066cc !important; }
+.auth-ig-input:focus { border-bottom-color: #0066cc !important; }
+.auth-input-group:focus-within .auth-ig-icon { stroke: #0066cc !important; }
+
+/* Forgot / remember / error */
+.auth-remember { color: #444444 !important; }
+.auth-forgot   { color: #0066cc !important; }
+.auth-forgot:hover { color: #0052a3 !important; }
+.auth-error { color: #dc2626 !important; }
+
+/* Divider */
+.auth-divider::before { background: #e0e0e0 !important; }
+.auth-divider span    { color: #999999 !important; background: #ffffff !important; }
+
+/* Social buttons (Google, OTP) */
+.auth-social-btn {
+  background: #f8f9fa !important;
+  border: 1px solid #e0e0e0 !important;
+  color: #111111 !important;
+}
+.auth-social-btn:hover {
+  background: #eff6ff !important;
+  color: #0066cc !important;
+}
+/* Span inside social btn may have inline color:#fff */
+.auth-social-btn span { color: #111111 !important; }
+.auth-social-btn svg  { stroke: #0066cc !important; }
+
+/* Footer text */
+.auth-footer-text { color: #444444 !important; }
+.auth-footer-text a { color: #0066cc !important; }
+.auth-footer-text a:hover { color: #0052a3 !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   24. TRENZO-INSPIRED LAYOUT — Home page redesign sections
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Top bar — navy #1B3A6B */
+.sg-topbar { background: #1B3A6B !important; }
+
+/* Header — luôn trắng, chữ đen (specificity cao hơn luxury-theme) */
+html body header.header:not(.header-transparent),
+html body header.header:not(.header-transparent).scrolled {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e8edf2 !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html body header.header:not(.header-transparent) #mainNav a,
+html body header.header:not(.header-transparent) .nav-left a {
+  color: #1a202c !important;
+}
+html body header.header:not(.header-transparent) #mainNav a:hover,
+html body header.header:not(.header-transparent) .nav-left a:hover {
+  color: #1B3A6B !important;
+  background: #f1f5f9 !important;
+}
+html body header.header:not(.header-transparent) #mainNav a.active,
+html body header.header:not(.header-transparent) .nav-left a.active {
+  color: #1B3A6B !important;
+  font-weight: 700 !important;
+}
+html body header.header:not(.header-transparent) .logo-text-stay { color: #1a202c !important; }
+html body header.header:not(.header-transparent) .logo-text-go   { color: #1B3A6B !important; }
+html body header.header:not(.header-transparent) .nav-hamburger span { background: #374151 !important; }
+
+/* Hero title — bigger, bolder */
+.hero-search-title {
+  font-size: clamp(32px, 5.5vw, 56px) !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.35) !important;
+}
+.hero-search-sub {
+  font-size: clamp(15px, 2vw, 20px) !important;
+  font-weight: 400 !important;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3) !important;
+}
+
+/* Search bar — bigger radius */
+.hero-booking-bar {
+  border-radius: 20px !important;
+}
+.hero-search-box {
+  border-radius: 16px !important;
+}
+
+/* ── About / Stats Section ──────────────────────────────────── */
+.tz-about-section {
+  padding: 80px 0;
+  background: #ffffff;
+}
+.tz-about-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+.tz-about-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2D5BE3;
+  margin-bottom: 14px;
+}
+.tz-about-title {
+  font-size: clamp(26px, 3.2vw, 40px) !important;
+  font-weight: 700 !important;
+  color: #1B3A6B !important;
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+.tz-about-desc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.75;
+  margin-bottom: 32px;
+}
+.tz-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.tz-stat-card {
+  background: #F0F4FF;
+  border-radius: 14px;
+  padding: 22px 16px;
+  text-align: center;
+  border: 1px solid #DDE6FF;
+}
+.tz-stat-num {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1B3A6B;
+  display: block;
+  line-height: 1;
+}
+.tz-stat-lbl {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 6px;
+  font-weight: 500;
+}
+.tz-about-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #2D5BE3;
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 13px 30px;
+  border-radius: 10px;
+  text-decoration: none !important;
+  transition: background 0.2s, transform 0.15s;
+  margin-bottom: 28px;
+}
+.tz-about-cta:hover {
+  background: #1B3A6B;
+  color: #fff !important;
+  text-decoration: none !important;
+  transform: translateY(-1px);
+}
+.tz-about-avatars {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tz-avatar-stack {
+  display: flex;
+}
+.tz-avatar-stack .av {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin-left: -10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+.tz-avatar-stack .av:first-child { margin-left: 0; }
+.tz-about-trusted {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+.tz-about-trusted strong { color: #1B3A6B; }
+
+/* About image (right column) */
+.tz-about-img-wrap {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  box-shadow: 0 24px 64px rgba(27,58,107,0.2);
+}
+.tz-about-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tz-about-img-badge {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+.tz-img-badge-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+.tz-img-badge-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1B3A6B;
+  line-height: 1;
+}
+.tz-img-badge-lbl {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+/* ── Video Banner ──────────────────────────────────────────── */
+.tz-video-banner {
+  position: relative;
+  background: #1B3A6B !important;
+  padding: 96px 0;
+  overflow: hidden;
+  text-align: center;
+}
+.tz-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.22;
+  pointer-events: none;
+}
+.tz-video-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.tz-video-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16px;
+}
+.tz-video-title {
+  font-size: clamp(22px, 3.5vw, 40px) !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  line-height: 1.25;
+  margin-bottom: 48px;
+}
+.tz-play-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 56px;
+}
+.tz-play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 3px solid rgba(255,255,255,0.55);
+  cursor: pointer;
+  transition: all 0.22s;
+  backdrop-filter: blur(6px);
+  text-decoration: none !important;
+}
+.tz-play-btn:hover {
+  background: rgba(255,255,255,0.25);
+  border-color: #ffffff;
+  transform: scale(1.08);
+}
+.tz-play-btn svg { color: #ffffff !important; }
+.tz-play-lbl {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+}
+.tz-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.tz-sbar-item {
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+.tz-sbar-item:last-child { border-right: none; }
+.tz-sbar-icon { font-size: 28px; margin-bottom: 10px; }
+.tz-sbar-num {
+  font-size: 34px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+.tz-sbar-lbl {
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ── Why Choose Us ────────────────────────────────────────── */
+.tz-why-section {
+  padding: 80px 0;
+  background: #fff !important;
+}
+.tz-why-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+.tz-why-img-wrap {
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  box-shadow: 0 24px 64px rgba(27,58,107,0.18);
+}
+.tz-why-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tz-why-label {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2D5BE3;
+  margin-bottom: 14px;
+}
+.tz-why-title {
+  font-size: clamp(24px, 3vw, 38px) !important;
+  font-weight: 700 !important;
+  color: #1B3A6B !important;
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+.tz-why-desc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.75;
+  margin-bottom: 40px;
+}
+.tz-why-features {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.tz-why-feat {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.tz-why-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #EEF2FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 24px;
+  box-shadow: 0 2px 8px rgba(45,91,227,0.1);
+}
+.tz-why-feat-content { flex: 1; }
+.tz-why-feat-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1B3A6B;
+  margin-bottom: 5px;
+}
+.tz-why-feat-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.65;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media(max-width: 960px) {
+  .tz-about-inner,
+  .tz-why-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 24px;
+  }
+  .tz-about-img-wrap,
+  .tz-why-img-wrap {
+    aspect-ratio: 16/9;
+    max-height: 380px;
+  }
+  .tz-about-section,
+  .tz-video-banner,
+  .tz-why-section { padding: 56px 0; }
+  .tz-video-inner { padding: 0 20px; }
+  .tz-stats-bar { grid-template-columns: 1fr; }
+  .tz-sbar-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .tz-sbar-item:last-child { border-bottom: none; }
+}
+@media(max-width: 600px) {
+  .tz-stats-grid { grid-template-columns: 1fr 1fr; }
+  .tz-about-section,
+  .tz-video-banner,
+  .tz-why-section { padding: 48px 0; }
+  .tz-about-inner,
+  .tz-why-inner { padding: 0 16px; gap: 32px; }
+  .tz-video-inner { padding: 0 16px; }
+  .tz-video-title { margin-bottom: 32px; }
+  .tz-play-wrap { margin-bottom: 40px; }
+  .tz-stats-bar { border-radius: 12px; }
+  .tz-sbar-num { font-size: 26px; }
+}

@@ -15,12 +15,16 @@ class HotelObserver
 
     private function clearAll(Hotel $hotel): void
     {
-        // Frontend — trang chủ & danh sách
+        // Frontend — trang chủ & danh sách (v2 + v3 keys)
         $this->forgetMany([
             'home.locations.v2',
+            'home.locations.v3',
             'home.weekend_deals',
             'home.featured_hotels',
             'home.featured_by_location',
+            'home.featured_by_location.v3',
+            'home.blog_posts',
+            'home.reviews',
             'deals.weekend_deals',
             'all.locations.with_count.v2',
             // widget admin

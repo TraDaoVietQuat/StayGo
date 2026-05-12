@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 // ==================== PUBLIC ROUTES ====================
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/luxury', fn() => view('luxury-landing'))->name('luxury.preview');
 
 // Hotels
 Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');

@@ -87,7 +87,12 @@
                 <div class="deals-card-icon">🎉</div>
                 <div class="deals-card-title">Khách Hàng Mới</div>
                 <div class="deals-card-desc">Giảm 10% đơn đặt phòng đầu tiên. Chỉ áp dụng 1 lần cho tài khoản mới.</div>
-                <div style="flex:1"></div>
+                <div class="deals-code-box">
+                    <span class="deals-code-text" id="code-newuser">NEWUSER10</span>
+                    <button class="deals-code-copy" onclick="copyCode('code-newuser', this)" title="Sao chép mã">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </button>
+                </div>
                 @auth
                     @if(\App\Models\Booking::where('user_id', Auth::id())->whereNotIn('status',['cancelled'])->count() === 0)
                     <a href="{{ route('promo.new_user') }}" class="deals-card-btn deals-card-btn-green">NHẬN ƯU ĐÃI NGAY</a>
@@ -122,54 +127,6 @@
 
     </div>
 </div>
-
-{{-- ======================================================
-     ƯU ĐÃI CUỐI TUẦN
-====================================================== --}}
-@if($weekendDeals->isNotEmpty())
-<div class="deals-section">
-    <div class="container">
-        <div class="deals-section-head">
-            <div>
-                <div class="deals-section-tag">🔥 Hot Deal</div>
-                <h2 class="deals-section-title">Ưu đãi Cuối Tuần</h2>
-                <p class="deals-section-sub">Giá đặc biệt dành cho các chuyến nghỉ cuối tuần</p>
-            </div>
-            <a href="{{ route('hotels.index') }}" class="deals-see-all">Xem tất cả →</a>
-        </div>
-        <div class="deals-hotel-grid">
-            @foreach($weekendDeals as $hotel)
-            <a href="{{ route('hotels.show', $hotel) }}" class="deals-hotel-card">
-                <div class="deals-hotel-img-wrap">
-                    <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}" loading="lazy">
-                    <div class="deals-hotel-badge-weekend">Cuối tuần</div>
-                    @if($hotel->old_price && $hotel->old_price > $hotel->price)
-                    @php $disc = round((1 - $hotel->price / $hotel->old_price) * 100) @endphp
-                    <div class="deals-hotel-disc">-{{ $disc }}%</div>
-                    @endif
-                </div>
-                <div class="deals-hotel-body">
-                    <div class="deals-hotel-loc">📍 {{ $hotel->location?->name }}</div>
-                    <div class="deals-hotel-name">{{ $hotel->name }}</div>
-                    <div class="deals-hotel-rating">
-                        <span class="deals-hotel-score">{{ number_format($hotel->rating, 1) }}</span>
-                        <span class="deals-hotel-review-text">{{ $hotel->review_text }}</span>
-                        <span class="deals-hotel-review-count">{{ $hotel->review_count }} đánh giá</span>
-                    </div>
-                    <div class="deals-hotel-price-wrap">
-                        @if($hotel->old_price)
-                        <span class="deals-hotel-old-price">{{ number_format($hotel->old_price) }}đ</span>
-                        @endif
-                        <span class="deals-hotel-price">{{ number_format($hotel->price) }}đ</span>
-                        <span class="deals-hotel-per">/đêm</span>
-                    </div>
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div>
-</div>
-@endif
 
 {{-- ======================================================
      CÁCH NHẬN ƯU ĐÃI — 3 BƯỚC
@@ -262,7 +219,7 @@
     backdrop-filter: blur(6px);
 }
 .deals-hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', 'Be Vietnam Pro', sans-serif;
     font-size: 38px; font-weight: 700;
     color: #fff;
     line-height: 1.15;
@@ -411,27 +368,27 @@
 /* --- Promo code box --- */
 .deals-code-box {
     display: flex; align-items: center; justify-content: space-between;
-    background: rgba(255,255,255,.18);
-    border: 1.5px dashed rgba(255,255,255,.5);
+    background: rgba(255,255,255,.6);
+    border: 1.5px dashed rgba(0,0,0,.2);
     border-radius: 8px; padding: 8px 12px;
     margin-bottom: 10px;
 }
 .deals-code-box--orange {
-    background: rgba(255,255,255,.18);
-    border-color: rgba(255,255,255,.5);
+    background: rgba(255,255,255,.6);
+    border-color: rgba(0,0,0,.2);
 }
 .deals-code-text {
     font-family: monospace; font-size: 18px; font-weight: 900;
-    letter-spacing: 2px; color: #fff;
+    letter-spacing: 2px; color: #1a202c;
 }
 .deals-code-copy {
-    background: rgba(255,255,255,.25); border: none; border-radius: 6px;
-    padding: 5px 8px; cursor: pointer; color: #fff;
+    background: rgba(0,0,0,.08); border: none; border-radius: 6px;
+    padding: 5px 8px; cursor: pointer; color: #374151;
     display: flex; align-items: center;
     transition: background .2s;
 }
-.deals-code-copy:hover { background: rgba(255,255,255,.4); }
-.deals-code-copy--orange { background: rgba(255,255,255,.25); }
+.deals-code-copy:hover { background: rgba(0,0,0,.15); }
+.deals-code-copy--orange { background: rgba(0,0,0,.08); }
 .deals-code-used {
     text-align: center; font-size: 13px;
     color: rgba(255,255,255,.7);
@@ -454,7 +411,7 @@
     margin-bottom: 6px;
 }
 .deals-section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', 'Be Vietnam Pro', sans-serif;
     font-size: 24px; font-weight: 700;
     color: #1a202c; margin: 0;
 }
@@ -504,7 +461,7 @@
 }
 .deals-hotel-disc {
     position: absolute; top: 10px; right: 10px;
-    background: #e91e8c; color: #fff;
+    background: #0066cc; color: #fff;
     font-size: 11px; font-weight: 800;
     padding: 3px 8px; border-radius: 6px;
 }
@@ -529,7 +486,7 @@
 }
 .deals-hotel-price {
     font-size: 17px; font-weight: 800;
-    color: #e91e8c;
+    color: #0066cc;
 }
 .deals-hotel-per { font-size: 11px; color: #94a3b8; }
 
@@ -540,7 +497,7 @@
     text-align: center;
 }
 .deals-how-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', 'Be Vietnam Pro', sans-serif;
     font-size: 28px; font-weight: 700;
     color: #1a202c; margin-bottom: 8px;
 }

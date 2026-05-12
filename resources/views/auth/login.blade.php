@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Đăng nhập')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @push('styles')
 <style>
@@ -12,15 +12,17 @@ html body .auth-ig-input:active {
   background: transparent !important;
   background-color: transparent !important;
   border: none !important;
-  border-bottom: 1.5px solid rgba(255,255,255,0.4) !important;
+  border-bottom: 1.5px solid #cccccc !important;
   border-radius: 0 !important;
   outline: none !important;
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
   margin: 0 !important;
+  color: #111111 !important;
+  caret-color: #111111 !important;
 }
 html body .auth-ig-input:focus {
-  border-bottom-color: #38bdf8 !important;
+  border-bottom-color: #0066cc !important;
 }
 </style>
 @endpush
@@ -72,7 +74,7 @@ html body .auth-ig-input:focus {
             </div>
 
             <div class="auth-recaptcha-wrap">
-                <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}" data-theme="dark"></div>
+                <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}" data-theme="light"></div>
             </div>
             @error('g-recaptcha-response')
             <p class="auth-error">Vui lòng xác minh bạn không phải robot.</p>
@@ -87,9 +89,9 @@ html body .auth-ig-input:focus {
             <img src="{{ asset('assets/images/google.png') }}" width="18" alt="Google"> Đăng nhập với Google
         </a>
 
-        <a href="{{ route('login.otp') }}" class="auth-social-btn" style="margin-top:10px;background:rgba(56,189,248,.15);border-color:rgba(56,189,248,.4);">
-            <svg width="18" height="18" fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <span style="color:#fff;">Đăng nhập bằng OTP qua Email</span>
+        <a href="{{ route('login.otp') }}" class="auth-social-btn" style="margin-top:10px;">
+            <svg width="18" height="18" fill="none" stroke="#0066cc" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Đăng nhập bằng OTP qua Email</span>
         </a>
 
         <p class="auth-footer-text">
@@ -98,3 +100,4 @@ html body .auth-ig-input:focus {
     </div>
 </div>
 @endsection
+

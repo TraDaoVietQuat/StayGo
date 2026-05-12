@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Xác thực OTP')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @push('styles')
 <style>
@@ -104,3 +104,4 @@
 </script>
 @endpush
 @endsection
+

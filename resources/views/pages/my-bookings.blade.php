@@ -13,7 +13,7 @@
 
             <div class="up-card">
                 <div class="up-card-header">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#1e73be" stroke-width="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke="#1e73be" stroke-width="2" stroke-linecap="round"/></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
                     Lịch sử đặt phòng
                 </div>
 

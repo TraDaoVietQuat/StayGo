@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Khách sạn')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @section('content')
 
@@ -49,13 +49,13 @@
                 <div id="hsb-location-dropdown" class="hsb-dropdown">
                     <div class="hsb-loc-nearby" id="hsbNearbyBtn" onclick="findNearbyHotels()">
                         <div class="hsb-loc-nearby-icon">
-                            <svg width="15" height="15" fill="none" stroke="#e91e8c" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <svg width="15" height="15" fill="none" stroke="#0066cc" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         </div>
                         <div>
-                            <div class="hsb-loc-name" style="color:#e91e8c;font-weight:700;">Gần tôi</div>
+                            <div class="hsb-loc-name" style="color:#0066cc;font-weight:700;">Gần tôi</div>
                             <div class="hsb-loc-count" id="hsbNearbyStatus">Dùng vị trí của bạn để tìm khách sạn</div>
                         </div>
-                        <svg id="hsbNearbySpinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e91e8c" stroke-width="2" style="display:none;margin-left:auto;animation:spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="10"/></svg>
+                        <svg id="hsbNearbySpinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0066cc" stroke-width="2" style="display:none;margin-left:auto;animation:spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="10"/></svg>
                     </div>
                     <div class="hsb-dropdown-divider"></div>
                     <div class="hsb-dropdown-title">Điểm đến phổ biến</div>
@@ -510,3 +510,4 @@ if (preLocItem) {
 @endif
 </script>
 @endpush
+

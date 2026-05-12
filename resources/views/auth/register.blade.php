@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Đăng ký')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @push('styles')
 <style>
@@ -11,15 +11,17 @@ html body .auth-ig-input:active {
   background: transparent !important;
   background-color: transparent !important;
   border: none !important;
-  border-bottom: 1.5px solid rgba(255,255,255,0.4) !important;
+  border-bottom: 1.5px solid #cccccc !important;
   border-radius: 0 !important;
   outline: none !important;
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
   margin: 0 !important;
+  color: #111111 !important;
+  caret-color: #111111 !important;
 }
 html body .auth-ig-input:focus {
-  border-bottom-color: #38bdf8 !important;
+  border-bottom-color: #0066cc !important;
 }
 </style>
 @endpush
@@ -113,3 +115,4 @@ html body .auth-ig-input:focus {
     </div>
 </div>
 @endsection
+

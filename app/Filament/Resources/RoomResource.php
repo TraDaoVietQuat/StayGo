@@ -140,11 +140,6 @@ class RoomResource extends Resource
             ->searchPlaceholder('Tên khách sạn, loại phòng...')
 
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('')
-                    ->height(52)
-                    ->width(76),
-
                 Tables\Columns\TextColumn::make('hotel.name')
                     ->label('Khách sạn')
                     ->searchable()

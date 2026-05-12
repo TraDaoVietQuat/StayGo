@@ -20,7 +20,7 @@
         <div class="st-info-row st-info-row-full"><span class="st-lbl">Nội dung ban đầu</span><p class="st-val" style="white-space:pre-wrap;">{{ $supportRequest->note }}</p></div>
         @if($supportRequest->admin_note)
         <div class="st-info-row st-info-row-full" style="background:#fdf2f8;border-radius:8px;padding:10px 14px;">
-            <span class="st-lbl" style="color:#e91e8c;">📌 Ghi chú từ Admin</span>
+            <span class="st-lbl" style="color:#0066cc;">📌 Ghi chú từ Admin</span>
             <p class="st-val" style="white-space:pre-wrap;">{{ $supportRequest->admin_note }}</p>
         </div>
         @endif
@@ -84,9 +84,9 @@
 <style>
 .st-wrap { max-width: 720px; margin: 0 auto; padding: 32px 16px 60px; }
 .st-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
-.st-back { color: #e91e8c; font-size: 14px; text-decoration: none; font-weight: 500; }
+.st-back { color: #0066cc; font-size: 14px; text-decoration: none; font-weight: 500; }
 .st-back:hover { text-decoration: underline; }
-.st-title { font-family: 'Playfair Display', serif; font-size: 22px; color: #1a202c; margin: 0; flex: 1; }
+.st-title { font-family: 'Inter', 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #1a202c; margin: 0; flex: 1; }
 .st-status-badge { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
 
 .st-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
@@ -101,11 +101,11 @@
 .st-thread-title { font-weight: 700; font-size: 15px; color: #1a202c; margin-bottom: 16px; }
 
 .st-msg { padding: 14px 18px; border-radius: 12px; margin-bottom: 12px; }
-.st-msg-admin { background: linear-gradient(135deg, #fdf2f8, #fff); border: 1px solid #e91e8c30; }
+.st-msg-admin { background: linear-gradient(135deg, #fdf2f8, #fff); border: 1px solid #0066cc30; }
 .st-msg-user { background: #f8fafc; border: 1px solid #e2e8f0; }
 .st-msg-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .st-msg-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
-.st-avatar-admin { background: #e91e8c; color: #fff; }
+.st-avatar-admin { background: #0066cc; color: #fff; }
 .st-avatar-user { background: #e2e8f0; color: #374151; }
 .st-msg-name { font-weight: 600; font-size: 14px; color: #1a202c; flex: 1; }
 .st-msg-time { font-size: 12px; color: #94a3b8; }
@@ -113,8 +113,8 @@
 
 .st-reply-form { }
 .st-field textarea { width: 100%; padding: 12px 14px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical; box-sizing: border-box; }
-.st-field textarea:focus { outline: none; border-color: #e91e8c; box-shadow: 0 0 0 3px #e91e8c20; }
-.st-submit-btn { margin-top: 12px; background: linear-gradient(135deg, #e91e8c, #c2185b); color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.st-field textarea:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px #0066cc20; }
+.st-submit-btn { margin-top: 12px; background: linear-gradient(135deg, #0066cc, #c2185b); color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 14px; font-weight: 600; cursor: pointer; }
 .st-submit-btn:hover { opacity: .9; }
 
 @media (max-width: 480px) {

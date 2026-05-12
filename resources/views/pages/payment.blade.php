@@ -399,7 +399,7 @@
 .pmt-body  { padding: 24px; }
 
 /* Success header */
-.pmt-success-header { background: linear-gradient(135deg,#e91e8c,#ffa9f9); padding: 32px 24px; text-align: center; }
+.pmt-success-header { background: linear-gradient(135deg,#0066cc,#0052a3); padding: 32px 24px; text-align: center; }
 .pmt-check-circle   { width: 60px; height: 60px; background: rgba(255,255,255,.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 28px; color: #fff; }
 .pmt-success-title  { color: #fff; margin: 0; font-size: 22px; font-weight: 700; }
 .pmt-success-sub    { color: rgba(255,255,255,.85); margin: 6px 0 0; font-size: 14px; }
@@ -442,7 +442,7 @@
 .pmt-price-row   { display: flex; justify-content: space-between; font-size: 13.5px; color: #374151; padding: 4px 0; }
 .pmt-price-disc  { color: #7c3aed; font-weight: 600; }
 .pmt-price-total { display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; color: #1a202c; border-top: 1.5px solid #e2e8f0; margin-top: 8px; padding-top: 10px; }
-.pmt-total-val   { font-size: 20px; font-weight: 800; color: #e91e8c; }
+.pmt-total-val   { font-size: 20px; font-weight: 800; color: #0066cc; }
 
 /* Status box */
 .pmt-status-box { background: #fefce8; border: 1px solid #fde68a; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #92400e; margin-bottom: 16px; }
@@ -452,7 +452,7 @@
 .pmt-steps-title  { font-weight: 700; font-size: 14px; margin-bottom: 12px; color: #1a202c; }
 .pmt-step-item    { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
 .pmt-step-item:last-child { margin-bottom: 0; }
-.pmt-step-num     { background: linear-gradient(135deg,#e91e8c,#ffa9f9); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.pmt-step-num     { background: linear-gradient(135deg,#0066cc,#0052a3); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
 .pmt-step-text    { color: #4a5568; line-height: 1.5; font-size: 13.5px; }
 
 /* Method boxes */
@@ -465,7 +465,7 @@
 .pmt-method-title      { font-weight: 700; font-size: 14px; margin-bottom: 12px; }
 .pmt-method-hotel .pmt-method-title { color: #15803d; }
 .pmt-method-bank  .pmt-method-title { color: #1e40af; }
-.pmt-method-momo  .pmt-method-title { color: #be185d; }
+.pmt-method-momo  .pmt-method-title { color: #0052a3; }
 .pmt-method-vnpay .pmt-method-title { color: #15803d; }
 .pmt-method-card  .pmt-method-title { color: #92400e; }
 .pmt-method-step  { display: flex; gap: 12px; margin-bottom: 12px; }
@@ -475,8 +475,8 @@
 .pmt-method-warn  { background: #fefce8; border-left: 3px solid #f59e0b; border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #92400e; margin-top: 8px; }
 .pmt-method-note  { font-size: 12px; color: #6b7280; margin: 10px 0 0; }
 .pmt-bank-info    { background: #fff; border-radius: 10px; padding: 14px; font-size: 13.5px; line-height: 2.2; }
-.pmt-order-ref    { color: #e91e8c; font-weight: 700; }
-.pmt-phone-num    { font-size: 18px; color: #be185d; }
+.pmt-order-ref    { color: #0066cc; font-weight: 700; }
+.pmt-phone-num    { font-size: 18px; color: #0052a3; }
 
 /* Confirm button */
 .pmt-confirm-btn  { width: 100%; background: #10b981; color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .2s; }
@@ -487,7 +487,7 @@
 .pmt-actions    { display: flex; gap: 10px; }
 .pmt-btn        { flex: 1; border-radius: 10px; padding: 13px; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; display: block; transition: opacity .15s; }
 .pmt-btn:hover  { opacity: .85; }
-.pmt-btn-primary { background: linear-gradient(135deg,#e91e8c,#ffa9f9); color: #fff; }
+.pmt-btn-primary { background: linear-gradient(135deg,#0066cc,#0052a3); color: #fff; }
 .pmt-btn-outline { background: #fff; border: 1.5px solid #e2e8f0; color: #374151; }
 
 /* QR */

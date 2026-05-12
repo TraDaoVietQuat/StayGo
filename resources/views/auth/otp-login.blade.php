@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Đăng nhập bằng OTP')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @push('styles')
 <style>
@@ -73,3 +73,4 @@ html body .auth-ig-input:focus {
     </div>
 </div>
 @endsection
+

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Nhập mã OTP')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @push('styles')
 <style>
@@ -113,3 +113,4 @@ html body .auth-ig-input:focus { border-bottom-color: #38bdf8 !important; }
 </script>
 @endpush
 @endsection
+

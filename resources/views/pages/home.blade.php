@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Trang chủ')
 @section('body_class', 'page-home')
-@section('header_class', 'header-transparent')
+@section('header_class', '')
 
 @section('preload_assets')
 <link rel="preload" as="image" href="{{ asset('assets/images/hero-bg.jpg') }}" fetchpriority="high">
@@ -9,10 +9,11 @@
 
 @section('content')
 
-{{-- Hero Fullscreen --}}
+{{-- ══════════════════════════════════════════════════════
+     HERO — Full‑screen slideshow + search bar
+     ══════════════════════════════════════════════════════ --}}
 <div class="hero-search-section">
 
-    {{-- Slideshow ảnh nền --}}
     <div class="hero-slides">
         <div class="hero-slide" style="--delay:0s">
             <img src="{{ asset('assets/images/hero-bg.jpg') }}" alt="" fetchpriority="high">
@@ -22,12 +23,10 @@
         </div>
     </div>
 
-    {{-- Nội dung giữa hero --}}
     <div class="hero-content">
-        <div class="hero-search-title">Tìm khách sạn hoàn hảo cho bạn</div>
-        <div class="hero-search-sub">Hàng trăm khách sạn tại Đà Lạt, Nha Trang, Vũng Tàu & Đà Nẵng</div>
+        <div class="hero-search-title">Chúng tôi cung cấp không gian nghỉ dưỡng<br>sang trọng dành cho bạn</div>
+        <div class="hero-search-sub">Hàng trăm khách sạn tại Đà Lạt, Nha Trang, Vũng Tàu &amp; Đà Nẵng</div>
 
-        {{-- Search type tabs --}}
         <div class="hsb-tabs-wrap">
             <button type="button" class="hsb-tab-btn active" onclick="setStayType('night', this)">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -40,7 +39,6 @@
         </div>
     </div>
 
-    {{-- Booking bar — dính đáy hero --}}
     <div class="hero-booking-bar">
         <form action="{{ route('hotels.index') }}" method="GET" class="hero-search-box has-filter-row" id="hsbForm">
             <input type="hidden" name="location" id="hsb-location-id">
@@ -56,19 +54,17 @@
                     placeholder="Tên khách sạn, địa điểm..." autocomplete="off"
                     onfocus="showLocationDropdown()" oninput="filterLocations(this.value)">
                 <div id="hsb-location-dropdown" class="hsb-dropdown">
-                    {{-- Gần tôi --}}
                     <div class="hsb-loc-nearby" id="hsbNearbyBtn" onclick="findNearbyHotels()">
                         <div class="hsb-loc-nearby-icon">
-                            <svg width="15" height="15" fill="none" stroke="#e91e8c" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <svg width="15" height="15" fill="none" stroke="#0066cc" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         </div>
                         <div>
-                            <div class="hsb-loc-name" style="color:#e91e8c;font-weight:700;">Gần tôi</div>
+                            <div class="hsb-loc-name" style="color:#0066cc;font-weight:700;">Gần tôi</div>
                             <div class="hsb-loc-count" id="hsbNearbyStatus">Dùng vị trí của bạn để tìm khách sạn</div>
                         </div>
-                        <svg id="hsbNearbySpinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e91e8c" stroke-width="2" style="display:none;margin-left:auto;animation:spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="10"/></svg>
+                        <svg id="hsbNearbySpinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0066cc" stroke-width="2" style="display:none;margin-left:auto;animation:spin 1s linear infinite;"><circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="10"/></svg>
                     </div>
                     <div class="hsb-dropdown-divider"></div>
-                    {{-- Điểm đến phổ biến --}}
                     <div class="hsb-dropdown-title">Điểm đến phổ biến</div>
                     @foreach($locations->sortByDesc('hotels_count') as $loc)
                     <div class="hsb-loc-item"
@@ -114,7 +110,7 @@
                     min="{{ date('Y-m-d', strtotime('+1 day')) }}">
             </div>
 
-            {{-- Guests + Children popup --}}
+            {{-- Guests popup --}}
             <div class="hsb-field hsb-guests" style="position:relative;">
                 <span class="hsb-label">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
@@ -176,9 +172,8 @@
             </button>
         </form>
 
-        {{-- Filter row --}}
+        {{-- Filter row 1 --}}
         <div class="hsb-filter-row" id="home-filter-row">
-            {{-- Đánh giá --}}
             <div class="hsb-fr-group">
                 <span class="hsb-fr-label">
                     <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -191,10 +186,7 @@
                     <a href="javascript:void(0)" onclick="setHomeRating('9', this)" class="hsb-fr-chip">9+</a>
                 </div>
             </div>
-
             <div class="hsb-fr-sep"></div>
-
-            {{-- Giá / đêm --}}
             <div class="hsb-fr-group">
                 <span class="hsb-fr-label">
                     <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
@@ -206,10 +198,7 @@
                     <a href="javascript:void(0)" onclick="setHomePrice('1000000','', this)" class="hsb-fr-chip">Trên 1tr</a>
                 </div>
             </div>
-
             <div class="hsb-fr-sep"></div>
-
-            {{-- Sắp xếp --}}
             <div class="hsb-fr-group">
                 <span class="hsb-fr-label">
                     <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M7 12h10M11 18h2"/></svg>
@@ -222,7 +211,6 @@
                     <option value="popular">Phổ biến nhất</option>
                 </select>
             </div>
-
         </div>
 
         {{-- Filter row 2: Loại hình --}}
@@ -230,11 +218,10 @@
             <div class="hsb-fr-group">
                 <a href="javascript:void(0)" onclick="setHomeType('', this)" class="hsb-fr-chip active">Tất cả</a>
                 <a href="javascript:void(0)" onclick="setHomeType('hotel', this)" class="hsb-fr-chip">🏨 Khách sạn</a>
-                <a href="javascript:void(0)" onclick="setHomeType('homestay-resort', this)" class="hsb-fr-chip">🏨 Khách sạn & Resort</a>
+                <a href="javascript:void(0)" onclick="setHomeType('homestay-resort', this)" class="hsb-fr-chip">🏝️ Resort</a>
             </div>
         </div>
 
-        {{-- Hidden inputs for filter values --}}
         <input type="hidden" name="type"      id="hsb-type-input"     form="hsbForm">
         <input type="hidden" name="rating"    id="hsb-rating-input"   form="hsbForm">
         <input type="hidden" name="min_price" id="hsb-minprice-input" form="hsbForm">
@@ -243,7 +230,9 @@
     </div>
 </div>
 
-{{-- Trust Strip --}}
+{{-- ══════════════════════════════════════════════════════
+     TRUST STRIP
+     ══════════════════════════════════════════════════════ --}}
 <div class="sg-trust-strip">
     <div class="sg-trust-inner">
         <div class="sg-trust-item">
@@ -277,40 +266,21 @@
     </div>
 </div>
 
-{{-- Story Section --}}
-<section class="sg-story-section">
-    {{-- Decoration nằm sát mép trái màn hình --}}
-    <img class="sg-story-decor" src="{{ asset('assets/images/caybien.png') }}" alt="" loading="lazy" aria-hidden="true">
 
-    <div class="container">
-        <div class="sg-story-grid">
-            <div class="sg-story-cursive">Hành trình<br>bất tận</div>
-            <div class="sg-story-text">
-                <p>Từ Đà Lạt mộng mơ giữa ngàn hoa, Nha Trang rực rỡ với bãi biển dài trắng xóa, Vũng Tàu yên bình của những buổi chiều hoàng hôn hồng rực — đến Đà Nẵng năng động bên dòng sông Hàn lung linh ánh đèn. Mỗi điểm đến là một bức tranh riêng, đẹp theo cách riêng của mình.</p>
-                <p>StayGo kết nối bạn với hàng trăm khách sạn, homestay và resort được tuyển chọn kỹ lưỡng tại những điểm đến này — để mỗi chuyến đi không chỉ là một kỳ nghỉ, mà là một hành trình khó quên đọng lại mãi trong ký ức.</p>
-            </div>
-        </div>
-        <div class="sg-story-img-wrap">
-            <img src="{{ asset('assets/images/anhbien2.jpg') }}" alt="Biển đẹp Việt Nam" loading="lazy">
-        </div>
-    </div>
-</section>
-
-{{-- Phòng nghỉ Editorial Intro --}}
-<div class="sg-rooms-editorial">
-    <span class="sg-rooms-editorial-label" data-nosnippet>PHÒNG NGHỈ</span>
-    <h2 class="sg-rooms-editorial-title">
-        <span class="sg-story-cursive">Không gian nghỉ dưỡng<br>tuyệt vời dành cho bạn</span>
-    </h2>
-    <p class="sg-rooms-editorial-desc" data-nosnippet>Từ view biển xanh ngọc bích tại Nha Trang, không gian resort sang trọng ven biển Đà Nẵng, đến những căn villa ấm áp giữa lòng Đà Lạt — từng hạng phòng tại StayGo đều được tuyển chọn kỹ lưỡng, từ phòng đôi ấm cúng đến suite rộng rãi, kết hợp phong cách thiết kế tinh tế với đầy đủ tiện nghi hiện đại. Mỗi kỳ lưu trú là một trải nghiệm riêng khó quên.</p>
-</div>
-
-{{-- Hotel Showcase --}}
+{{-- ══════════════════════════════════════════════════════
+     HOTEL SHOWCASE — Editorial picks
+     ══════════════════════════════════════════════════════ --}}
 <section class="sg-hotel-showcase">
     <div class="container">
-        <div class="sg-showcase-grid">
+        <div class="home-section-head home-section-head--center" style="margin-bottom:32px;">
+            <div>
+                <span class="tz-about-label" style="display:block;margin-bottom:8px;">ĐIỂM NỔI BẬT</span>
+                <h2 class="home-section-title" style="color:#1B3A6B;">Không gian nghỉ dưỡng được yêu thích nhất</h2>
+                <p class="home-section-sub">Những khách sạn &amp; resort được khách hàng đánh giá cao nhất</p>
+            </div>
+        </div>
 
-            {{-- The Imperial Vung Tau Hotel & Resort --}}
+        <div class="sg-showcase-grid">
             <div class="sg-showcase-card">
                 <div class="sg-showcase-img-wrap">
                     <img src="{{ asset('assets/images/hotels/01KQ7RMTP55JMKGPP4AYY9VA61.jpg') }}" alt="The Imperial Vung Tau Hotel & Resort" loading="lazy">
@@ -319,11 +289,10 @@
                     <span class="sg-showcase-badge">Khách sạn 5 sao · Vũng Tàu</span>
                     <h3 class="sg-showcase-title">The Imperial Vung Tau Hotel &amp; Resort</h3>
                     <p class="sg-showcase-desc">Tọa lạc tại vị trí đắc địa giữa trái tim phường Thắng Tam, The Imperial Vung Tau là biểu tượng kiến trúc Victoria kiêu sa bên bờ biển Vũng Tàu. Không gian sự kiện hoàng gia, khu Spa cao cấp và dịch vụ tinh tế — tất cả cộng hưởng để mang đến một kỳ nghỉ dưỡng đẳng cấp khó quên.</p>
-                    <a href="{{ route('hotels.show', 7) }}" class="sg-showcase-btn">Đặt phòng</a>
+                    <a href="{{ route('hotels.show', 7) }}" class="sg-showcase-btn">Đặt phòng ngay</a>
                 </div>
             </div>
 
-            {{-- Marina Bay Vung Tau Resort --}}
             <div class="sg-showcase-card sg-showcase-card--reverse">
                 <div class="sg-showcase-img-wrap">
                     <img src="{{ asset('assets/images/hotels/01KQ658AECY4YJ9AGAF4J1VAGJ.jpg') }}" alt="Marina Bay Vung Tau Resort" loading="lazy">
@@ -332,21 +301,151 @@
                     <span class="sg-showcase-badge">Resort 4 sao · Vũng Tàu</span>
                     <h3 class="sg-showcase-title">Marina Bay Vung Tau Resort &amp; Spa</h3>
                     <p class="sg-showcase-desc">Tọa lạc ngay mặt tiền biển Bãi Trước trên tuyến đường Trần Phú sầm uất, Marina Bay Resort sở hữu tầm nhìn panorama trực diện ra biển. Hồ bơi ngoài trời view biển, quầy bar tầng thượng và trung tâm Spa hơn 20 liệu trình — điểm đến lý tưởng cho kỳ nghỉ cuối tuần chỉ 2 giờ từ TP.HCM.</p>
-                    <a href="{{ route('hotels.show', 9) }}" class="sg-showcase-btn">Đặt phòng</a>
+                    <a href="{{ route('hotels.show', 9) }}" class="sg-showcase-btn">Đặt phòng ngay</a>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
 
-{{-- Locations --}}
+{{-- ══════════════════════════════════════════════════════
+     NHIỀU LỰA CHỌN KHÁCH SẠN — Tabs by city
+     ══════════════════════════════════════════════════════ --}}
+@if($featuredByLocation->isNotEmpty())
+<section class="hlc-section">
+    <div class="container">
+        <div class="home-section-head home-section-head--center" style="margin-bottom:28px;">
+            <div>
+                <span class="tz-about-label" style="display:block;margin-bottom:8px;">PHÒNG NỔI BẬT</span>
+                <h2 class="home-section-title" style="color:#1B3A6B;">Nhiều lựa chọn khách sạn</h2>
+                <p class="home-section-sub">Hàng trăm phòng nghỉ tại các điểm đến hàng đầu Việt Nam</p>
+            </div>
+        </div>
+
+        <div class="hlc-tabs-wrap">
+            @foreach($featuredByLocation as $i => $loc)
+            <button class="hlc-tab {{ $i === 0 ? 'active' : '' }}" data-target="hlc-{{ $loc['id'] }}">{{ $loc['name'] }}</button>
+            @endforeach
+            <a href="{{ route('hotels.index') }}" class="hlc-see-all">Tất cả →</a>
+        </div>
+
+        @foreach($featuredByLocation as $i => $loc)
+        <div class="hlc-grid {{ $i > 0 ? 'hlc-hidden' : '' }}" id="hlc-{{ $loc['id'] }}">
+            @foreach($loc['hotels'] as $hotel)
+            @php
+                $discount = ($hotel->old_price && $hotel->old_price > $hotel->price)
+                    ? round((1 - $hotel->price / $hotel->old_price) * 100) : null;
+                $ratingLabel = match(true) {
+                    $hotel->rating >= 9.0 => 'Trên cả tuyệt vời',
+                    $hotel->rating >= 8.5 => 'Xuất sắc',
+                    $hotel->rating >= 8.0 => 'Tuyệt vời',
+                    $hotel->rating >= 7.0 => 'Rất tốt',
+                    default               => 'Tốt',
+                };
+                $locationBadge = $hotel->location->name ?? null;
+            @endphp
+            <a href="{{ route('hotels.show', $hotel) }}" class="hlc-card">
+                <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}" loading="lazy">
+                @if($discount)
+                <span class="hlc-badge-save">-{{ $discount }}%</span>
+                @endif
+                <div class="hlc-card-info">
+                    <div class="hlc-card-meta">
+                        @if($hotel->stars)
+                        <span class="hlc-stars">{{ str_repeat('★', (int)$hotel->stars) }}</span>
+                        @endif
+                        <span class="hlc-score">{{ number_format($hotel->rating, 1) }}</span>
+                        <span class="hlc-score-label">{{ $ratingLabel }}</span>
+                    </div>
+                    <div class="hlc-name">{{ $hotel->name }}</div>
+                    <div class="hlc-price-row">
+                        @if($hotel->old_price && $hotel->old_price > $hotel->price)
+                        <span class="hlc-old-price">{{ number_format($hotel->old_price) }}đ</span>
+                        @endif
+                        <span class="hlc-price">{{ number_format($hotel->price) }}đ</span>
+                        <span class="hlc-per-night">/đêm</span>
+                    </div>
+                    @if($locationBadge)
+                    <div class="hlc-location-tag">📍 {{ $locationBadge }}</div>
+                    @endif
+                </div>
+            </a>
+            @endforeach
+        </div>
+        @endforeach
+    </div>
+</section>
+
+@push('styles')
+<style>
+.hlc-section { padding: 48px 0 56px; background: #fff; }
+
+.hlc-tabs-wrap { display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 28px; border-bottom: 2px solid #e2e8f0; align-items: center; }
+.hlc-tab { padding: 10px 24px; border: none; border-bottom: 3px solid transparent; background: transparent; color: #718096; font-size: 14px; font-weight: 500; cursor: pointer; transition: all .18s; margin-bottom: -2px; }
+.hlc-tab:hover { color: #1B3A6B; }
+.hlc-tab.active { color: #1B3A6B; border-bottom-color: #1B3A6B; font-weight: 700; }
+.hlc-see-all { margin-left: auto; font-size: 13px; font-weight: 600; color: #2D5BE3; text-decoration: none; padding: 8px 0; }
+.hlc-see-all:hover { color: #1B3A6B; }
+
+/* Horizontal scroll row — like location destination cards */
+.hlc-grid { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 16px; scrollbar-width: none; -ms-overflow-style: none; }
+.hlc-grid::-webkit-scrollbar { display: none; }
+.hlc-hidden { display: none !important; }
+
+/* Portrait card — full-bleed image */
+.hlc-card { flex: 0 0 280px; height: 400px; border-radius: 18px; overflow: hidden; position: relative; display: block; text-decoration: none; color: #fff; scroll-snap-align: start; transition: transform .32s cubic-bezier(.25,.8,.25,1), box-shadow .32s; }
+.hlc-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 28px 72px rgba(0,0,0,.32); }
+.hlc-grid:has(.hlc-card:hover) .hlc-card:not(:hover) { filter: brightness(0.72) scale(0.97); transition: filter .22s, transform .22s; }
+
+/* Full-bleed image */
+.hlc-card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .45s; }
+.hlc-card:hover > img { transform: scale(1.07); }
+
+/* Discount badge */
+.hlc-badge-save { position: absolute; top: 14px; right: 14px; background: #f97316; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; z-index: 2; }
+
+/* Info overlay at bottom */
+.hlc-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 56px 18px 20px; background: linear-gradient(to top, rgba(0,8,32,.92) 55%, transparent); z-index: 1; }
+.hlc-card-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+.hlc-stars { color: #f59e0b; font-size: 12px; letter-spacing: 1px; }
+.hlc-score { background: #1B3A6B; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 5px; flex-shrink: 0; }
+.hlc-score-label { font-size: 11px; color: rgba(255,255,255,.75); font-weight: 500; }
+.hlc-name { font-size: 15px; font-weight: 700; line-height: 1.4; margin-bottom: 10px; text-shadow: 0 1px 4px rgba(0,0,0,.5); }
+.hlc-price-row { display: flex; align-items: baseline; gap: 6px; }
+.hlc-price { font-size: 15px; font-weight: 700; color: #fff; }
+.hlc-per-night { font-size: 11px; color: rgba(255,255,255,.7); }
+.hlc-old-price { font-size: 11px; color: rgba(255,255,255,.5); text-decoration: line-through; }
+.hlc-location-tag { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: rgba(255,255,255,.75); margin-top: 8px; }
+
+@media(max-width: 720px) { .hlc-card { flex: 0 0 240px; height: 360px; } }
+@media(max-width: 440px) { .hlc-card { flex: 0 0 210px; height: 320px; } }
+</style>
+@endpush
+
+<script>
+(function(){
+    document.querySelectorAll('.hlc-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.hlc-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.hlc-grid').forEach(g => g.classList.add('hlc-hidden'));
+            this.classList.add('active');
+            document.getElementById(this.dataset.target)?.classList.remove('hlc-hidden');
+        });
+    });
+})();
+</script>
+@endif
+
+{{-- ══════════════════════════════════════════════════════
+     DESTINATIONS — Popular locations carousel
+     ══════════════════════════════════════════════════════ --}}
 @if($locations->count())
-<section class="home-section">
+<section class="home-section" style="background:#fff;">
     <div class="container">
         <div class="home-section-head home-section-head--center">
             <div>
-                <h2 class="home-section-title">Địa điểm đến đang thịnh hành</h2>
+                <span class="tz-about-label" style="display:block;margin-bottom:8px;">ĐIỂM ĐẾN</span>
+                <h2 class="home-section-title" style="color:#1B3A6B;">Địa điểm đang thịnh hành</h2>
                 <p class="home-section-sub">Những điểm đến biển và núi nổi bật tại Việt Nam</p>
             </div>
         </div>
@@ -379,163 +478,35 @@
             const step = 340;
             prev.addEventListener('click', () => grid.scrollBy({ left: -step, behavior: 'smooth' }));
             next.addEventListener('click', () => grid.scrollBy({ left:  step, behavior: 'smooth' }));
-            // Drag to scroll
             let isDown = false, startX, scrollLeft;
-            grid.addEventListener('mousedown', e => {
-                isDown = true;
-                grid.classList.add('is-dragging');
-                startX = e.pageX - grid.offsetLeft;
-                scrollLeft = grid.scrollLeft;
-            });
+            grid.addEventListener('mousedown', e => { isDown = true; grid.classList.add('is-dragging'); startX = e.pageX - grid.offsetLeft; scrollLeft = grid.scrollLeft; });
             grid.addEventListener('mouseleave', () => { isDown = false; grid.classList.remove('is-dragging'); });
             grid.addEventListener('mouseup',    () => { isDown = false; grid.classList.remove('is-dragging'); });
-            grid.addEventListener('mousemove',  e => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - grid.offsetLeft;
-                grid.scrollLeft = scrollLeft - (x - startX) * 1.4;
-            });
-            // Prevent click after drag
-            grid.addEventListener('click', e => {
-                if (Math.abs(grid.scrollLeft - scrollLeft) > 5) e.preventDefault();
-            }, true);
+            grid.addEventListener('mousemove',  e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - grid.offsetLeft; grid.scrollLeft = scrollLeft - (x - startX) * 1.4; });
+            grid.addEventListener('click', e => { if (Math.abs(grid.scrollLeft - scrollLeft) > 5) e.preventDefault(); }, true);
         })();
         </script>
     </div>
 </section>
 @endif
 
-{{-- Dịch vụ --}}
-<section class="sg-service-section">
-    {{-- Rùa biển trang trí góc phải --}}
-    <img class="sg-service-decor" src="{{ asset('assets/images/ruabien.png') }}" alt="" aria-hidden="true" loading="lazy">
-
-    <div class="container">
-
-        {{-- Tiêu đề + mô tả --}}
-        <div class="sg-service-header">
-            <div class="sg-service-header-left">
-                <span class="sg-service-label">DỊCH VỤ</span>
-                <h2 class="sg-service-cursive">Tận tâm với<br>mọi trải nghiệm</h2>
-            </div>
-            <div class="sg-service-header-right">
-                <p>StayGo kết nối bạn với hàng trăm khách sạn và resort được tuyển chọn kỹ lưỡng — từ khách sạn sang trọng ven biển Vũng Tàu, resort nghỉ dưỡng giữa Đà Lạt sương mù đến khu resort đẳng cấp tại Nha Trang và Đà Nẵng. Dù là chuyến đi cuối tuần cùng gia đình, kỳ trăng mật lãng mạn hay chuyến công tác ngắn ngày, chúng tôi luôn có không gian phù hợp để mỗi hành trình của bạn trở nên thật trọn vẹn.</p>
-            </div>
-        </div>
-
-        {{-- Ảnh + tab menu --}}
-        <div class="sg-service-body">
-            <div class="sg-service-img-wrap">
-                <img id="svcImg" src="{{ asset('assets/images/ks-bien1.jpg') }}" alt="Dịch vụ khách sạn" loading="lazy">
-            </div>
-            <div class="sg-service-tabs">
-                <button class="sg-svc-tab active" data-img="{{ asset('assets/images/ks-bien1.jpg') }}" data-alt="Khách sạn cao cấp">
-                    Khách sạn
-                </button>
-                <button class="sg-svc-tab" data-img="{{ asset('assets/images/ks-bien2.jpg') }}" data-alt="Khách sạn & Resort">
-                    Khách sạn &amp; Resort
-                </button>
-            </div>
-        </div>
-
-    </div>
-</section>
-<script>
-(function(){
-    const tabs = document.querySelectorAll('.sg-svc-tab');
-    const img  = document.getElementById('svcImg');
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            img.style.opacity = '0';
-            setTimeout(() => {
-                img.src = tab.dataset.img;
-                img.alt = tab.dataset.alt;
-                img.style.opacity = '1';
-            }, 220);
-        });
-    });
-})();
-</script>
-
-{{-- Weekend Deals --}}
-@if($weekendDeals->count())
-<section class="home-section wd-section" style="background:#fff;">
-    <div class="container">
-        <div class="home-section-head">
-            <div>
-                <h2 class="home-section-title">Ưu đãi cho cuối tuần</h2>
-                <p class="home-section-sub">Những ưu đãi đặc biệt chỉ có vào cuối tuần</p>
-            </div>
-            <div class="wd-nav-btns">
-                <button class="wd-arrow" id="wdPrev" aria-label="Trước">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-                </button>
-                <button class="wd-arrow" id="wdNext" aria-label="Tiếp">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-            </div>
-        </div>
-        <div class="wd-carousel-wrap">
-            <div class="wd-track" id="wdTrack">
-                @foreach($weekendDeals as $hotel)
-                <div class="wd-slide">
-                    @include('components.hotel-card', ['hotel' => $hotel])
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-</section>
-<style>
-.wd-section .home-section-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:24px; }
-.wd-nav-btns { display:flex; gap:8px; flex-shrink:0; }
-.wd-arrow { width:38px; height:38px; border-radius:50%; border:1.5px solid #e2e8f0; background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#1a202c; transition:all .2s; flex-shrink:0; }
-.wd-arrow:hover { background:#004391; border-color:#004391; color:#fff; }
-.wd-carousel-wrap { overflow:hidden; }
-.wd-track { display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -ms-overflow-style:none; cursor:grab; }
-.wd-track::-webkit-scrollbar { display:none; }
-.wd-track.is-dragging { cursor:grabbing; }
-.wd-slide { flex:0 0 calc(33.333% - 14px); scroll-snap-align:start; min-width:0; }
-.wd-slide .hotel-card { width:100%; }
-@media(max-width:900px) { .wd-slide { flex:0 0 calc(50% - 10px); } }
-@media(max-width:580px) { .wd-slide { flex:0 0 calc(85% - 10px); } }
-</style>
-<script>
-(function(){
-    const track = document.getElementById('wdTrack');
-    const prev  = document.getElementById('wdPrev');
-    const next  = document.getElementById('wdNext');
-    if (!track) return;
-    function slideWidth() { return track.querySelector('.wd-slide')?.offsetWidth + 20 || 340; }
-    prev.addEventListener('click', () => track.scrollBy({ left: -slideWidth() * 3, behavior: 'smooth' }));
-    next.addEventListener('click', () => track.scrollBy({ left:  slideWidth() * 3, behavior: 'smooth' }));
-    let isDown = false, startX, scrollLeft;
-    track.addEventListener('mousedown', e => { isDown = true; track.classList.add('is-dragging'); startX = e.pageX - track.offsetLeft; scrollLeft = track.scrollLeft; });
-    track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('is-dragging'); });
-    track.addEventListener('mouseup',    () => { isDown = false; track.classList.remove('is-dragging'); });
-    track.addEventListener('mousemove',  e => { if (!isDown) return; e.preventDefault(); track.scrollLeft = scrollLeft - (e.pageX - track.offsetLeft - startX) * 1.3; });
-    track.addEventListener('click', e => { if (Math.abs(track.scrollLeft - scrollLeft) > 5) e.preventDefault(); }, true);
-})();
-</script>
-@endif
-
-{{-- Testimonials --}}
+{{-- ══════════════════════════════════════════════════════
+     TESTIMONIALS
+     ══════════════════════════════════════════════════════ --}}
 <section class="sg-testimonials-section">
     <div class="container">
         <div class="home-section-head home-section-head--center">
             <div>
-                <span class="sg-service-label" style="display:block;margin-bottom:8px;">ĐÁNH GIÁ TRẢI NGHIỆM</span>
-                <h2 class="sg-service-cursive" style="font-size:40px;">Trải nghiệm tuyệt vời</h2>
+                <span class="tz-about-label" style="display:block;margin-bottom:8px;">ĐÁNH GIÁ TRẢI NGHIỆM</span>
+                <h2 class="home-section-title" style="color:#1B3A6B;">Khách hàng nói gì về chúng tôi</h2>
             </div>
         </div>
 
         @php
         $staticReviews = [
-            ['name'=>'Minh Tuấn', 'hotel'=>'The Imperial Vung Tau Hotel & Resort', 'rating'=>9.3, 'initials'=>'MT', 'color'=>'#e91e8c',
+            ['name'=>'Minh Tuấn', 'hotel'=>'The Imperial Vung Tau Hotel & Resort', 'rating'=>9.3, 'initials'=>'MT', 'color'=>'#2D5BE3',
              'comment'=>'Kiến trúc Victoria tráng lệ, phòng rộng rãi và sạch sẽ. Nhân viên phục vụ rất chuyên nghiệp, vị trí gần biển tiện lợi. Kỳ nghỉ cuối tuần tuyệt vời!'],
-            ['name'=>'Thu Hà', 'hotel'=>'Marina Bay Vung Tau Resort & Spa', 'rating'=>8.9, 'initials'=>'TH', 'color'=>'#004391',
+            ['name'=>'Thu Hà', 'hotel'=>'Marina Bay Vung Tau Resort & Spa', 'rating'=>8.9, 'initials'=>'TH', 'color'=>'#1B3A6B',
              'comment'=>'Hồ bơi view biển cực đẹp, hoàng hôn nhìn từ tầng thượng không thể tuyệt hơn. Spa thư giãn, nhân viên nhiệt tình. Chỉ 2 tiếng từ Sài Gòn mà như đến thiên đường!'],
             ['name'=>'Vy Hà', 'hotel'=>'Merperle Hon Tam Resort Nha Trang', 'rating'=>9.0, 'initials'=>'VH', 'color'=>'#7c3aed',
              'comment'=>'Resort trên đảo Hòn Tằm rất đặc biệt, biển xanh ngọc bích, không khí trong lành. Dịch vụ spa tuyệt vời, nhân viên hỗ trợ nhiệt tình. Cực kỳ hài lòng!'],
@@ -544,7 +515,7 @@
         ];
         @endphp
 
-        @php $avatarColors = ['#e91e8c','#004391','#7c3aed','#059669']; @endphp
+        @php $avatarColors = ['#2D5BE3','#1B3A6B','#7c3aed','#059669']; @endphp
         <div class="sg-testi-carousel-wrap">
             <button class="sg-testi-arrow sg-testi-arrow--prev" id="testiPrev">&#8592;</button>
             <div class="sg-testimonials-grid" id="testiGrid">
@@ -604,12 +575,12 @@
 })();
 </script>
 
-{{-- Cẩm nang du lịch --}}
+{{-- ══════════════════════════════════════════════════════
+     CẨM NANG DU LỊCH
+     ══════════════════════════════════════════════════════ --}}
 @if(isset($blogPosts) && $blogPosts->count())
 <section class="cnd-section">
     <div class="cnd-container">
-
-        {{-- Header --}}
         <div class="cnd-header">
             <div class="cnd-header-left">
                 <span class="cnd-icon">🗺️</span>
@@ -617,7 +588,6 @@
             </div>
         </div>
 
-        {{-- Swiper với arrow hai bên --}}
         <div class="cnd-carousel-wrap">
             <button class="cnd-arrow cnd-arrow--prev" id="cndPrev" aria-label="Trước">&#8592;</button>
             <div class="swiper cndSwiper">
@@ -627,7 +597,7 @@
                         <a href="{{ route('blog.show', $post) }}" class="cnd-card">
                             @if($post->thumb)
                             <img class="cnd-card-img" src="{{ str_starts_with($post->thumb,'http') ? $post->thumb : asset('storage/'.$post->thumb) }}" alt="{{ $post->category }}" loading="lazy"
-                                onerror="this.style.display='none';this.nextElementSibling.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1e3a5f,#2563eb)';">
+                                onerror="this.style.display='none';this.nextElementSibling.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1B3A6B,#2D5BE3)';">
                             @else
                             <div class="cnd-card-img cnd-card-img-fallback">
                                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
@@ -646,14 +616,57 @@
             <button class="cnd-arrow cnd-arrow--next" id="cndNext" aria-label="Tiếp">&#8594;</button>
         </div>
 
-        {{-- Xem thêm --}}
         <div class="cnd-more-wrap">
             <a href="{{ route('blog.index') }}" class="cnd-more-btn">Xem thêm →</a>
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- ══════════════════════════════════════════════════════
+     WHY CHOOSE US (2 cột)
+     ══════════════════════════════════════════════════════ --}}
+<section class="tz-why-section">
+    <div class="tz-why-inner">
+
+        {{-- Left: image --}}
+        <div class="tz-why-img-wrap">
+            <img src="{{ asset('assets/images/amiana-resort-nha-trang-4.webp') }}" alt="Resort Nha Trang" loading="lazy">
+        </div>
+
+        {{-- Right: features --}}
+        <div>
+            <span class="tz-why-label">TẠI SAO CHỌN STAYGO</span>
+            <h2 class="tz-why-title">Trải nghiệm nghỉ dưỡng thượng hạng với sự an tâm tuyệt đối</h2>
+            <p class="tz-why-desc">StayGo được xây dựng với triết lý đặt khách hàng làm trung tâm. Chúng tôi không chỉ cung cấp nơi lưu trú — chúng tôi kiến tạo những kỷ niệm khó quên cho mỗi hành trình của bạn.</p>
+
+            <div class="tz-why-features">
+                <div class="tz-why-feat">
+                    <div class="tz-why-icon">🌟</div>
+                    <div class="tz-why-feat-content">
+                        <div class="tz-why-feat-title">Cuộc sống thư giãn, đẳng cấp</div>
+                        <div class="tz-why-feat-desc">Mỗi khách sạn và resort tại StayGo đều được kiểm duyệt kỹ lưỡng về chất lượng phòng ở, dịch vụ và vệ sinh — đảm bảo trải nghiệm xứng đáng với từng đồng bạn bỏ ra.</div>
+                    </div>
+                </div>
+                <div class="tz-why-feat">
+                    <div class="tz-why-icon">🔒</div>
+                    <div class="tz-why-feat-content">
+                        <div class="tz-why-feat-title">An toàn thanh toán cao cấp</div>
+                        <div class="tz-why-feat-desc">Hệ thống thanh toán bảo mật đa lớp với VNPay, MoMo và thẻ quốc tế. Thông tin cá nhân và giao dịch của bạn luôn được mã hóa và bảo vệ tuyệt đối.</div>
+                    </div>
+                </div>
+                <div class="tz-why-feat">
+                    <div class="tz-why-icon">💬</div>
+                    <div class="tz-why-feat-content">
+                        <div class="tz-why-feat-title">Hỗ trợ 24/7, tận tâm</div>
+                        <div class="tz-why-feat-desc">Đội ngũ hỗ trợ khách hàng của StayGo luôn sẵn sàng giải đáp mọi thắc mắc, hỗ trợ đặt phòng và xử lý sự cố nhanh chóng — bất kể ngày hay đêm.</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 </section>
-@endif
 
 @endsection
 
@@ -664,7 +677,6 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-// ── Cẩm nang du lịch Swiper ──────────────────────────────
 (function() {
     const el = document.querySelector('.cndSwiper');
     if (!el) return;
@@ -728,13 +740,11 @@ function updateMinCheckout(checkinVal) {
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.hsb-keyword')) dropdown.style.display = 'none';
 });
-// Gần tôi — geolocation + Haversine distance
 const _locationCoords = {
     @foreach($locations as $loc)
     {{ $loc->id }}: { name: "{{ $loc->name }}", lat: {!! json_encode((float)($loc->lat ?? 0)) !!}, lng: {!! json_encode((float)($loc->lng ?? 0)) !!} },
     @endforeach
 };
-// Fallback tọa độ tĩnh nếu DB chưa có lat/lng
 const _staticCoords = { 1: { lat:14.8094, lng:108.0225 }, 2: { lat:14.3544, lng:107.9927 }, 3: { lat:15.1214, lng:108.8054 } };
 function _haversine(lat1, lng1, lat2, lng2) {
     const R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
@@ -779,21 +789,18 @@ function findNearbyHotels() {
     }, { timeout: 12000, enableHighAccuracy: false });
 }
 
-// Hover + touch effect cho items
 document.querySelectorAll('.hsb-loc-item').forEach(el => {
-    el.addEventListener('mouseenter', () => el.style.background = '#fdf2f8');
+    el.addEventListener('mouseenter', () => el.style.background = '#f0f4ff');
     el.addEventListener('mouseleave', () => el.style.background = '');
-    el.addEventListener('touchstart', () => el.style.background = '#fdf2f8', { passive: true });
+    el.addEventListener('touchstart', () => el.style.background = '#f0f4ff', { passive: true });
     el.addEventListener('touchend',   () => el.style.background = '');
 });
 
-// Guests & Children popup
 let _adults = 1, _children = 0, _rooms = 1;
 function toggleGuestsPopup() {
     const popup = document.getElementById('hsbGuestsPopup');
     const isOpen = popup.style.display !== 'none';
     popup.style.display = isOpen ? 'none' : 'block';
-    // Overlay on mobile
     let overlay = document.getElementById('hsbGuestsOverlay');
     if (!isOpen) {
         if (!overlay) {
@@ -860,7 +867,6 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Search type tabs — set stay_type
 function setStayType(type, btn) {
     document.querySelectorAll('.hsb-tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -881,7 +887,6 @@ function autoSetOneDay() {
         document.getElementById('h_checkout').value = d.toISOString().split('T')[0];
     }
 }
-
 function setHomeRating(val, btn) {
     btn.closest('.hsb-fr-chips').querySelectorAll('.hsb-fr-chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -898,23 +903,12 @@ function setHomeType(val, btn) {
     btn.classList.add('active');
     document.getElementById('hsb-type-input').value = val;
 }
-
-// Date picker: chỉ dùng showPicker trên desktop, mobile dùng native tap
 if (!('ontouchstart' in window)) {
     document.querySelectorAll('.hsb-field input[type="date"]').forEach(function(input) {
         input.addEventListener('click', function() {
             try { this.showPicker(); } catch(e) {}
         });
     });
-}
-
-// Featured hotels location tab switching
-function switchFhrTab(btn, paneId) {
-    document.querySelectorAll('.fhr-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.fhr-pane').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    const pane = document.getElementById(paneId);
-    if (pane) pane.classList.add('active');
 }
 </script>
 @endpush

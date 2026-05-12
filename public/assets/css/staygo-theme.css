@@ -1,0 +1,1758 @@
+/* ================================================================
+   StayGo Theme — Luxury Addon
+   Loaded after luxury-theme.css (highest specificity)
+   Single font: Cormorant Garamond for everything
+   Five button types
+   Dark luxury profile, blog, and utility components
+   ================================================================ */
+
+/* ──────────────────────────────────────────────────────────────
+   1. FONT OVERRIDE — Cormorant Garamond everywhere
+   ────────────────────────────────────────────────────────────── */
+:root {
+    --sans:          'Cormorant Garamond', Georgia, serif !important;
+    --sg-font-body:  'Cormorant Garamond', Georgia, serif !important;
+}
+
+*,
+*::before,
+*::after {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+body {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 17px;
+    letter-spacing: 0.01em;
+}
+
+/* Headings — heavier weight */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em;
+}
+
+/* Nav links & small UI text — lighter tracking */
+.nav-left a,
+#mainNav a,
+.mobile-drawer-nav a,
+.btn-login-nav,
+.nav-book-btn,
+.footer-links a,
+.footer-contact a,
+.footer-heading,
+.footer-bottom span {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    letter-spacing: 0.12em !important;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   2. DARK PAGE CLASS
+   ────────────────────────────────────────────────────────────── */
+body.sg-dark-page {
+    background: var(--obsidian) !important;
+    color: rgba(255,255,255,0.82) !important;
+}
+
+/* Page cover — used on blog, profile, etc. */
+.sg-page-cover {
+    background: linear-gradient(180deg, var(--obsidian) 0%, var(--charcoal) 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 72px 0 48px;
+    text-align: center;
+}
+
+.sg-page-cover h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300 !important;
+    color: #fff;
+    margin: 0 0 14px;
+    letter-spacing: 0.04em;
+}
+
+.sg-page-cover h1 span { color: var(--gold); }
+
+.sg-breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.38);
+}
+
+.sg-breadcrumb a {
+    color: rgba(255,255,255,0.38);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.sg-breadcrumb a:hover { color: var(--gold); }
+.sg-breadcrumb .sep { color: rgba(201,168,76,0.35); }
+.sg-breadcrumb .current { color: var(--gold); }
+
+/* ──────────────────────────────────────────────────────────────
+   3. FIVE BUTTON TYPES
+   ────────────────────────────────────────────────────────────── */
+
+/* Base button */
+.btn-primary-gold,
+.btn-secondary-gold,
+.btn-ghost-gold,
+.btn-dark-gold,
+.btn-danger-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 28px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.28s ease;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+/* Type 1 — Primary Gold: filled, dark text — "Đặt ngay" */
+.btn-primary-gold {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--obsidian);
+    box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+}
+.btn-primary-gold:hover {
+    background: var(--gold-dark);
+    border-color: var(--gold-dark);
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(201,168,76,0.4);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+/* Type 2 — Secondary Gold: gold border, transparent — "Xem thêm" */
+.btn-secondary-gold {
+    background: transparent;
+    border-color: var(--gold);
+    color: var(--gold);
+}
+.btn-secondary-gold:hover {
+    background: rgba(201,168,76,0.08);
+    color: var(--gold-light);
+    border-color: var(--gold-light);
+    text-decoration: none;
+}
+
+/* Type 3 — Ghost Gold: barely visible, ultra subtle */
+.btn-ghost-gold {
+    background: transparent;
+    border-color: rgba(201,168,76,0.25);
+    color: rgba(255,255,255,0.55);
+}
+.btn-ghost-gold:hover {
+    border-color: rgba(201,168,76,0.55);
+    color: var(--gold);
+    background: rgba(201,168,76,0.05);
+    text-decoration: none;
+}
+
+/* Type 4 — Dark Gold: dark fill, gold text — "Lưu", "Xác nhận" */
+.btn-dark-gold {
+    background: var(--charcoal);
+    border-color: rgba(201,168,76,0.4);
+    color: var(--gold);
+}
+.btn-dark-gold:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+    color: var(--gold-light);
+    text-decoration: none;
+}
+
+/* Type 5 — Danger Dark: crimson for destructive — "Xóa", "Hủy đặt phòng" */
+.btn-danger-dark {
+    background: rgba(220,38,38,0.08);
+    border-color: rgba(220,38,38,0.35);
+    color: #f87171;
+}
+.btn-danger-dark:hover {
+    background: rgba(220,38,38,0.15);
+    border-color: rgba(220,38,38,0.65);
+    color: #fca5a5;
+    text-decoration: none;
+}
+
+/* Size variants */
+.btn-sm { padding: 9px 18px; font-size: 11px; }
+.btn-lg { padding: 16px 36px; font-size: 15px; }
+
+/* ──────────────────────────────────────────────────────────────
+   4. PROFILE / USER DASHBOARD  (up-* classes)
+   ────────────────────────────────────────────────────────────── */
+
+.up-wrap {
+    background: var(--obsidian);
+    min-height: 100vh;
+    padding: 48px 0 80px;
+}
+
+.up-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+/* ── Sidebar ── */
+.up-sidebar {
+    background: var(--charcoal);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 32px 24px;
+    position: sticky;
+    top: 100px;
+}
+
+.up-avatar-wrap {
+    text-align: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 20px;
+}
+
+.up-avatar,
+.up-avatar-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+}
+
+.up-user-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
+}
+
+.up-user-email {
+    font-size: 13px;
+    color: rgba(255,255,255,0.38);
+    letter-spacing: 0.04em;
+}
+
+.up-joined {
+    font-size: 12px;
+    color: rgba(255,255,255,0.28);
+    margin-top: 6px;
+    letter-spacing: 0.06em;
+}
+
+.up-badge-wrap { margin-top: 10px; }
+
+.up-pending-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.up-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.up-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    background: none;
+    border: none;
+    border-left: 2px solid transparent;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    letter-spacing: 0.04em;
+    transition: color 0.22s, border-color 0.22s, background 0.22s;
+}
+
+.up-nav-item:hover {
+    color: var(--gold);
+    background: rgba(201,168,76,0.05);
+    border-left-color: rgba(201,168,76,0.4);
+    text-decoration: none;
+}
+
+.up-nav-item.active {
+    color: var(--gold);
+    border-left-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+}
+
+.up-nav-item svg { flex-shrink: 0; opacity: 0.7; }
+.up-nav-item.active svg, .up-nav-item:hover svg { opacity: 1; }
+
+.up-nav-logout {
+    color: rgba(248,113,113,0.65) !important;
+    margin-top: 8px;
+}
+.up-nav-logout:hover { color: #f87171 !important; border-left-color: rgba(220,38,38,0.4) !important; }
+
+.up-nav-count {
+    margin-left: auto;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    letter-spacing: 0.06em;
+}
+
+/* Stats row */
+.up-stats {
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin-top: 24px;
+    padding-top: 20px;
+}
+
+.up-stat-item {
+    flex: 1;
+    text-align: center;
+    padding: 0 4px;
+}
+
+.up-stat-num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.up-stat-lbl {
+    font-size: 11px;
+    color: rgba(255,255,255,0.32);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* ── Main content ── */
+.up-main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.up-alert {
+    padding: 14px 20px;
+    font-size: 14px;
+    border-left: 3px solid;
+    letter-spacing: 0.02em;
+}
+
+.up-alert-success {
+    background: rgba(201,168,76,0.07);
+    border-left-color: var(--gold);
+    color: var(--gold-light);
+}
+
+.up-alert-error {
+    background: rgba(220,38,38,0.07);
+    border-left-color: #dc2626;
+    color: #fca5a5;
+}
+
+.up-alert ul { margin: 0; padding-left: 16px; }
+
+/* ── Cards ── */
+.up-card {
+    background: var(--charcoal);
+    border: 1px solid rgba(201,168,76,0.12);
+}
+
+.up-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.82);
+    letter-spacing: 0.04em;
+}
+
+.up-card-header svg { color: var(--gold); flex-shrink: 0; }
+
+/* ── Forms ── */
+.up-form {
+    padding: 24px;
+}
+
+.up-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.up-field-full { grid-column: 1 / -1; }
+
+.up-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.up-field label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+}
+
+.up-field input,
+.up-field select,
+.up-field textarea {
+    background: rgba(255,255,255,0.04) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: rgba(255,255,255,0.82) !important;
+    padding: 12px 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 15px;
+    outline: none;
+    border-radius: 0 !important;
+    transition: border-color 0.22s;
+}
+
+.up-field input:focus,
+.up-field select:focus,
+.up-field textarea:focus {
+    border-color: rgba(201,168,76,0.5) !important;
+    background: rgba(201,168,76,0.03) !important;
+}
+
+.up-error {
+    font-size: 12px;
+    color: #f87171;
+    letter-spacing: 0.04em;
+}
+
+/* Up buttons map to our 5-type system */
+.up-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.25s;
+}
+
+.up-btn-primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--obsidian);
+}
+.up-btn-primary:hover {
+    background: var(--gold-dark);
+    border-color: var(--gold-dark);
+    color: #fff;
+}
+
+.up-btn-green {
+    background: var(--charcoal);
+    border-color: rgba(201,168,76,0.4);
+    color: var(--gold);
+}
+.up-btn-green:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+    color: var(--gold-light);
+}
+
+/* Social/link blocks in profile */
+.up-card .up-form [style*="background:#f8fafc"],
+.up-card > div > div > div[style*="background:#f8fafc"] {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    border-radius: 0 !important;
+    color: rgba(255,255,255,0.75) !important;
+}
+
+.up-card [style*="font-size:14px;font-weight:600;color:#1a202c"] {
+    color: rgba(255,255,255,0.82) !important;
+}
+
+.up-card [style*="color:#64748b"] { color: rgba(255,255,255,0.38) !important; }
+
+/* ──────────────────────────────────────────────────────────────
+   5. BLOG LISTING (blog-* classes)
+   ────────────────────────────────────────────────────────────── */
+
+.blog-page-section {
+    background: var(--obsidian);
+    padding: 60px 0 100px;
+    min-height: 70vh;
+}
+
+.blog-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+/* Category filter pills */
+.blog-cat-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+
+.blog-cat-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 18px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.25s;
+    border-radius: 0;
+    background: transparent;
+}
+
+.blog-cat-btn:hover {
+    color: var(--gold);
+    border-color: rgba(201,168,76,0.4);
+    background: rgba(201,168,76,0.05);
+    text-decoration: none;
+}
+
+.blog-cat-btn--active {
+    color: var(--obsidian) !important;
+    background: var(--gold) !important;
+    border-color: var(--gold) !important;
+}
+
+/* Blog grid */
+.blog-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+/* Blog card */
+.blog-card {
+    background: var(--charcoal);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.3s, transform 0.3s;
+    overflow: hidden;
+}
+
+.blog-card:hover {
+    border-color: rgba(201,168,76,0.25);
+    transform: translateY(-3px);
+}
+
+.blog-card-img {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+}
+
+.blog-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.blog-card:hover .blog-card-img img { transform: scale(1.04); }
+
+.blog-card-placeholder {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(201,168,76,0.12));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.blog-card-body {
+    padding: 22px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+}
+
+.blog-card-cat {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 0;
+}
+
+.blog-card-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    transition: color 0.22s;
+    letter-spacing: 0.01em;
+}
+
+.blog-card-title:hover { color: var(--gold); text-decoration: none; }
+
+.blog-card-excerpt {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.42);
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blog-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 12px;
+    color: rgba(255,255,255,0.32);
+    letter-spacing: 0.06em;
+}
+
+.blog-read-link {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s, color 0.2s;
+}
+
+.blog-read-link:hover { gap: 10px; color: var(--gold-light); text-decoration: none; }
+
+/* Empty state */
+.blog-empty {
+    text-align: center;
+    padding: 80px 40px;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.blog-empty-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0.3;
+}
+
+.blog-empty p {
+    color: rgba(255,255,255,0.3);
+    font-size: 16px;
+    letter-spacing: 0.08em;
+}
+
+/* Pagination wrapper */
+.blog-pagination {
+    margin-top: 56px;
+    display: flex;
+    justify-content: center;
+}
+
+.blog-pagination .pagination {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.blog-pagination .page-item .page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.45);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.22s;
+}
+
+.blog-pagination .page-item.active .page-link {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--obsidian);
+}
+
+.blog-pagination .page-item .page-link:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   6. BLOG DETAIL (bld-* classes)
+   ────────────────────────────────────────────────────────────── */
+
+.bld-wrap {
+    background: var(--obsidian);
+    min-height: 100vh;
+    padding: 60px 0 100px;
+}
+
+.bld-article {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.bld-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 28px;
+}
+
+.bld-breadcrumb a {
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.bld-breadcrumb a:hover { color: var(--gold); }
+.bld-breadcrumb span { color: rgba(255,255,255,0.18); }
+
+.bld-cat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.35);
+    padding: 4px 14px;
+    margin-bottom: 20px;
+}
+
+.bld-title {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 600 !important;
+    color: #fff;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    margin-bottom: 20px;
+}
+
+.bld-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+
+.bld-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.bld-meta svg { color: var(--gold); opacity: 0.7; }
+
+.bld-cover-wrap {
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+
+.bld-cover-img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Article content typography */
+.bld-content {
+    font-size: 18px;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.72);
+    letter-spacing: 0.01em;
+}
+
+.bld-content h2,
+.bld-content h3,
+.bld-content h4 {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-weight: 600 !important;
+    color: #fff;
+    margin-top: 40px;
+    margin-bottom: 16px;
+}
+
+.bld-content h2 { font-size: 30px; }
+.bld-content h3 { font-size: 24px; }
+
+.bld-content p { margin-bottom: 20px; }
+
+.bld-content a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.bld-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 24px 0;
+}
+
+.bld-content blockquote {
+    border-left: 3px solid var(--gold);
+    padding: 16px 24px;
+    margin: 28px 0;
+    background: rgba(201,168,76,0.04);
+    font-style: italic;
+    color: rgba(255,255,255,0.6);
+}
+
+.bld-content ul,
+.bld-content ol {
+    padding-left: 20px;
+    margin-bottom: 20px;
+    color: rgba(255,255,255,0.72);
+}
+
+.bld-content li { margin-bottom: 8px; }
+
+/* Tags */
+.bld-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+}
+
+.bld-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.25);
+    color: rgba(255,255,255,0.4);
+    transition: all 0.22s;
+}
+
+.bld-tag:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* Suggested Hotels in blog detail */
+.bld-suggested {
+    max-width: 1200px;
+    margin: 64px auto 0;
+    padding: 0 32px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding-top: 64px;
+}
+
+.bld-suggested-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+}
+
+.bld-suggested-title span { color: var(--gold); }
+
+.bld-suggested-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 32px;
+    letter-spacing: 0.06em;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   7. HOTEL CARD LUXURY OVERRIDES
+   ────────────────────────────────────────────────────────────── */
+
+.hotel-card {
+    background: var(--charcoal) !important;
+    border: 1px solid rgba(201,168,76,0.1) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transition: border-color 0.3s, transform 0.3s !important;
+}
+
+.hotel-card:hover {
+    border-color: rgba(201,168,76,0.28) !important;
+    transform: translateY(-4px) !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35) !important;
+}
+
+.hotel-card-img {
+    border-radius: 0 !important;
+    overflow: hidden;
+}
+
+.hotel-card-img img {
+    transition: transform 0.5s ease !important;
+}
+
+.hotel-card:hover .hotel-card-img img {
+    transform: scale(1.04) !important;
+}
+
+.hotel-name {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    letter-spacing: 0.01em !important;
+}
+
+.hotel-location {
+    font-size: 12px !important;
+    letter-spacing: 0.1em !important;
+    color: rgba(255,255,255,0.38) !important;
+    text-transform: uppercase !important;
+}
+
+.hotel-location svg { color: var(--gold) !important; }
+
+/* Hotel card action buttons */
+.hca-book {
+    background: var(--gold) !important;
+    color: var(--obsidian) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    padding: 10px 20px !important;
+    text-decoration: none !important;
+    transition: background 0.25s, color 0.25s !important;
+}
+
+.hca-book:hover {
+    background: var(--gold-dark) !important;
+    color: #fff !important;
+}
+
+.hca-detail {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 12px !important;
+    letter-spacing: 0.1em !important;
+    color: rgba(255,255,255,0.45) !important;
+    text-decoration: none !important;
+    transition: color 0.2s !important;
+}
+
+.hca-detail:hover { color: var(--gold) !important; }
+
+/* ──────────────────────────────────────────────────────────────
+   8. HERO SEARCH BAR GOLD OVERRIDE
+   ────────────────────────────────────────────────────────────── */
+
+.hsb-btn {
+    background: var(--gold) !important;
+    color: var(--obsidian) !important;
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transition: background 0.25s !important;
+}
+
+.hsb-btn:hover {
+    background: var(--gold-dark) !important;
+    color: #fff !important;
+}
+
+.hsb-tab-btn {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 13px !important;
+    letter-spacing: 0.1em !important;
+}
+
+.hsb-fr-chip {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 12px !important;
+    letter-spacing: 0.08em !important;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   9. MY BOOKINGS PAGE
+   ────────────────────────────────────────────────────────────── */
+
+/* Booking row — inside up-card */
+.up-booking-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-wrap: wrap;
+}
+
+.up-booking-row:last-child { border-bottom: none; }
+
+.up-bk-left {
+    display: flex;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+}
+
+.up-bk-hotel-img {
+    width: 80px;
+    height: 70px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.up-bk-hotel-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.up-bk-no-img {
+    width: 80px;
+    height: 70px;
+    background: rgba(201,168,76,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.up-bk-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.up-bk-code {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+}
+
+.up-bk-hotel {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.up-bk-room,
+.up-bk-dates,
+.up-bk-pm {
+    font-size: 13px;
+    color: rgba(255,255,255,0.38);
+    letter-spacing: 0.04em;
+}
+
+.up-bk-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.up-bk-price {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gold);
+}
+
+/* Status badges */
+.up-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.up-st-pending   { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); }
+.up-st-confirmed { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.28); color: #4ade80; }
+.up-st-completed { background: rgba(99,102,241,0.08); border: 1px solid rgba(99,102,241,0.28); color: #a5b4fc; }
+.up-st-cancelled { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.22); color: #f87171; }
+
+/* Action buttons */
+.up-bk-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.up-btn-sm {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.22s;
+    background: none;
+}
+
+.up-btn-blue {
+    border-color: rgba(201,168,76,0.4);
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+}
+.up-btn-blue:hover { background: var(--gold); color: var(--obsidian); }
+
+.up-btn-red {
+    border-color: rgba(239,68,68,0.3);
+    color: #f87171;
+    background: rgba(239,68,68,0.05);
+}
+.up-btn-red:hover { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.55); }
+
+.up-btn-outline {
+    border-color: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.45);
+}
+.up-btn-outline:hover { border-color: rgba(201,168,76,0.35); color: var(--gold); text-decoration: none; }
+
+/* Empty state */
+.up-empty {
+    padding: 64px 32px;
+    text-align: center;
+}
+
+.up-empty-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 14px;
+    opacity: 0.35;
+}
+
+.up-empty p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.32);
+    margin-bottom: 20px;
+    letter-spacing: 0.06em;
+}
+
+.booking-list-wrap {
+    background: var(--obsidian);
+    min-height: 100vh;
+    padding: 48px 0 80px;
+}
+
+.booking-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+/* Booking card */
+.bk-card {
+    background: var(--charcoal);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    transition: border-color 0.25s;
+}
+
+.bk-card:hover { border-color: rgba(201,168,76,0.2); }
+
+.bk-status-strip {
+    width: 4px;
+    flex-shrink: 0;
+}
+
+.bk-status-strip--pending  { background: rgba(201,168,76,0.6); }
+.bk-status-strip--confirmed { background: rgba(34,197,94,0.6); }
+.bk-status-strip--cancelled { background: rgba(239,68,68,0.45); }
+.bk-status-strip--completed { background: rgba(99,102,241,0.6); }
+
+.bk-body {
+    padding: 24px 28px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.bk-hotel-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    letter-spacing: 0.01em;
+}
+
+.bk-hotel-name:hover { color: var(--gold); }
+
+.bk-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.04em;
+}
+
+.bk-meta svg { color: var(--gold); }
+
+.bk-price {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.bk-price small {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 400;
+}
+
+.bk-id-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.38);
+    font-size: 11px;
+    padding: 3px 10px;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+}
+
+/* Status badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.status-badge--pending  { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+.status-badge--confirmed { background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge--cancelled { background: rgba(239,68,68,0.08); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+.status-badge--completed { background: rgba(99,102,241,0.1); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+
+/* ──────────────────────────────────────────────────────────────
+   10. DEALS PAGE
+   ────────────────────────────────────────────────────────────── */
+
+.deals-hero {
+    background: var(--obsidian);
+    padding: 48px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   11. FORMS — global dark override for auth pages
+   ────────────────────────────────────────────────────────────── */
+
+.auth-wrap input,
+.auth-wrap select,
+.auth-wrap textarea {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   12. MISC UTILITY
+   ────────────────────────────────────────────────────────────── */
+
+/* Divider line with gold shimmer */
+.sg-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+    margin: 48px 0;
+}
+
+/* Section label */
+.sg-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* Gold underline decoration */
+.sg-title-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin-top: 14px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   13. BLOG DETAIL — Suggested Hotels & Related Posts
+   ────────────────────────────────────────────────────────────── */
+
+/* Suggested Hotels section */
+.bld-hotels-section {
+    max-width: 1200px;
+    margin: 64px auto 0;
+    padding: 64px 32px 0;
+    border-top: 1px solid rgba(201,168,76,0.1);
+}
+
+.bld-hotels-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.bld-hotels-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bld-hotels-title {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 26px;
+    font-weight: 600 !important;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+.bld-hotels-see-all {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.bld-hotels-see-all:hover { color: var(--gold-light); }
+
+.bld-hotels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+/* Blog detail hotel cards */
+.bld-hcard {
+    display: flex;
+    flex-direction: column;
+    background: var(--charcoal);
+    border: 1px solid rgba(201,168,76,0.1);
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.bld-hcard:hover {
+    transform: translateY(-4px);
+    border-color: rgba(201,168,76,0.28);
+    text-decoration: none;
+}
+
+.bld-hcard-img-wrap {
+    position: relative;
+    height: 148px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.bld-hcard-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.bld-hcard:hover .bld-hcard-img { transform: scale(1.05); }
+
+.bld-hcard-stars {
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    display: flex;
+    gap: 1px;
+    background: rgba(0,0,0,0.55);
+    padding: 3px 7px;
+    backdrop-filter: blur(4px);
+}
+
+.bld-hcard-body {
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.bld-hcard-type {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+}
+
+.bld-hcard-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.3;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.bld-hcard-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.bld-hcard-rating {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.bld-hcard-score {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    letter-spacing: 0.06em;
+}
+
+.bld-hcard-reviews {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.04em;
+}
+
+.bld-hcard-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.bld-hcard-price-from { font-size: 11px; color: rgba(255,255,255,0.28); }
+
+.bld-hcard-price-amt {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold);
+}
+
+.bld-hcard-price-unit { font-size: 11px; color: rgba(255,255,255,0.28); }
+
+/* Related posts */
+.bld-related {
+    max-width: 760px;
+    margin: 56px auto 0;
+    padding: 56px 24px 0;
+    border-top: 1px solid rgba(201,168,76,0.08);
+}
+
+.bld-related-title {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-size: 26px;
+    font-weight: 600 !important;
+    color: #fff;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+}
+
+.bld-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.bld-rcard {
+    display: flex;
+    flex-direction: column;
+    background: var(--charcoal);
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    text-decoration: none;
+    transition: border-color 0.25s, transform 0.25s;
+}
+
+.bld-rcard:hover {
+    transform: translateY(-3px);
+    border-color: rgba(201,168,76,0.2);
+    text-decoration: none;
+}
+
+.bld-rcard-img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+}
+
+.bld-rcard-no-img {
+    width: 100%;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201,168,76,0.05);
+    font-size: 28px;
+}
+
+.bld-rcard-body { padding: 14px 16px; }
+
+.bld-rcard-cat {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.bld-rcard-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.82);
+    margin: 6px 0 8px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bld-rcard-date {
+    font-size: 11px;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 0.06em;
+}
+
+/* Back link */
+.bld-back {
+    max-width: 760px;
+    margin: 40px auto 0;
+    padding: 0 24px;
+}
+
+.bld-back a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.22s;
+}
+
+.bld-back a:hover { color: var(--gold); }
+
+/* ──────────────────────────────────────────────────────────────
+   14. RESPONSIVE
+   ────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+    .up-layout,
+    .booking-layout {
+        grid-template-columns: 240px 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .up-layout,
+    .booking-layout {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
+
+    .up-sidebar {
+        position: static;
+    }
+
+    .blog-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .up-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .bld-article {
+        padding: 0 20px;
+    }
+
+    .bld-title {
+        font-size: 32px;
+    }
+
+    .blog-page-container {
+        padding: 0 20px;
+    }
+
+    .sg-page-cover h1 { font-size: 32px; }
+}
+
+@media (min-width: 576px) and (max-width: 960px) {
+    .blog-grid-3 {
+        grid-template-columns: 1fr 1fr;
+    }
+}

@@ -309,7 +309,7 @@ body {
   content: '' !important;
   position: absolute !important;
   inset: 0 !important;
-  background: linear-gradient(to bottom, rgba(0,20,50,0.42) 0%, rgba(0,40,90,0.58) 100%) !important;
+  background: linear-gradient(to bottom, rgba(0,10,30,0.55) 0%, rgba(0,20,50,0.72) 100%) !important;
   z-index: 1 !important;
   pointer-events: none !important;
 }
@@ -1328,7 +1328,7 @@ label,
    ============================================================ */
 .sg-hotel-showcase {
   padding: 72px 0 80px !important;
-  background: #fafbff !important;
+  background: #fff !important;
 }
 .sg-showcase-grid {
   display: flex !important;

@@ -49,7 +49,7 @@ $detailUrl = route('hotels.show', $hotel) . ($searchParams ? '?' . http_build_qu
         </div>
         <div class="hotel-card-info">
             <div class="hotel-location">
-                <svg width="11" height="14" viewBox="0 0 12 16" fill="#e91e8c"><path d="M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 6 3.5 1.5 1.5 0 0 1 6 6.5z"/></svg>
+                <svg width="11" height="14" viewBox="0 0 12 16" fill="#0066cc"><path d="M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 6 3.5 1.5 1.5 0 0 1 6 6.5z"/></svg>
                 {{ $hotel->location?->name ?? 'Việt Nam' }}, Việt Nam
             </div>
             <div class="hotel-name">{{ $hotel->name }}</div>
