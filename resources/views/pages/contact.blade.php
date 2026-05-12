@@ -357,8 +357,24 @@ textarea.ct-in { resize: vertical; min-height: 110px; }
 @media (max-width: 640px) {
     .ct-layout    { grid-template-columns: 1fr; }
     .ct-grid2     { grid-template-columns: 1fr; }
-    .ct-stats-row { grid-template-columns: 1fr 1fr; }
-    .ct-form-box  { padding: 20px; }
+    .ct-stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ct-wrap      { padding: 20px 14px 56px; }
+    .ct-form-box  { padding: 18px 16px; }
+    .ct-stat-card { padding: 14px 12px; gap: 10px; }
+    .ct-stat-icon { width: 36px; height: 36px; border-radius: 10px; }
+    .ct-stat-icon svg { width: 18px; height: 18px; }
+    .ct-stat-value { font-size: 12.5px; word-break: break-all; }
+    .ct-stat-note  { font-size: 11px; }
+    .ct-hero-title { font-size: 26px !important; }
+}
+@media (max-width: 420px) {
+    /* Ở màn <420px: 4 card thành 1 cột cho dễ đọc */
+    .ct-stats-row { grid-template-columns: 1fr; }
+    .ct-stat-card {
+        flex-direction: row;
+        align-items: center;
+        padding: 14px 16px;
+    }
 }
 </style>
 @endpush

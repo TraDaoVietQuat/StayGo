@@ -2852,3 +2852,117 @@ html body header.header:not(.header-transparent) .nav-hamburger span { backgroun
   .cndSwiper .swiper-slide { flex: 0 0 200px !important; width: 200px !important; }
   .cndSwiper .swiper-slide .cnd-card { height: 220px !important; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL MOBILE RESPONSIVE — áp dụng toàn bộ các trang
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Ngăn overflow ngang toàn trang ── */
+body { overflow-x: hidden !important; }
+.container,
+.ct-wrap,
+.pmt-wrap,
+.pmt-inner,
+.deals-hero-content,
+.ct-layout,
+.ct-form-box,
+.ct-side {
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 640px) {
+
+  /* ── Container padding ── */
+  .container { padding-left: 14px !important; padding-right: 14px !important; }
+
+  /* ── Deals page ── */
+  .deals-hero { min-height: auto !important; padding: 36px 0 32px !important; }
+  .deals-hero-content { flex-direction: column !important; gap: 20px !important; }
+  .deals-hero-title { font-size: 26px !important; }
+  .deals-hero-sub { font-size: 13px !important; }
+  .deals-hero-chars { display: none !important; }
+  .deals-filter-inner { flex-direction: column !important; gap: 8px !important; align-items: flex-start !important; }
+  .deals-filter-tabs { overflow-x: auto !important; flex-wrap: nowrap !important; display: flex !important; gap: 8px !important; padding-bottom: 4px !important; scrollbar-width: none !important; }
+  .deals-filter-tabs::-webkit-scrollbar { display: none !important; }
+  .deals-ftab { white-space: nowrap !important; flex-shrink: 0 !important; }
+
+  /* ── Blog page ── */
+  .blog-grid,
+  .blog-cards-grid { grid-template-columns: 1fr !important; }
+  .blog-hero-title { font-size: 26px !important; }
+
+  /* ── My bookings / profile ── */
+  .mb-card { padding: 14px !important; }
+  .mb-card-actions { flex-direction: column !important; gap: 8px !important; }
+  .mb-card-actions a,
+  .mb-card-actions button { width: 100% !important; text-align: center !important; justify-content: center !important; }
+
+  /* ── Payment page ── */
+  .pmt-wrap { padding: 12px !important; }
+  .pmt-inner { max-width: 100% !important; padding: 0 !important; }
+  .pmt-card { border-radius: 14px !important; }
+  .pmt-body { padding: 16px !important; }
+
+  /* ── Hotel list page ── */
+  .hotels-grid,
+  .fhr-grid { grid-template-columns: 1fr !important; }
+  .hotels-filter-sidebar { display: none !important; }
+  .hotels-main { width: 100% !important; }
+
+  /* ── Hotel detail page ── */
+  .hd-gallery-grid { grid-template-columns: 1fr !important; }
+  .hd-detail-layout { grid-template-columns: 1fr !important; }
+  .hd-book-card { position: static !important; }
+
+  /* ── Auth pages ── */
+  .auth-card,
+  .auth-box { padding: 24px 18px !important; margin: 16px !important; }
+
+  /* ── Support thread ── */
+  .st-bubble { max-width: 90% !important; }
+
+  /* ── Touch targets: tất cả button & link ≥ 44px ── */
+  a.btn, button.btn,
+  .ct-btn-submit,
+  .deals-hero-btn,
+  .cnd-more-btn,
+  .sg-showcase-btn,
+  .hlc-see-all {
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* ── Ngăn các element fixed/sticky che nội dung ── */
+  .chatbot-fab { bottom: 16px !important; right: 12px !important; }
+  .scroll-top-btn { bottom: 72px !important; right: 12px !important; }
+}
+
+@media (max-width: 480px) {
+
+  /* ── Font size tổng quát ── */
+  body { font-size: 14px !important; }
+
+  /* ── Deals filter ── */
+  .deals-filter-label { font-size: 12px !important; }
+
+  /* ── Blog card ── */
+  .blog-card-title { font-size: 15px !important; }
+  .blog-card-meta { font-size: 12px !important; }
+
+  /* ── Profile page ── */
+  .profile-tabs { overflow-x: auto !important; flex-wrap: nowrap !important; scrollbar-width: none !important; }
+  .profile-tabs::-webkit-scrollbar { display: none !important; }
+  .profile-tab { white-space: nowrap !important; flex-shrink: 0 !important; min-height: 44px !important; }
+
+  /* ── My-bookings tabs ── */
+  .mb-tabs { overflow-x: auto !important; flex-wrap: nowrap !important; scrollbar-width: none !important; }
+  .mb-tabs::-webkit-scrollbar { display: none !important; }
+
+  /* ── Section headings ── */
+  .home-section-title { font-size: 22px !important; }
+  .tz-why-title { font-size: 20px !important; }
+  .sg-showcase-title { font-size: 18px !important; }
+}
