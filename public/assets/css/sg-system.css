@@ -2142,10 +2142,12 @@ p, span, div, li, td, th, label,
   }
 
   /* ── Booking page: force single column + sidebar below form ── */
-  .bk-layout { grid-template-columns: 1fr !important; gap: 14px !important; }
-  .bk-sidebar { position: static !important; order: 2 !important; }
-  .bk-main { order: 1 !important; }
-  .bk-grid-2 { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .bk-layout { display: flex !important; flex-direction: column !important; gap: 14px !important; }
+  .bk-sidebar { position: static !important; order: 2 !important; width: 100% !important; }
+  .bk-main { order: 1 !important; width: 100% !important; min-width: 0 !important; }
+  .bk-card { display: block !important; }
+  .bk-room-info { width: 100% !important; float: none !important; clear: both !important; box-sizing: border-box !important; }
+  .bk-grid-2 { display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; width: 100% !important; }
 
   /* ── Guest picker: center popup on mobile ── */
   .hsb-guests-popup {

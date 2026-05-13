@@ -689,83 +689,94 @@
 
 /* ══ RESPONSIVE ══════════════════════════════════════════════════════ */
 @media(max-width:780px){
-    /* Layout */
-    .bk-layout{grid-template-columns:1fr;gap:14px}
-    .bk-sidebar{position:static;order:2}
-    .bk-main{order:1}
-    .bk-page{padding:16px 12px 48px}
+    /* Layout — đổi sang flex column để chắc chắn 1 cột trên mobile */
+    .bk-layout{display:flex!important;flex-direction:column!important;gap:14px!important}
+    .bk-sidebar{position:static!important;order:2!important;width:100%!important}
+    .bk-main{order:1!important;width:100%!important;min-width:0!important}
+    .bk-page{padding:16px 12px 48px!important}
 
     /* Steps bar */
-    .bk-steps-bar{padding:0 12px}
-    .bk-steps-inner{flex-direction:column;height:auto;padding:10px 0;gap:8px}
-    .bk-back-hotel{max-width:100%}
+    .bk-steps-bar{padding:0 12px!important}
+    .bk-steps-inner{flex-direction:column!important;height:auto!important;padding:10px 0!important;gap:8px!important}
+    .bk-back-hotel{max-width:100%!important}
 
     /* Countdown */
-    .bk-countdown-bar{padding:8px 12px;font-size:12px;flex-wrap:wrap;gap:3px;text-align:center}
+    .bk-countdown-bar{padding:8px 12px!important;font-size:12px!important;flex-wrap:wrap!important;gap:3px!important;text-align:center!important}
 
     /* Cards */
-    .bk-card{padding:16px}
-    .bk-cta-block{padding:14px 16px}
+    .bk-card{padding:16px!important;display:block!important}
+    .bk-cta-block{padding:14px 16px!important}
+
+    /* Room info — full width, no float */
+    .bk-room-info{width:100%!important;float:none!important;clear:both!important;padding:10px 12px!important;display:flex!important;flex-direction:column!important;box-sizing:border-box!important}
 
     /* Fields */
-    .bk-grid-2{grid-template-columns:1fr;gap:12px}
-    .bk-field-full{grid-column:auto}
+    .bk-grid-2{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;width:100%!important}
+    .bk-field-full{grid-column:auto!important}
 
     /* Special requests */
-    .bk-req-grid{grid-template-columns:1fr 1fr}
+    .bk-req-grid{grid-template-columns:1fr 1fr!important}
 
     /* Payment title */
-    .bk-pay-title-row{flex-direction:column;align-items:flex-start;gap:6px}
+    .bk-pay-title-row{flex-direction:column!important;align-items:flex-start!important;gap:6px!important}
 
-    /* Payment rows */
-    .bk-pm-row{padding:13px 14px;gap:10px}
-    .bk-pm-right{flex-wrap:wrap;gap:4px}
+    /* Payment method rows */
+    .bk-pm-row{padding:13px 14px!important;gap:10px!important;display:flex!important;align-items:center!important}
+    .bk-pm-right{flex-wrap:wrap!important;gap:4px!important;max-width:140px!important;flex-shrink:0!important}
+    .bk-pm-info{flex:1!important;min-width:0!important}
 
-    /* Card form */
-    .bk-cf-row-3{grid-template-columns:1fr 1fr}
-    .bk-cf-inner{padding:14px}
+    /* Card form (credit card inputs) */
+    .bk-cf-row-3{grid-template-columns:1fr 1fr!important}
+    .bk-cf-inner{padding:14px!important}
 
     /* VAT tag — wrap xuống dòng riêng */
-    .bk-nights-info{flex-wrap:wrap}
-    .bk-vat-tag{margin-left:0}
+    .bk-nights-info{flex-wrap:wrap!important}
+    .bk-vat-tag{margin-left:0!important}
 
-    /* Room info */
-    .bk-room-info{padding:10px 12px}
-
-    /* Sidebar dates */
-    .bk-sum-dates{gap:4px}
-    .bk-sum-date-val{font-size:12px}
-    .bk-sum-body{padding:14px}
-    .bk-sum-header{padding:13px 14px}
+    /* Sidebar summary */
+    .bk-sum-dates{gap:4px!important}
+    .bk-sum-date-val{font-size:12px!important}
+    .bk-sum-body{padding:14px!important}
+    .bk-sum-header{padding:13px 14px!important}
 }
 @media(max-width:480px){
-    .bk-page{padding:12px 8px 40px}
-    .bk-card{padding:14px}
-    .bk-req-grid{grid-template-columns:1fr}
-    .bk-cf-row-3{grid-template-columns:1fr}
+    .bk-page{padding:12px 8px 40px!important}
+    .bk-card{padding:14px!important;display:block!important}
+    .bk-req-grid{grid-template-columns:1fr!important}
+    .bk-cf-row-3{grid-template-columns:1fr!important}
 
     /* Steps — chỉ hiện step hiện tại */
-    .bk-sn-done .bk-sn-label,.bk-sn-line{display:none}
+    .bk-sn-done .bk-sn-label,.bk-sn-line{display:none!important}
 
     /* Phone row — flag + select nhỏ lại */
-    .bk-phone-prefix{padding:0 8px}
-    .bk-phone-flag{font-size:13px}
+    .bk-phone-prefix{padding:0 8px!important}
+    .bk-phone-flag{font-size:13px!important}
 
     /* Countdown gọn */
-    .bk-countdown-bar{font-size:11.5px}
-    .bk-timer{font-size:13px}
+    .bk-countdown-bar{font-size:11.5px!important}
+    .bk-timer{font-size:13px!important}
 
     /* Payment logos */
-    .bk-cl{font-size:8.5px;padding:2px 4px}
-    .bk-pm-badge-deal{display:none}
+    .bk-cl{font-size:8.5px!important;padding:2px 4px!important}
+    .bk-pm-badge-deal{display:none!important}
+
+    /* Payment rows — compact */
+    .bk-pm-row{padding:11px 12px!important;gap:8px!important}
+    .bk-pm-right{max-width:110px!important}
+    .bk-pm-name{font-size:13px!important}
+    .bk-pm-sub{font-size:11px!important}
+
+    /* Card form — full 1 col */
+    .bk-card-form.show{display:block!important}
+    .bk-cf-row-3{grid-template-columns:1fr!important}
 
     /* Promo */
-    .bk-promo-row{flex-direction:column}
+    .bk-promo-row{flex-direction:column!important}
     .bk-promo-input{width:100%!important}
-    .bk-promo-btn{width:100%}
+    .bk-promo-btn{width:100%!important}
 
     /* CTA */
-    .bk-cta-btn{font-size:14px;padding:13px}
+    .bk-cta-btn{font-size:14px!important;padding:13px!important}
 }
 </style>
 @endpush
