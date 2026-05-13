@@ -14,13 +14,13 @@ class SocialAuthController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function handleGoogleCallback()
     {
         try {
-            $socialUser = Socialite::driver('google')->user();
+            $socialUser = Socialite::driver('google')->stateless()->user();
         } catch (\Exception $e) {
             return redirect()->route('login')->withErrors(['email' => 'Đăng nhập Google thất bại: ' . $e->getMessage()]);
         }
