@@ -2493,6 +2493,39 @@ html body header.header:not(.header-transparent) .logo-text-stay { color: #1a202
 html body header.header:not(.header-transparent) .logo-text-go   { color: #1B3A6B !important; }
 html body header.header:not(.header-transparent) .nav-hamburger span { background: #374151 !important; }
 
+/* User dropdown trigger — dark text on white header */
+html body header.header:not(.header-transparent) .user-trigger,
+html body header.header:not(.header-transparent) .user-name,
+html body header.header:not(.header-transparent) .user-dropdown .chevron { color: #1a202c !important; }
+html body header.header:not(.header-transparent) .user-trigger:hover { background: #f1f5f9 !important; }
+
+/* Transparent header scrolled (white bg) — same fix */
+.header.header-transparent.scrolled .user-trigger,
+.header.header-transparent.scrolled .user-name,
+.header.header-transparent.scrolled .user-dropdown .chevron { color: #1a202c !important; }
+.header.header-transparent.scrolled .user-trigger:hover { background: #f1f5f9 !important; }
+
+/* Mobile: header always white → always dark text */
+@media (max-width: 768px) {
+  .header .user-trigger,
+  .header .user-name,
+  .header .user-dropdown .chevron { color: #1a202c !important; }
+  .header .user-trigger:hover { background: #f1f5f9 !important; }
+  .user-dropdown { position: static !important; }
+  .user-dropdown .dropdown-menu {
+    position: fixed !important;
+    top: 60px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+    border-radius: 0 0 12px 12px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important;
+    z-index: 998 !important;
+  }
+}
+
 /* Hero title — bigger, bolder */
 .hero-search-title {
   font-size: clamp(32px, 5.5vw, 56px) !important;
