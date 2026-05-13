@@ -665,6 +665,39 @@ footer a {
   height: 28px !important;
 }
 
+/* ─── FOOTER RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 28px 24px !important;
+  }
+  .footer-main {
+    padding: 36px 0 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    grid-template-columns: 1fr !important;
+    gap: 24px 0 !important;
+  }
+  .footer-main {
+    padding: 28px 0 20px !important;
+  }
+  .footer-bottom > div {
+    flex-direction: column !important;
+    gap: 6px !important;
+    text-align: center !important;
+  }
+  .fp-icons {
+    gap: 6px !important;
+  }
+  .fp-badge-logo {
+    width: 60px !important;
+    height: 40px !important;
+  }
+}
+
 /* ─── 5. UTILITY CLASSES — Section 4.2 ─────────────────────── */
 
 /* Layout */
