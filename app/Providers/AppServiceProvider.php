@@ -27,10 +27,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Tự động dùng domain hiện tại (staygo.local hoặc ngrok) thay vì APP_URL cố định
-        if (!$this->app->runningInConsole()) {
+        if ($this->app->environment('production')) {
+            // Production (Railway): luôn dùng APP_URL, tránh bị X-Forwarded-Host railway ghi đè
+            URL::forceRootUrl(config('app.url'));
+            URL::forceScheme('https');
+        } elseif (!$this->app->runningInConsole()) {
+            // Local / ngrok: đọc X-Forwarded-Host để hỗ trợ tunnel dynamic
             $req   = request();
-            // Ngrok gửi X-Forwarded-Host = domain ngrok thật, dù --host-header đã rewrite Host
             $fHost = $req->header('X-Forwarded-Host');
             if ($fHost) {
                 $proto = $req->header('X-Forwarded-Proto', 'https');
