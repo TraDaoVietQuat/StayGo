@@ -3030,4 +3030,82 @@ body { overflow-x: hidden !important; }
   .home-section-title { font-size: 22px !important; }
   .tz-why-title { font-size: 20px !important; }
   .sg-showcase-title { font-size: 18px !important; }
+
+  /* ── Hotel detail: room table → stacked card layout ── */
+  /* Bảng 5 cột quá rộng trên mobile → chuyển thành block/flex card */
+  .hd-pkg-wrap { overflow-x: visible !important; }
+  .hd-pkg-table,
+  .hd-pkg-table thead,
+  .hd-pkg-table tbody,
+  .hd-pkg-table tr,
+  .hd-pkg-table td { display: block !important; }
+
+  .hd-pkg-table thead { display: none !important; }
+
+  .hd-pkg-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    border-bottom: 1px solid #f0f4f8 !important;
+    padding: 12px 0 !important;
+    gap: 4px 0 !important;
+  }
+  .hd-pkg-row:last-child { border-bottom: none !important; }
+  .hd-pkg-row td { border: none !important; padding: 0 !important; }
+
+  /* Option: takes ~60% width (left side) */
+  .hd-pkg-option {
+    flex: 1 1 60% !important;
+    min-width: 0 !important;
+    padding-right: 8px !important;
+  }
+  /* Guests: hidden */
+  .hd-pkg-guests { display: none !important; }
+  /* Price: takes ~40% width (right side) */
+  .hd-pkg-price {
+    flex: 0 0 40% !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+    min-width: 0 !important;
+    padding-left: 4px !important;
+  }
+  /* Availability: hidden on mobile */
+  .hd-pkg-avail { display: none !important; }
+  /* Book button: full width on its own row */
+  .hd-pkg-action {
+    flex: 0 0 100% !important;
+    text-align: right !important;
+    padding-top: 10px !important;
+    min-width: 0 !important;
+  }
+  .hd-btn-reserve {
+    display: inline-block !important;
+    min-width: 110px !important;
+    text-align: center !important;
+    padding: 12px 20px !important;
+  }
+  .hd-btn-soldout {
+    display: inline-block !important;
+    min-width: 110px !important;
+    text-align: center !important;
+  }
+
+  /* Sold-out rows: less opaque */
+  .hd-pkg-soldout { opacity: 0.7 !important; }
+
+  /* Floating buttons — ensure they don't overlap page content */
+  .chatbot-toggle-btn {
+    bottom: 16px !important;
+    right: 16px !important;
+    width: 50px !important;
+    height: 50px !important;
+  }
+  .qrp-wrap {
+    bottom: 16px !important;
+    right: 80px !important;
+  }
+  .scroll-top-btn {
+    bottom: 80px !important;
+    right: 16px !important;
+  }
 }
