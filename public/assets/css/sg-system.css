@@ -2140,6 +2140,28 @@ p, span, div, li, td, th, label,
     grid-template-columns: 1fr !important;
     padding: 0 16px !important;
   }
+
+  /* ── Booking page: force single column + sidebar below form ── */
+  .bk-layout { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .bk-sidebar { position: static !important; order: 2 !important; }
+  .bk-main { order: 1 !important; }
+  .bk-grid-2 { grid-template-columns: 1fr !important; gap: 12px !important; }
+
+  /* ── Guest picker: center popup on mobile ── */
+  .hsb-guests-popup {
+    position: fixed !important;
+    bottom: 16px !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: calc(100vw - 32px) !important;
+    max-width: 380px !important;
+    top: auto !important;
+    z-index: 10000 !important;
+  }
+
+  /* ── Mobile drawer header: narrow strip only, không che content ── */
+  .mobile-drawer { width: 85% !important; max-width: 320px !important; }
   .up-sidebar {
     position: static !important;
     display: block !important;
@@ -3122,6 +3144,15 @@ body { overflow-x: hidden !important; }
 
   /* ── Auth card: consistent at 390px ── */
   .auth-card { padding: 24px 16px !important; }
+
+  /* ── Booking: payment method rows ── */
+  .bk-pm-row { padding: 12px 14px !important; gap: 8px !important; flex-wrap: nowrap !important; }
+  .bk-pm-right { flex-shrink: 0 !important; flex-wrap: wrap !important; gap: 4px !important; max-width: 120px !important; }
+  .bk-pm-info { flex: 1 !important; min-width: 0 !important; }
+  .bk-pm-name { font-size: 13px !important; white-space: nowrap !important; }
+  .bk-pm-sub { font-size: 11px !important; }
+  /* Hide card form white space when not selected */
+  .bk-card-form:not(.show) { display: none !important; }
 
   /* ── Profile sidebar: override style.css 68px constraint ── */
   .up-sidebar { padding: 12px !important; display: block !important; }
