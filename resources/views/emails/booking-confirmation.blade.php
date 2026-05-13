@@ -103,6 +103,12 @@ body{margin:0;padding:0;background:#f4f6f8;font-family:'Segoe UI',Arial,sans-ser
     @endif
 
     <div class="note">⚠️ Vui lòng giữ email này để xuất trình khi nhận phòng. Mã đặt phòng: <strong>{{ $booking->order_code }}</strong></div>
+
+    <div style="text-align:center;margin-top:20px;">
+      <a href="{{ config('app.url') }}/dat-phong-cua-toi" style="display:inline-block;background:#f8fafc;color:#64748b;text-decoration:none;padding:10px 24px;border-radius:8px;font-size:13px;border:1px solid #e2e8f0;">
+        Cần hủy phòng? Vào <strong>Đặt phòng của tôi</strong> →
+      </a>
+    </div>
   </div>
   <div class="footer">
     <p><strong>StayGo</strong> — Nền tảng đặt phòng khách sạn tại Đà Lạt, Nha Trang, Vũng Tàu &amp; Đà Nẵng</p>

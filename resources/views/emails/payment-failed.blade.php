@@ -52,11 +52,24 @@ body{margin:0;padding:0;background:#f4f6f8;font-family:'Segoe UI',Arial,sans-ser
       <div class="row"><span class="lbl">Số tiền</span><span class="val">{{ number_format($booking->total_price, 0, ',', '.') }}đ</span></div>
     </div>
 
+    @php
+      $methodLabels = ['momo'=>'Ví MoMo','vnpay'=>'VNPay','bank'=>'Chuyển khoản','bank_transfer'=>'Chuyển khoản','zalopay'=>'ZaloPay','hotel'=>'Tại khách sạn','cod'=>'Khi nhận phòng'];
+      $methodName = $methodLabels[$booking->payment_method] ?? strtoupper($booking->payment_method);
+      $methodTips = [
+        'momo'    => 'Kiểm tra số dư ví MoMo, kết nối mạng và thử lại.',
+        'vnpay'   => 'Kiểm tra hạn mức thẻ, OTP ngân hàng và thử lại.',
+        'bank'    => 'Vui lòng chuyển khoản đúng nội dung và số tiền.',
+        'bank_transfer' => 'Vui lòng chuyển khoản đúng nội dung và số tiền.',
+        'zalopay' => 'Kiểm tra số dư ZaloPay và thử lại.',
+      ];
+      $tip = $methodTips[$booking->payment_method] ?? 'Vui lòng thử lại hoặc chọn phương thức thanh toán khác.';
+    @endphp
     <div class="note">
-      💡 <strong>Đặt phòng vẫn còn hiệu lực.</strong> Bạn có thể thử thanh toán lại bằng phương thức khác hoặc liên hệ ngân hàng nếu bị trừ tiền.
+      💳 <strong>Thanh toán qua {{ $methodName }} không thành công.</strong><br>{{ $tip }}
+      <br><br>💡 Nếu tài khoản đã bị trừ tiền, vui lòng liên hệ <strong>supportstaygo@gmail.com</strong> — chúng tôi sẽ hoàn tiền trong 3–5 ngày làm việc.
     </div>
 
-    <a href="{{ config('app.url') }}/payment/{{ $booking->id }}" class="cta">Thử thanh toán lại →</a>
+    <a href="{{ config('app.url') }}/thanh-toan/{{ $booking->id }}" class="cta">Thử thanh toán lại →</a>
   </div>
   <div class="footer">
     <p><strong>StayGo</strong> — Nền tảng đặt phòng khách sạn & resort Việt Nam</p>

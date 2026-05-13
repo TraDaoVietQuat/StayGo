@@ -29,17 +29,25 @@ body{margin:0;padding:0;background:#f4f6f8;font-family:'Segoe UI',Arial,sans-ser
     <p>Cảm ơn bạn đã lưu trú!</p>
   </div>
   <div class="body">
-    <div class="stars">⭐⭐⭐⭐⭐</div>
     <div class="title">Chuyến đi của bạn thế nào?</div>
-    <div class="desc">Xin hãy dành 1 phút để chia sẻ trải nghiệm. Đánh giá của bạn giúp hàng ngàn khách du lịch khác chọn được nơi nghỉ phù hợp!</div>
+    <div class="desc">Nhấn vào số sao để đánh giá nhanh — chỉ mất 5 giây!</div>
 
     <div class="hotel-badge">
       <div class="name">{{ $booking->room?->hotel?->name ?? '—' }}</div>
       <div class="date">{{ $booking->check_in?->format('d/m') }} – {{ $booking->check_out?->format('d/m/Y') }}</div>
     </div>
-    <br>
 
-    <a href="{{ config('app.url') }}/hotels/{{ $booking->room?->hotel_id }}#reviews" class="cta">Viết đánh giá ngay</a>
+    {{-- Quick star rating — each star links to hotel review section with pre-filled rating --}}
+    @php $hotelId = $booking->room?->hotel_id; $bookingId = $booking->id; @endphp
+    <div style="margin:24px 0 8px;display:flex;justify-content:center;gap:6px;">
+      @foreach([1,2,3,4,5] as $star)
+      <a href="{{ config('app.url') }}/hotels/{{ $hotelId }}?booking_id={{ $bookingId }}&rating={{ $star }}#review-form"
+         style="display:inline-block;font-size:36px;text-decoration:none;line-height:1;" title="{{ $star }} sao">⭐</a>
+      @endforeach
+    </div>
+    <div style="font-size:12px;color:#9ca3af;margin-bottom:20px;">1 = Tệ &nbsp;•&nbsp; 5 = Tuyệt vời</div>
+
+    <a href="{{ config('app.url') }}/hotels/{{ $hotelId }}?booking_id={{ $bookingId }}&rating=5#review-form" class="cta">Viết đánh giá chi tiết →</a>
     <div class="skip">Chỉ mất 1 phút • Đánh giá của bạn rất có giá trị</div>
   </div>
   <div class="footer">

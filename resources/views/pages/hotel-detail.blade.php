@@ -596,6 +596,66 @@
                 @empty
                 <p class="hd-no-reviews">Chưa có đánh giá nào. Hãy là người đầu tiên!</p>
                 @endforelse
+
+                {{-- Review form — visible to logged-in users --}}
+                <div id="review-form" style="margin-top:28px;padding-top:24px;border-top:1px solid #f1f5f9;">
+                @auth
+                <h3 style="font-size:16px;font-weight:700;color:#1a202c;margin:0 0 16px;">✍️ Viết đánh giá của bạn</h3>
+                @if(session('success') && str_contains(session('success'), 'đánh giá'))
+                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;color:#166534;font-size:14px;margin-bottom:16px;">✅ {{ session('success') }}</div>
+                @endif
+                <form method="POST" action="{{ route('review.store') }}" id="hdReviewForm">
+                    @csrf
+                    <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
+                    <input type="hidden" name="booking_id" id="hdBookingId" value="{{ request()->query('booking_id') }}">
+
+                    {{-- Star rating picker --}}
+                    <div style="margin-bottom:16px;">
+                        <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Đánh giá của bạn *</div>
+                        <div style="display:flex;gap:6px;align-items:center;" id="hdStarPicker">
+                            @for($s = 1; $s <= 5; $s++)
+                            <label style="cursor:pointer;font-size:30px;line-height:1;filter:grayscale(1);transition:filter .15s;" data-star="{{ $s }}">
+                                <input type="radio" name="rating" value="{{ $s }}" style="display:none;" {{ request()->query('rating') == $s ? 'checked' : '' }}>
+                                ⭐
+                            </label>
+                            @endfor
+                        </div>
+                        @error('rating')<div style="color:#dc2626;font-size:12px;margin-top:4px;">{{ $message }}</div>@enderror
+                    </div>
+
+                    {{-- Comment --}}
+                    <div style="margin-bottom:16px;">
+                        <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Nhận xét của bạn * <span style="font-weight:400;color:#9ca3af;">(tối thiểu 10 ký tự)</span></label>
+                        <textarea name="comment" rows="4" placeholder="Chia sẻ trải nghiệm về phòng, dịch vụ, vị trí..." style="width:100%;border:1px solid #d1d5db;border-radius:8px;padding:10px 14px;font-size:14px;resize:vertical;box-sizing:border-box;font-family:inherit;">{{ old('comment') }}</textarea>
+                        @error('comment')<div style="color:#dc2626;font-size:12px;margin-top:4px;">{{ $message }}</div>@enderror
+                    </div>
+
+                    <button type="submit" style="background:#e91e8c;color:#fff;border:none;padding:11px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">Gửi đánh giá</button>
+                </form>
+                <script>
+                (function(){
+                    var stars = document.querySelectorAll('#hdStarPicker label');
+                    var urlRating = parseInt('{{ request()->query("rating", 0) }}') || 0;
+                    function highlight(n){
+                        stars.forEach(function(s,i){ s.style.filter = i < n ? 'none' : 'grayscale(1)'; });
+                    }
+                    highlight(urlRating);
+                    stars.forEach(function(s, i){
+                        s.addEventListener('click', function(){ highlight(i+1); });
+                        s.addEventListener('mouseenter', function(){ highlight(i+1); });
+                    });
+                    document.getElementById('hdStarPicker').addEventListener('mouseleave', function(){
+                        var checked = document.querySelector('#hdStarPicker input:checked');
+                        highlight(checked ? parseInt(checked.value) : urlRating);
+                    });
+                })();
+                </script>
+                @else
+                <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:20px;text-align:center;color:#64748b;font-size:14px;">
+                    <a href="{{ route('login') }}" style="color:#e91e8c;font-weight:600;">Đăng nhập</a> để viết đánh giá cho khách sạn này.
+                </div>
+                @endauth
+                </div>
             </div>
 
         </div>{{-- /.hd-left --}}
