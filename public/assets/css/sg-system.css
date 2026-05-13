@@ -2148,6 +2148,25 @@ p, span, div, li, td, th, label,
 
   .bld-related-grid { grid-template-columns: 1fr !important; }
   .bld-hotels-grid  { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* ── Hotel detail: sticky nav bar sits below fixed header ── */
+  .hd-nav-bar { top: 60px !important; }
+
+  /* ── Hotel detail: amenities → 2 cols on tablet/mobile ── */
+  .hd-amenities-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+
+  /* ── Hotel detail: main grid stacks (sidebar below) ── */
+  .hd-grid { grid-template-columns: 1fr !important; }
+
+  /* ── Payment: QR code – smaller on mobile ── */
+  .pmt-qr-img { width: 150px !important; height: 150px !important; }
+
+  /* ── Global: long text (hotel names, emails) không tràn ── */
+  .pmt-sum-val, .bk-hotel-name, .up-bk-hotel { word-break: break-word !important; }
+
+  /* ── Locations carousel: fix padding-right không được override ── */
+  .locations-grid { padding-left: 16px !important; padding-right: 16px !important; gap: 14px !important; }
+  .location-card  { flex: 0 0 200px !important; height: 260px !important; }
 }
 
 @media (min-width: 576px) and (max-width: 960px) {
@@ -3030,6 +3049,34 @@ body { overflow-x: hidden !important; }
   .home-section-title { font-size: 22px !important; }
   .tz-why-title { font-size: 20px !important; }
   .sg-showcase-title { font-size: 18px !important; }
+
+  /* ── Hotel detail: amenities → 1 col on phones ── */
+  .hd-amenities-grid { grid-template-columns: 1fr !important; }
+
+  /* ── My bookings: button touch targets ≥44px ── */
+  .up-btn-sm {
+    min-height: 44px !important;
+    padding: 8px 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* ── Support thread: submit button touch target ── */
+  .st-submit-btn { min-height: 44px !important; padding: 12px 24px !important; }
+
+  /* ── Support thread: wrap mobile ── */
+  .st-wrap { padding: 16px 12px 40px !important; }
+  .st-card { padding: 16px 14px !important; }
+
+  /* ── Payment: sum row values word wrap ── */
+  .pmt-sum-val { word-break: break-word !important; max-width: 55% !important; text-align: right !important; }
+
+  /* ── Auth card: consistent at 390px ── */
+  .auth-card { padding: 24px 16px !important; }
+
+  /* ── Profile: avatar form gap ── */
+  .up-sidebar { padding: 0 !important; }
 
   /* ── Hotel detail: room table → stacked card layout ── */
   /* Bảng 5 cột quá rộng trên mobile → chuyển thành block/flex card */
