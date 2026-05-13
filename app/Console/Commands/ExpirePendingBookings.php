@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\BookingExpired;
 use App\Models\Booking;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Mail;
 
 class ExpirePendingBookings extends Command
 {
@@ -12,10 +14,21 @@ class ExpirePendingBookings extends Command
 
     public function handle(): void
     {
-        $expired = Booking::where('status', 'pending')
+        $bookings = Booking::where('status', 'pending')
             ->where('created_at', '<', now()->subMinutes(30))
-            ->update(['status' => 'cancelled']);
+            ->with('room.hotel')
+            ->get();
 
-        $this->info("Cancelled {$expired} expired pending booking(s).");
+        foreach ($bookings as $booking) {
+            $booking->update(['status' => 'cancelled']);
+
+            if ($booking->email) {
+                try {
+                    Mail::to($booking->email)->send(new BookingExpired($booking));
+                } catch (\Exception) {}
+            }
+        }
+
+        $this->info("Cancelled {$bookings->count()} expired pending booking(s).");
     }
 }

@@ -13,10 +13,12 @@ class SendPostStaySurveys extends Command
 
     public function handle(): void
     {
-        $yesterday = now()->subDay()->toDateString();
+        $yesterday    = now()->subDay()->toDateString();
+        $cutoffDate   = now()->subDays(7)->toDateString();
 
         $bookings = Booking::whereIn('status', ['confirmed', 'completed'])
-            ->whereDate('check_out', $yesterday)
+            ->whereDate('check_out', '<=', $yesterday)
+            ->whereDate('check_out', '>=', $cutoffDate)
             ->whereNull('survey_sent_at')
             ->with('room.hotel')
             ->get();

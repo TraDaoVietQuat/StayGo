@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OtpResetPassword;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
-
 class ForgotPasswordController extends Controller
 {
     public function showForgotForm()
@@ -39,9 +38,7 @@ class ForgotPasswordController extends Controller
             'otp_expire' => now()->addMinutes(15),
         ]);
 
-        Mail::send('emails.otp', ['otp' => $otp, 'user' => $user], function ($m) use ($user) {
-            $m->to($user->email)->subject('Mã OTP đặt lại mật khẩu - StayGo');
-        });
+        Mail::to($user->email)->send(new OtpResetPassword($user, $otp));
 
         session(['reset_email' => $request->email]);
         return redirect()->route('password.verify-otp')->with('success', 'Mã OTP đã được gửi đến email của bạn.');

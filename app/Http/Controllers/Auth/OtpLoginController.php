@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OtpLogin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,9 +44,7 @@ class OtpLoginController extends Controller
         Cache::put('login_otp:' . $request->email, $otp, now()->addMinutes(10));
 
         try {
-            Mail::send('emails.otp-login', ['otp' => $otp, 'user' => $user], function ($m) use ($user) {
-                $m->to($user->email)->subject('Mã OTP đăng nhập - StayGo');
-            });
+            Mail::to($user->email)->send(new OtpLogin($user, $otp));
         } catch (\Exception) {
             // không block nếu mail chưa cấu hình
         }
