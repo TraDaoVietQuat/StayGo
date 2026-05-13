@@ -2140,7 +2140,22 @@ p, span, div, li, td, th, label,
     grid-template-columns: 1fr !important;
     padding: 0 16px !important;
   }
-  .up-sidebar { position: static !important; }
+  .up-sidebar {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+  }
+  .up-avatar-wrap {
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    text-align: center !important;
+  }
+  .up-user-name, .up-user-email, .up-joined {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+  }
 
   .blog-grid-3 { grid-template-columns: 1fr !important; }
   .up-grid-2   { grid-template-columns: 1fr !important; }
@@ -3108,8 +3123,26 @@ body { overflow-x: hidden !important; }
   /* ── Auth card: consistent at 390px ── */
   .auth-card { padding: 24px 16px !important; }
 
-  /* ── Profile: avatar form gap ── */
-  .up-sidebar { padding: 0 !important; }
+  /* ── Profile sidebar: override style.css 68px constraint ── */
+  .up-sidebar { padding: 12px !important; display: block !important; }
+  .up-avatar-wrap {
+    width: auto !important;
+    height: auto !important;
+    display: block !important;
+    text-align: center !important;
+    padding: 16px 12px 12px !important;
+    margin-bottom: 12px !important;
+  }
+  .up-user-name, .up-user-email, .up-joined {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    display: block !important;
+    width: 100% !important;
+  }
+  .up-nav { display: flex !important; flex-direction: column !important; width: 100% !important; }
+  .up-stats { display: flex !important; justify-content: space-around !important; gap: 8px !important; padding-top: 12px !important; }
+  .up-wrap { padding: 16px 0 40px !important; }
 
   /* ── Hotel detail: room table → stacked card layout ── */
   /* Bảng 5 cột quá rộng trên mobile → chuyển thành block/flex card */
