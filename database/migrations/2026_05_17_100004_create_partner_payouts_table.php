@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->foreignId('processed_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('paid_at')->nullable();
+            $table->timestamp('email_sent_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
