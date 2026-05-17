@@ -22,10 +22,11 @@ class SocialAuthController extends Controller
         try {
             $socialUser = Socialite::driver('google')->stateless()->user();
         } catch (\Exception $e) {
-            Log::error('Google OAuth - Socialite error: ' . $e->getMessage(), [
-                'redirect_uri' => config('services.google.redirect'),
-                'client_id'    => substr(config('services.google.client_id'), 0, 20) . '...',
-            ]);
+            $dbg = '[STAYGO-GOOGLE] ' . get_class($e) . ': ' . $e->getMessage()
+                . ' | redirect_uri=' . config('services.google.redirect')
+                . ' | file=' . basename($e->getFile()) . ':' . $e->getLine();
+            error_log($dbg);
+            Log::error($dbg);
             return redirect()->route('login')->withErrors(['email' => 'Đăng nhập Google thất bại. Vui lòng thử lại.']);
         }
 
