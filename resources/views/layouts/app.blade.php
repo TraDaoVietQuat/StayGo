@@ -34,10 +34,11 @@
     <title>@yield('title', 'StayGo') - StayGo</title>
     <link rel="icon" type="image/png" href="{{ asset('assets/images/StayGo.png') }}">
 
-    {{-- Font: Inter + Be Vietnam Pro (thay Cormorant Garamond) --}}
+    {{-- Font: Inter + Be Vietnam Pro — async (non-blocking) --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"></noscript>
 
     {{-- Preload assets --}}
     @yield('preload_assets')
@@ -87,7 +88,7 @@
 
         {{-- Logo --}}
         <a href="{{ route('home') }}" class="logo-link">
-            <img src="{{ asset('assets/images/StayGo-nobg.png') }}" alt="StayGo" class="logo-img">
+            <img src="{{ asset('assets/images/StayGo-nobg.png') }}" alt="StayGo" class="logo-img" width="140" height="40" fetchpriority="high">
         </a>
 
         {{-- Desktop Nav --}}
@@ -221,7 +222,7 @@
             <div>
                 <div class="footer-logo">
                     <a href="{{ route('home') }}" class="footer-logo-link">
-                        <img src="{{ asset('assets/images/StayGo-nobg.png') }}" alt="StayGo" class="footer-logo-img">
+                        <img src="{{ asset('assets/images/StayGo-nobg.png') }}" alt="StayGo" class="footer-logo-img" loading="lazy" width="120" height="40">
                     </a>
                 </div>
                 <p class="footer-desc">Nền tảng đặt phòng khách sạn và resort hàng đầu tại Đà Lạt, Nha Trang, Vũng Tàu & Đà Nẵng. Giá tốt nhất, trải nghiệm thượng hạng.</p>
@@ -485,7 +486,6 @@ async function toggleFav(btn, e) {
 </script>
 
 <script src="{{ asset('assets/js/main.js') }}" defer></script>
-<script src="{{ asset('assets/js/payment.js') }}" defer></script>
 
 <script>
 // SgDark toggle (DOMContentLoaded — chỉ toggle, không re-apply)

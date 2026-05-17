@@ -3255,3 +3255,99 @@ body { overflow-x: hidden !important; }
     right: 16px !important;
   }
 }
+
+/* ─── 24. PERFORMANCE — MOBILE ───────────────────────────────
+   background-attachment:fixed gây GPU repaint liên tục trên
+   iOS Safari / Android Chrome → đổi sang scroll trên mobile    */
+@media (max-width: 768px) {
+  .hotel-wrapper {
+    background-attachment: scroll !important;
+  }
+  /* Tắt tất cả fixed-background parallax khác nếu có */
+  [style*="background-attachment: fixed"] {
+    background-attachment: scroll !important;
+  }
+}
+
+/* ─── 25. TABLET RESPONSIVE (769px – 1024px) ────────────────
+   Mục tiêu: iPad, Surface, tablet landscape                    */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Layout 2 cột: shrink sidebar thay vì full stack */
+  .up-layout {
+    grid-template-columns: 200px 1fr !important;
+    gap: 20px !important;
+  }
+  .booking-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hotel list: filter sidebar ẩn, nội dung full width */
+  .hotels-filter-sidebar { display: none !important; }
+  .hotels-main { width: 100% !important; }
+  .hotels-filter-toggle { display: flex !important; }
+
+  /* Hotel grid: 2 cột trên tablet */
+  .home-hotels-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .fhr-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Hotel detail: sidebar stacks dưới main content */
+  .hd-grid { grid-template-columns: 1fr !important; }
+  .hd-book-card { position: static !important; }
+
+  /* Container: giảm padding ngang */
+  .container { padding-left: 20px !important; padding-right: 20px !important; }
+
+  /* Footer: 2 cột */
+  .footer-container { grid-template-columns: 1fr 1fr !important; }
+
+  /* Topbar: ẩn trên tablet nhỏ để thêm không gian */
+  @media (max-width: 900px) {
+    .sg-topbar { display: none !important; }
+  }
+}
+
+/* ─── 26. LOGO IMAGE SIZE ────────────────────────────────────
+   Giới hạn kích thước logo tránh layout shift                  */
+.logo-img {
+  height: 40px !important;
+  width: auto !important;
+  max-width: 140px !important;
+  object-fit: contain !important;
+}
+@media (max-width: 480px) {
+  .logo-img { height: 34px !important; max-width: 110px !important; }
+}
+
+/* ─── 27. IMAGE LOADING — lazy images tránh layout shift ────── */
+img[loading="lazy"] {
+  background: #f0f4f8;
+}
+
+/* ─── 28. INPUT FONT SIZE — tránh iOS Safari auto-zoom ─────── */
+/* iOS zoom input khi font-size < 16px; set 16px trên mobile    */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="date"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* ─── 29. FOOTER SOCIAL LINKS — touch target 44px ──────────── */
+@media (max-width: 768px) {
+  .footer-links a {
+    display: inline-block !important;
+    min-height: 40px !important;
+    line-height: 40px !important;
+  }
+  .footer-contact a {
+    display: inline-block !important;
+    min-height: 40px !important;
+  }
+}

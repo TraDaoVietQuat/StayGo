@@ -18,3 +18,9 @@ Schedule::command('staygo:checkout-reminders')->dailyAt('08:30');       // 08:30
 // E-04: Khảo sát sau checkout + reminder 3 ngày
 Schedule::command('staygo:post-stay-surveys')->dailyAt('10:00');        // 10:00 — gửi khảo sát + reminder nếu chưa đánh giá
 Schedule::command('staygo:expire-pending-bookings')->everyThirtyMinutes(); // huỷ đơn pending quá 30 phút chưa thanh toán
+// E-10A: Daily digest gửi cho admin team mỗi sáng
+Schedule::command('staygo:send-admin-daily-digest')->dailyAt('07:00');      // 07:00 — admin daily digest
+// E-07: Gửi email bảng kê payout cho partner khi payout được đánh dấu paid hôm nay
+Schedule::command('staygo:send-payout-emails')->dailyAt('09:00');           // 09:00 — gửi payout statement email
+// E-08: Kiểm tra KPI và gửi cảnh báo yellow/red cho partner
+Schedule::command('staygo:check-partner-kpi-alerts')->dailyAt('09:30');     // 09:30 — KPI alert emails

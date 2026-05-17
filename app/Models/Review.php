@@ -7,16 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     public $timestamps = false;
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = null;
+    public const CREATED_AT = 'created_at';
+    public const UPDATED_AT = null;
 
     protected $fillable = [
-        'hotel_id', 'user_id', 'booking_id', 'rating', 'comment', 'is_active',
+        'hotel_id', 'user_id', 'booking_id', 'rating',
+        'cleanliness', 'service_score', 'location_score', 'value_score',
+        'comment', 'is_active',
         'partner_reply', 'partner_replied_at',
     ];
 
     protected $casts = [
         'is_active'          => 'boolean',
+        'rating'             => 'float',
+        'cleanliness'        => 'float',
+        'service_score'      => 'float',
+        'location_score'     => 'float',
+        'value_score'        => 'float',
         'created_at'         => 'datetime',
         'partner_replied_at' => 'datetime',
     ];

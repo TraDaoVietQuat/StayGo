@@ -22,6 +22,7 @@ use App\Http\Controllers\PaymentWebhookController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\Admin\AdminAiChatController;
+use App\Http\Controllers\Admin\EmailAiController;
 use App\Http\Controllers\Partner\PartnerAiController;
 use App\Http\Controllers\PartnerRegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -173,6 +174,10 @@ Route::prefix('partner')->name('partner.')->group(function () {
 Route::middleware(['auth:admin'])->prefix('admin-api')->group(function () {
     Route::post('/ai/chat', [AdminAiChatController::class, 'chat'])->name('admin.ai.chat');
     Route::get('/ai/kpi',  [AdminAiChatController::class, 'kpi'])->name('admin.ai.kpi');
+    // E-11/E-12/E-13 — Email AI Studio
+    Route::post('/email-ai/generate', [EmailAiController::class, 'generate'])->name('admin.email-ai.generate');
+    Route::post('/email-ai/score',    [EmailAiController::class, 'score'])->name('admin.email-ai.score');
+    Route::post('/email-ai/analyze',  [EmailAiController::class, 'analyze'])->name('admin.email-ai.analyze');
 });
 
 // ==================== PARTNER AI ASSISTANT ====================

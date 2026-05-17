@@ -14,10 +14,14 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'hotel_id'   => ['required', 'exists:hotels,id'],
-            'booking_id' => ['required', 'exists:bookings,id'],
-            'rating'     => ['required', 'integer', 'min:1', 'max:5'],
-            'comment'    => ['required', 'string', 'min:10', 'max:1000'],
+            'hotel_id'       => ['required', 'exists:hotels,id'],
+            'booking_id'     => ['required', 'exists:bookings,id'],
+            'rating'         => ['required', 'integer', 'min:1', 'max:5'],
+            'comment'        => ['required', 'string', 'min:10', 'max:1000'],
+            'cleanliness'    => ['nullable', 'integer', 'min:1', 'max:5'],
+            'service_score'  => ['nullable', 'integer', 'min:1', 'max:5'],
+            'location_score' => ['nullable', 'integer', 'min:1', 'max:5'],
+            'value_score'    => ['nullable', 'integer', 'min:1', 'max:5'],
         ]);
 
         $booking = Booking::findOrFail($request->booking_id);
@@ -29,11 +33,15 @@ class ReviewController extends Controller
 
         DB::transaction(function () use ($request) {
             Review::create([
-                'hotel_id'   => $request->hotel_id,
-                'user_id'    => Auth::id(),
-                'booking_id' => $request->booking_id,
-                'rating'     => $request->rating,
-                'comment'    => $request->comment,
+                'hotel_id'       => $request->hotel_id,
+                'user_id'        => Auth::id(),
+                'booking_id'     => $request->booking_id,
+                'rating'         => $request->rating,
+                'cleanliness'    => $request->cleanliness    ?: null,
+                'service_score'  => $request->service_score  ?: null,
+                'location_score' => $request->location_score ?: null,
+                'value_score'    => $request->value_score    ?: null,
+                'comment'        => $request->comment,
             ]);
 
             $hotel = Hotel::find($request->hotel_id);
@@ -50,13 +58,21 @@ class ReviewController extends Controller
         abort_if($review->user_id !== Auth::id(), 403);
 
         $request->validate([
-            'rating'  => ['required', 'integer', 'min:1', 'max:5'],
-            'comment' => ['required', 'string', 'min:10', 'max:1000'],
+            'rating'         => ['required', 'integer', 'min:1', 'max:5'],
+            'comment'        => ['required', 'string', 'min:10', 'max:1000'],
+            'cleanliness'    => ['nullable', 'integer', 'min:1', 'max:5'],
+            'service_score'  => ['nullable', 'integer', 'min:1', 'max:5'],
+            'location_score' => ['nullable', 'integer', 'min:1', 'max:5'],
+            'value_score'    => ['nullable', 'integer', 'min:1', 'max:5'],
         ]);
 
         $review->update([
-            'rating'  => $request->rating,
-            'comment' => $request->comment,
+            'rating'         => $request->rating,
+            'cleanliness'    => $request->cleanliness    ?: null,
+            'service_score'  => $request->service_score  ?: null,
+            'location_score' => $request->location_score ?: null,
+            'value_score'    => $request->value_score    ?: null,
+            'comment'        => $request->comment,
         ]);
 
         return back()->with('success', 'Đánh giá đã được cập nhật.');

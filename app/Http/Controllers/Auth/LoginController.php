@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Mail\NewLoginAlert;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 
@@ -51,6 +53,26 @@ class LoginController extends Controller
 
             /** @var \App\Models\User $user */
             $user = Auth::user();
+
+            // Gửi cảnh báo đăng nhập mới (non-blocking)
+            try {
+                $agent   = $request->userAgent() ?? '';
+                $device  = str_contains($agent, 'Mobile') ? 'Mobile' : 'Desktop';
+                $browser = match(true) {
+                    str_contains($agent, 'Chrome') && !str_contains($agent, 'Edg') => 'Chrome',
+                    str_contains($agent, 'Firefox') => 'Firefox',
+                    str_contains($agent, 'Safari') && !str_contains($agent, 'Chrome') => 'Safari',
+                    str_contains($agent, 'Edg') => 'Edge',
+                    default => 'Browser khác',
+                };
+                Mail::to($user->email)->send(new NewLoginAlert(
+                    user:    $user,
+                    ip:      $request->ip(),
+                    device:  $device,
+                    browser: $browser,
+                ));
+            } catch (\Exception) {}
+
             if ($user->isAdmin()) {
                 return redirect('/StayGoLaravel/public/admin');
             }

@@ -15,10 +15,14 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use App\Mail\PartnerApproved;
+use App\Mail\PartnerRejected;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class HotelPartnerResource extends Resource
 {
@@ -445,6 +449,24 @@ class HotelPartnerResource extends Resource
 
                         $record->update($updateData);
 
+                        // E-09: gửi email thông báo kết quả xét duyệt
+                        if ($record->user?->email) {
+                            try {
+                                if ($data['review_decision'] === 'APPROVE') {
+                                    $tempPassword = Str::password(12, symbols: false);
+                                    $record->user->update(['password' => Hash::make($tempPassword)]);
+                                    $record->loadMissing('hotel');
+                                    Mail::to($record->user->email)->send(new PartnerApproved($record, $tempPassword));
+                                } elseif ($data['review_decision'] === 'REJECT') {
+                                    Mail::to($record->user->email)->send(
+                                        new PartnerRejected($record, $data['review_missing_items'] ?? '')
+                                    );
+                                }
+                            } catch (\Exception $e) {
+                                Log::warning('E-09 email failed: ' . $e->getMessage());
+                            }
+                        }
+
                         $label = match ($data['review_decision']) {
                             'APPROVE'           => 'Đã duyệt đối tác',
                             'REJECT'            => 'Đã từ chối hồ sơ',
@@ -469,6 +491,19 @@ class HotelPartnerResource extends Resource
                             'approved_by' => Auth::id(),
                             'approved_at' => now(),
                         ]);
+
+                        // E-09: gửi email phê duyệt kèm mật khẩu tạm
+                        if ($record->user?->email) {
+                            try {
+                                $tempPassword = Str::password(12, symbols: false);
+                                $record->user->update(['password' => Hash::make($tempPassword)]);
+                                $record->loadMissing('hotel');
+                                Mail::to($record->user->email)->send(new PartnerApproved($record, $tempPassword));
+                            } catch (\Exception $e) {
+                                Log::warning('E-09 quick-approve email failed: ' . $e->getMessage());
+                            }
+                        }
+
                         Notification::make()->title('Đã duyệt: ' . $record->user?->full_name)->success()->send();
                     }),
 
@@ -491,6 +526,17 @@ class HotelPartnerResource extends Resource
                     ])
                     ->action(function (HotelPartnerProfile $record, array $data) {
                         $record->update(['status' => 'rejected', 'rejection_reason' => $data['reason']]);
+
+                        // E-09: gửi email từ chối
+                        if ($record->user?->email) {
+                            try {
+                                $record->loadMissing('hotel');
+                                Mail::to($record->user->email)->send(new PartnerRejected($record, $data['reason']));
+                            } catch (\Exception $e) {
+                                Log::warning('E-09 reject email failed: ' . $e->getMessage());
+                            }
+                        }
+
                         Notification::make()->title('Đã từ chối hồ sơ')->danger()->send();
                     }),
 

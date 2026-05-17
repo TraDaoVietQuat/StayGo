@@ -98,6 +98,7 @@
             <img id="hd-main-img"
                 src="{{ $photos[0]['src'] }}"
                 alt="{{ $hotel->name }}"
+                fetchpriority="high"
                 style="object-position: {{ $hotel->cover_position ?? 'center center' }}">
             @if($discount > 0)
                 <span class="hd-gallery-disc">-{{ $discount }}%</span>
@@ -609,18 +610,44 @@
                     <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
                     <input type="hidden" name="booking_id" id="hdBookingId" value="{{ request()->query('booking_id') }}">
 
-                    {{-- Star rating picker --}}
-                    <div style="margin-bottom:16px;">
-                        <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Đánh giá của bạn *</div>
+                    {{-- Đánh giá tổng --}}
+                    <div style="margin-bottom:20px;">
+                        <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Đánh giá tổng thể *</div>
                         <div style="display:flex;gap:6px;align-items:center;" id="hdStarPicker">
                             @for($s = 1; $s <= 5; $s++)
-                            <label style="cursor:pointer;font-size:30px;line-height:1;filter:grayscale(1);transition:filter .15s;" data-star="{{ $s }}">
+                            <label style="cursor:pointer;font-size:32px;line-height:1;filter:grayscale(1);transition:filter .15s;" data-star="{{ $s }}">
                                 <input type="radio" name="rating" value="{{ $s }}" style="display:none;" {{ request()->query('rating') == $s ? 'checked' : '' }}>
                                 ⭐
                             </label>
                             @endfor
                         </div>
                         @error('rating')<div style="color:#dc2626;font-size:12px;margin-top:4px;">{{ $message }}</div>@enderror
+                    </div>
+
+                    {{-- Sub-scores --}}
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:18px;">
+                        <div style="font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">
+                            Chấm điểm chi tiết <span style="font-weight:400;font-style:italic;">(không bắt buộc)</span>
+                        </div>
+                        @foreach([
+                            ['cleanliness',    '🧹 Vệ sinh'],
+                            ['service_score',  '🤝 Dịch vụ'],
+                            ['location_score', '📍 Vị trí'],
+                            ['value_score',    '💰 Giá trị'],
+                        ] as [$field, $label])
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;" class="hd-sub-row" data-field="{{ $field }}">
+                            <span style="font-size:13px;color:#374151;width:100px;flex-shrink:0;">{{ $label }}</span>
+                            <div style="display:flex;gap:4px;" class="hd-sub-picker">
+                                @for($s = 1; $s <= 5; $s++)
+                                <label style="cursor:pointer;font-size:22px;line-height:1;filter:grayscale(1);transition:filter .12s;">
+                                    <input type="radio" name="{{ $field }}" value="{{ $s }}" style="display:none;">
+                                    ⭐
+                                </label>
+                                @endfor
+                            </div>
+                            <span class="hd-sub-val" style="font-size:12px;color:#94a3b8;min-width:30px;"></span>
+                        </div>
+                        @endforeach
                     </div>
 
                     {{-- Comment --}}
@@ -634,6 +661,7 @@
                 </form>
                 <script>
                 (function(){
+                    // ── Main rating picker ──
                     var stars = document.querySelectorAll('#hdStarPicker label');
                     var urlRating = parseInt('{{ request()->query("rating", 0) }}') || 0;
                     function highlight(n){
@@ -647,6 +675,27 @@
                     document.getElementById('hdStarPicker').addEventListener('mouseleave', function(){
                         var checked = document.querySelector('#hdStarPicker input:checked');
                         highlight(checked ? parseInt(checked.value) : urlRating);
+                    });
+
+                    // ── Sub-score pickers ──
+                    var subLabels = ['', '★ Tệ', '★★ Kém', '★★★ Ổn', '★★★★ Tốt', '★★★★★ Xuất sắc'];
+                    document.querySelectorAll('.hd-sub-row').forEach(function(row){
+                        var labels  = row.querySelectorAll('.hd-sub-picker label');
+                        var valSpan = row.querySelector('.hd-sub-val');
+                        var current = 0;
+
+                        function paintSub(n){
+                            labels.forEach(function(l,i){ l.style.filter = i < n ? 'none' : 'grayscale(1)'; });
+                            valSpan.textContent = n > 0 ? subLabels[n] : '';
+                        }
+
+                        labels.forEach(function(l, i){
+                            l.addEventListener('click',      function(){ current = i+1; paintSub(current); });
+                            l.addEventListener('mouseenter', function(){ paintSub(i+1); });
+                        });
+                        row.querySelector('.hd-sub-picker').addEventListener('mouseleave', function(){
+                            paintSub(current);
+                        });
                     });
                 })();
                 </script>
@@ -737,7 +786,7 @@
                 <div class="hd-rc-title">🏨 Khách sạn tại {{ $hotel->location?->name }}</div>
                 @foreach($relatedHotels as $related)
                 <a href="{{ route('hotels.show', $related) }}" class="hd-rc-item">
-                    <img src="{{ $related->image_url }}" class="hd-rc-img" alt="{{ $related->name }}">
+                    <img src="{{ $related->image_url }}" class="hd-rc-img" alt="{{ $related->name }}" loading="lazy">
                     <div class="hd-rc-info">
                         <div class="hd-rc-name">{{ $related->name }}</div>
                         <div class="hd-rc-price">{{ number_format($related->rooms->min('price') ?? $related->price) }}đ<span>/đêm</span></div>

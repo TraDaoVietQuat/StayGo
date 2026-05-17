@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\OtpResetPassword;
+use App\Mail\PasswordChanged;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -107,6 +108,10 @@ class ForgotPasswordController extends Controller
             'otp_code'   => null,
             'otp_expire' => null,
         ]);
+
+        try {
+            Mail::to($user->email)->send(new PasswordChanged($user));
+        } catch (\Exception) {}
 
         session()->forget(['reset_email', 'reset_verified']);
         return redirect()->route('login')->with('success', 'Đặt lại mật khẩu thành công!');

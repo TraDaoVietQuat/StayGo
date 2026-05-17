@@ -516,6 +516,7 @@
 @endpush
 
 @push('scripts')
+<script src="{{ asset('assets/js/payment.js') }}" defer></script>
 @php
     $needsPolling = in_array($booking->payment_method, ['bank','bank_transfer','momo'])
                  && (!$payment || $payment->payment_status !== 'completed');

@@ -6,6 +6,7 @@ use App\Mail\AdminBookingCancelled;
 use App\Mail\AdminNewBooking;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmation;
+use App\Mail\PartnerNewBooking;
 use App\Models\Booking;
 use App\Models\Promo;
 use App\Models\Room;
@@ -211,12 +212,15 @@ class BookingController extends Controller
             } catch (\Exception $e) {}
         }
 
-        // Thông báo real-time cho hotel partner
+        // Thông báo real-time + email cho hotel partner
         try {
             $partnerUserId = $booking->room->hotel->partner_user_id ?? null;
             if ($partnerUserId) {
                 $partner = User::find($partnerUserId);
                 $partner?->notify(new NewBookingPartnerNotification($booking));
+                if ($partner?->email) {
+                    Mail::to($partner->email)->send(new PartnerNewBooking($booking));
+                }
             }
         } catch (\Exception $e) {}
 

@@ -13,7 +13,7 @@ class PartnerPayout extends Model
         'period_start', 'period_end',
         'gross_revenue', 'commission_rate', 'commission_amount', 'net_amount',
         'booking_count', 'status', 'transfer_ref', 'note',
-        'processed_by', 'paid_at',
+        'processed_by', 'paid_at', 'email_sent_at',
     ];
 
     protected $casts = [
@@ -25,6 +25,7 @@ class PartnerPayout extends Model
         'net_amount'        => 'float',
         'booking_count'     => 'integer',
         'paid_at'           => 'datetime',
+        'email_sent_at'     => 'datetime',
         'created_at'        => 'datetime',
         'updated_at'        => 'datetime',
     ];
