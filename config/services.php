@@ -52,4 +52,14 @@ return [
         'secret_key' => env('RECAPTCHA_SECRET_KEY'),
     ],
 
+    'openrouter' => [
+        'api_key' => env('OPENROUTER_API_KEY'),
+        'model'   => env('OPENROUTER_MODEL', 'google/gemma-3-12b-it:free'),
+    ],
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+        'model'   => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
+    ],
+
 ];

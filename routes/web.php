@@ -20,6 +20,7 @@ use App\Http\Controllers\DealsController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentWebhookController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\Admin\AdminAiChatController;
 use Illuminate\Support\Facades\Route;
 
 // ==================== PUBLIC ROUTES ====================
@@ -150,3 +151,9 @@ Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
 
 // ==================== SITEMAP ====================
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+// ==================== ADMIN AI ASSISTANT ====================
+Route::middleware(['auth:admin'])->prefix('admin-api')->group(function () {
+    Route::post('/ai/chat', [AdminAiChatController::class, 'chat'])->name('admin.ai.chat');
+    Route::get('/ai/kpi',  [AdminAiChatController::class, 'kpi'])->name('admin.ai.kpi');
+});
