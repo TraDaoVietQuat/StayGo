@@ -116,9 +116,50 @@ async function fetchBotReply(msg) {
         const data = await res.json();
         removeTyping(typingId);
         appendMessage('bot', data.reply ?? 'Xin lỗi, có lỗi xảy ra.');
+        if (data.escalate) {
+            showEscalateCard(data.message || msg);
+        }
     } catch {
         removeTyping(typingId);
         appendMessage('bot', 'Không thể kết nối. Vui lòng thử lại.');
+    }
+}
+
+function showEscalateCard(originalMsg) {
+    const box = document.getElementById('chatbot-messages');
+    const id  = 'escalate-card-' + Date.now();
+    const card = document.createElement('div');
+    card.id = id;
+    card.className = 'chatbot-escalate-card';
+    card.innerHTML = `
+        <p class="esc-title">Chuyển tới nhân viên hỗ trợ?</p>
+        <input class="esc-input" id="${id}-name" placeholder="Tên của bạn (không bắt buộc)">
+        <input class="esc-input" id="${id}-email" placeholder="Email (không bắt buộc)" type="email">
+        <div class="esc-btns">
+            <button class="esc-btn esc-btn--yes" onclick="sendEscalate('${id}', ${JSON.stringify(originalMsg)})">Gửi tới admin</button>
+            <button class="esc-btn esc-btn--no" onclick="document.getElementById('${id}').remove()">Thôi</button>
+        </div>`;
+    box.appendChild(card);
+    box.scrollTop = box.scrollHeight;
+}
+
+async function sendEscalate(cardId, originalMsg) {
+    const card      = document.getElementById(cardId);
+    const nameInput = document.getElementById(cardId + '-name');
+    const emailInput= document.getElementById(cardId + '-email');
+    const btn       = card.querySelector('.esc-btn--yes');
+    btn.disabled    = true;
+    btn.textContent = 'Đang gửi...';
+    try {
+        const res  = await fetch('{{ route("chatbot.escalate") }}', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
+            body: JSON.stringify({ message: originalMsg, user_name: nameInput.value, user_email: emailInput.value })
+        });
+        const data = await res.json();
+        card.innerHTML = `<p class="esc-done">${data.message ?? (data.success ? 'Đã gửi!' : 'Có lỗi xảy ra.')}</p>`;
+    } catch {
+        card.innerHTML = '<p class="esc-done" style="color:#ef4444">Không thể gửi. Vui lòng gọi 037 384 8395.</p>';
     }
 }
 

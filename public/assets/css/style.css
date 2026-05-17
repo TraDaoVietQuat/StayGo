@@ -7404,6 +7404,48 @@ html, body { overflow-x: hidden; max-width: 100%; }
     .hotel-confirm-card { padding: 20px 14px !important; }
 }
 
+/* ──────────── Chatbot Escalation Card ──────────── */
+.chatbot-escalate-card {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 6px 0;
+    font-size: 13px;
+}
+.esc-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+    color: #92400e;
+    font-size: 13px;
+}
+.esc-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    margin-bottom: 6px;
+    outline: none;
+}
+.esc-input:focus { border-color: #1B3A6B; }
+.esc-btns { display: flex; gap: 8px; margin-top: 8px; }
+.esc-btn {
+    flex: 1;
+    padding: 7px 0;
+    border: none;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.esc-btn--yes { background: #1B3A6B; color: #fff; }
+.esc-btn--yes:disabled { opacity: .6; cursor: not-allowed; }
+.esc-btn--no  { background: #f3f4f6; color: #374151; }
+.esc-done { margin: 0; font-weight: 600; color: #059669; font-size: 13px; }
+
 /* ══════════════════════════════════════════════════════════════════════════
    12. NOTE: landscape phone hero fix is in staygo-design.css (loads after)
    using @media (max-width:767px) and (orientation:landscape)

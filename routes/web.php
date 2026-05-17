@@ -44,6 +44,7 @@ Route::post('/lien-he', [SupportController::class, 'store'])->name('support.stor
 
 // Chatbot API
 Route::post('/chatbot', [ChatbotController::class, 'chat'])->name('chatbot');
+Route::post('/chatbot/escalate', [ChatbotController::class, 'escalate'])->name('chatbot.escalate');
 
 // Promo QR
 Route::get('/uu-dai/moi', [PromoController::class, 'applyNewUser'])->name('promo.new_user');
