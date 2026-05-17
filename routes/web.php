@@ -21,6 +21,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentWebhookController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Admin\AdminAiChatController;
+use App\Http\Controllers\PartnerRegistrationController;
 use Illuminate\Support\Facades\Route;
 
 // ==================== PUBLIC ROUTES ====================
@@ -122,7 +123,9 @@ Route::middleware('auth')->group(function () {
 
     // Notifications
     Route::post('/thong-bao/doc-het', function () {
-        auth()->user()->unreadNotifications->markAsRead();
+        /** @var \App\Models\User $user */
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $user->unreadNotifications()->markAsRead();
         return back();
     })->name('notifications.read-all');
 
@@ -151,6 +154,13 @@ Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
 
 // ==================== SITEMAP ====================
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+// ==================== HOTEL PARTNER REGISTRATION ====================
+Route::prefix('partner')->name('partner.')->group(function () {
+    Route::get('/dang-ky', [PartnerRegistrationController::class, 'showForm'])->name('register');
+    Route::post('/dang-ky', [PartnerRegistrationController::class, 'submit'])->name('register.submit')->middleware('throttle:5,10');
+    Route::get('/dang-ky/thanh-cong', [PartnerRegistrationController::class, 'success'])->name('register.success');
+});
 
 // ==================== ADMIN AI ASSISTANT ====================
 Route::middleware(['auth:admin'])->prefix('admin-api')->group(function () {

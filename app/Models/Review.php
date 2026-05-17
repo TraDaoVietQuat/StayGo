@@ -12,11 +12,13 @@ class Review extends Model
 
     protected $fillable = [
         'hotel_id', 'user_id', 'booking_id', 'rating', 'comment', 'is_active',
+        'partner_reply', 'partner_replied_at',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
-        'created_at' => 'datetime',
+        'is_active'          => 'boolean',
+        'created_at'         => 'datetime',
+        'partner_replied_at' => 'datetime',
     ];
 
     public function hotel()

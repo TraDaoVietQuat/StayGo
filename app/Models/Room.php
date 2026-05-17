@@ -69,4 +69,14 @@ class Room extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function prices()
+    {
+        return $this->hasMany(RoomPrice::class);
+    }
+
+    public function unavailableDates()
+    {
+        return $this->hasMany(RoomUnavailableDate::class);
+    }
 }

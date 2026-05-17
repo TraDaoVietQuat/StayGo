@@ -9,6 +9,7 @@ class Hotel extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'partner_user_id',
         'name', 'type', 'stars', 'ranking_title', 'address', 'description', 'image', 'cover_position', 'location_id',
         'rating', 'review_text', 'review_count', 'price', 'old_price',
         'checkin_time', 'checkout_time', 'is_active', 'is_weekend_deal',
@@ -52,6 +53,16 @@ class Hotel extends Model
     public function favoritedBy()
     {
         return $this->belongsToMany(User::class, 'favorites');
+    }
+
+    public function partnerUser()
+    {
+        return $this->belongsTo(User::class, 'partner_user_id');
+    }
+
+    public function payouts()
+    {
+        return $this->hasMany(PartnerPayout::class);
     }
 
     public function getImageUrlAttribute(): string

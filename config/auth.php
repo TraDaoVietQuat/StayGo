@@ -46,6 +46,10 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'hotel_partner' => [
+            'driver' => 'session',
+            'provider' => 'partners',
+        ],
     ],
 
     /*
@@ -71,6 +75,10 @@ return [
             'model' => env('AUTH_MODEL', User::class),
         ],
         'admins' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', User::class),
+        ],
+        'partners' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],

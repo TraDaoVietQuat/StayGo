@@ -36,7 +36,11 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 'admin';
+        return match ($panel->getId()) {
+            'admin'          => $this->role === 'admin',
+            'hotel-partner'  => $this->role === 'hotel_partner' && $this->partnerProfile?->status === 'active',
+            default          => false,
+        };
     }
 
     public function getFilamentName(): string
@@ -72,6 +76,21 @@ class User extends Authenticatable implements FilamentUser, HasName
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function isPartner(): bool
+    {
+        return $this->role === 'hotel_partner';
+    }
+
+    public function partnerProfile()
+    {
+        return $this->hasOne(HotelPartnerProfile::class);
+    }
+
+    public function managedHotel()
+    {
+        return $this->hasOne(Hotel::class, 'partner_user_id');
     }
 
     public function bookings()

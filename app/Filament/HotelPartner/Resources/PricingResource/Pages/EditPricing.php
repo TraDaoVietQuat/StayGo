@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Filament\HotelPartner\Resources\PricingResource\Pages;
+
+use App\Filament\HotelPartner\Resources\PricingResource;
+use Filament\Actions;
+use Filament\Resources\Pages\EditRecord;
+
+class EditPricing extends EditRecord
+{
+    protected static string $resource = PricingResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [Actions\DeleteAction::make()];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+}
