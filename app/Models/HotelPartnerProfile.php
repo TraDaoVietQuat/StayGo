@@ -13,13 +13,19 @@ class HotelPartnerProfile extends Model
         'business_name', 'contact_name', 'contact_phone', 'tax_code',
         'bank_name', 'bank_account', 'bank_branch', 'bank_owner',
         'notes', 'rejection_reason', 'approved_by', 'approved_at',
+        'review_checklist', 'review_decision', 'review_summary',
+        'review_missing_items', 'proposed_commission', 'review_notes',
+        'reviewed_by', 'reviewed_at',
     ];
 
     protected $casts = [
-        'commission_rate' => 'float',
-        'approved_at'     => 'datetime',
-        'created_at'      => 'datetime',
-        'updated_at'      => 'datetime',
+        'commission_rate'    => 'float',
+        'proposed_commission'=> 'float',
+        'review_checklist'   => 'array',
+        'approved_at'        => 'datetime',
+        'reviewed_at'        => 'datetime',
+        'created_at'         => 'datetime',
+        'updated_at'         => 'datetime',
     ];
 
     public function user()
@@ -30,6 +36,11 @@ class HotelPartnerProfile extends Model
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function reviewedBy()
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
     }
 
     public function hotel()
