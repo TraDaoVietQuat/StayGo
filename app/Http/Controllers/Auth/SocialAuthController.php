@@ -54,31 +54,37 @@ class SocialAuthController extends Controller
                     ->with('info', 'Tài khoản đã được liên kết Google rồi.');
             }
 
-            // Chưa đăng nhập → login / tạo tài khoản mới
-            $user = User::firstOrCreate(
-                ['google_id' => $socialUser->getId()],
-                [
-                    'full_name'         => $socialUser->getName(),
-                    'email'             => $socialUser->getEmail(),
-                    'password'          => bcrypt(str()->random(32)),
-                    'avatar'            => $socialUser->getAvatar(),
-                    'role'              => 'user',
-                    'is_new_user'       => true,
-                    'email_verified_at' => now(),
-                ]
-            );
+            // Chưa đăng nhập → tìm theo google_id trước
+            $user = User::where('google_id', $socialUser->getId())->first();
+            $isNew = false;
 
-            // User tồn tại bằng email nhưng chưa có google_id → gắn vào
-            if (!$user->wasRecentlyCreated && !$user->google_id) {
-                $user->update([
-                    'google_id'         => $socialUser->getId(),
-                    'avatar'            => $user->avatar ?: $socialUser->getAvatar(),
-                    'email_verified_at' => $user->email_verified_at ?? now(),
-                ]);
+            if (!$user) {
+                // Tìm theo email (tài khoản đã đăng ký trước, chưa liên kết Google)
+                $user = User::where('email', $socialUser->getEmail())->first();
+                if ($user) {
+                    $user->update([
+                        'google_id'         => $socialUser->getId(),
+                        'avatar'            => $user->avatar ?: $socialUser->getAvatar(),
+                        'email_verified_at' => $user->email_verified_at ?? now(),
+                    ]);
+                } else {
+                    // Tạo tài khoản mới hoàn toàn
+                    $user = User::create([
+                        'google_id'         => $socialUser->getId(),
+                        'full_name'         => $socialUser->getName(),
+                        'email'             => $socialUser->getEmail(),
+                        'password'          => bcrypt(str()->random(32)),
+                        'avatar'            => $socialUser->getAvatar(),
+                        'role'              => 'user',
+                        'is_new_user'       => true,
+                        'email_verified_at' => now(),
+                    ]);
+                    $isNew = true;
+                }
             }
 
             // Gửi email chào mừng cho tài khoản mới
-            if ($user->wasRecentlyCreated && $user->email) {
+            if ($isNew && $user->email) {
                 try {
                     Mail::to($user->email)->send(new WelcomeGoogle($user));
                 } catch (\Exception $e) {
