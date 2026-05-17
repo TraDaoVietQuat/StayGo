@@ -6,6 +6,9 @@ use App\Filament\Resources\DisputeResource\Pages;
 use App\Models\Booking;
 use App\Models\Dispute;
 use App\Models\Hotel;
+use App\Models\User;
+use App\Notifications\DisputeVerdictCustomerNotification;
+use App\Notifications\DisputeVerdictHotelNotification;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -19,6 +22,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class DisputeResource extends Resource
 {
@@ -643,9 +647,48 @@ class DisputeResource extends Resource
                             }
                         }
 
+                        // Gửi email kết quả cho khách hàng (nếu không cần supervisor)
+                        if (!($data['requires_supervisor'] ?? false)) {
+                            $record->load(['booking', 'user', 'hotel']);
+
+                            // Email + DB notification cho khách
+                            try {
+                                $customer = $record->user
+                                    ?? ($record->booking?->user_id ? User::find($record->booking->user_id) : null);
+                                if ($customer) {
+                                    // Có tài khoản → gửi qua Notification (cả mail lẫn DB nếu cần)
+                                    $customer->notify(new DisputeVerdictCustomerNotification($record));
+                                } elseif ($record->booking?->email) {
+                                    // Khách vãng lai — on-demand notification
+                                    \Illuminate\Support\Facades\Notification::route(
+                                        'mail', $record->booking->email
+                                    )->notify(new DisputeVerdictCustomerNotification($record));
+                                }
+                            } catch (\Exception $e) {
+                                Log::warning('DisputeVerdict customer email failed: ' . $e->getMessage());
+                            }
+
+                            // Email cho hotel partner nếu có lỗi liên quan đến khách sạn
+                            try {
+                                if (in_array($data['fault_party'] ?? '', ['hotel', 'mixed'])
+                                    || ($data['penalty_applied'] ?? false)) {
+                                    $partnerUserId = $record->hotel?->partner_user_id;
+                                    if ($partnerUserId) {
+                                        $partner = User::find($partnerUserId);
+                                        $partner?->notify(new DisputeVerdictHotelNotification($record));
+                                    }
+                                }
+                            } catch (\Exception $e) {
+                                Log::warning('DisputeVerdict hotel email failed: ' . $e->getMessage());
+                            }
+
+                            // Cập nhật mốc thời gian thông báo
+                            $record->update(['customer_notified_at' => now()]);
+                        }
+
                         $label = $data['requires_supervisor']
                             ? 'Đã leo thang lên cấp trên để phê duyệt'
-                            : 'Phán quyết đã được ghi nhận — tranh chấp đã giải quyết';
+                            : 'Phán quyết ghi nhận — Email thông báo đã gửi cho các bên';
 
                         Notification::make()->title($label)->success()->send();
                     }),

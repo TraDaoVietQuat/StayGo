@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\HotelPartnerProfile;
 use App\Models\User;
+use App\Notifications\NewPartnerApplicationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules\Password;
 
 class PartnerRegistrationController extends Controller
@@ -26,9 +28,9 @@ class PartnerRegistrationController extends Controller
             'tax_code'      => 'nullable|string|max:30',
             'hotel_name'    => 'required|string|max:200',
         ], [
-            'email.unique'         => 'Email này đã được đăng ký.',
-            'password.confirmed'   => 'Mật khẩu xác nhận không khớp.',
-            'password.min'         => 'Mật khẩu tối thiểu 8 ký tự.',
+            'email.unique'       => 'Email này đã được đăng ký.',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            'password.min'       => 'Mật khẩu tối thiểu 8 ký tự.',
         ]);
 
         $user = User::create([
@@ -40,7 +42,7 @@ class PartnerRegistrationController extends Controller
             'email_verified_at' => now(),
         ]);
 
-        HotelPartnerProfile::create([
+        $profile = HotelPartnerProfile::create([
             'user_id'       => $user->id,
             'status'        => 'pending',
             'business_name' => $request->business_name,
@@ -49,6 +51,12 @@ class PartnerRegistrationController extends Controller
             'tax_code'      => $request->tax_code,
             'notes'         => 'Khách sạn đề xuất: ' . $request->hotel_name,
         ]);
+
+        // Thông báo real-time cho tất cả admin
+        try {
+            $admins = User::where('role', 'admin')->get();
+            Notification::send($admins, new NewPartnerApplicationNotification($profile->load('user')));
+        } catch (\Exception $e) {}
 
         return redirect()->route('partner.register.success');
     }

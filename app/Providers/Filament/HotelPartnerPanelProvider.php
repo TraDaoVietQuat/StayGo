@@ -29,6 +29,8 @@ class HotelPartnerPanelProvider extends PanelProvider
             ->brandLogo(null)
             ->colors(['primary' => Color::Blue])
             ->maxContentWidth(\Filament\Support\Enums\MaxWidth::Full)
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s')
             ->discoverResources(
                 in: app_path('Filament/HotelPartner/Resources'),
                 for: 'App\\Filament\\HotelPartner\\Resources'

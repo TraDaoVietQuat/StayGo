@@ -10,7 +10,10 @@ use App\Models\Booking;
 use App\Models\Promo;
 use App\Models\Room;
 use App\Notifications\BookingCancelledNotification;
+use App\Notifications\BookingCancelledPartnerNotification;
 use App\Notifications\BookingConfirmedNotification;
+use App\Notifications\NewBookingPartnerNotification;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -200,6 +203,15 @@ class BookingController extends Controller
             } catch (\Exception $e) {}
         }
 
+        // Thông báo real-time cho hotel partner
+        try {
+            $partnerUserId = $booking->room->hotel->partner_user_id ?? null;
+            if ($partnerUserId) {
+                $partner = User::find($partnerUserId);
+                $partner?->notify(new NewBookingPartnerNotification($booking));
+            }
+        } catch (\Exception $e) {}
+
         session(['booking_order_code' => $booking->order_code]);
 
         return redirect()->route('payment.show', $booking)
@@ -233,6 +245,13 @@ class BookingController extends Controller
                 Mail::to($booking->email)->send(new BookingCancelled($booking));
             }
             Mail::to(config('mail.from.address'))->send(new AdminBookingCancelled($booking));
+
+            // Thông báo real-time cho hotel partner
+            $partnerUserId = $booking->room->hotel->partner_user_id ?? null;
+            if ($partnerUserId) {
+                $partner = User::find($partnerUserId);
+                $partner?->notify(new BookingCancelledPartnerNotification($booking));
+            }
         } catch (\Exception) {}
 
         return back()->with('success', 'Đã hủy đặt phòng thành công.');
