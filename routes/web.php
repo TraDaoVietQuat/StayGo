@@ -20,6 +20,7 @@ use App\Http\Controllers\DealsController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentWebhookController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\Admin\AdminAiChatController;
 use App\Http\Controllers\PartnerRegistrationController;
 use Illuminate\Support\Facades\Route;
@@ -151,6 +152,11 @@ Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
     // SePay (bank transfer auto-detect)
     Route::post('/webhook/sepay',           [PaymentWebhookController::class, 'sepayWebhook'])->name('webhook.sepay');
 });
+
+// ==================== DISPUTE / COMPLAINT ====================
+Route::get('/khieu-nai', [DisputeController::class, 'create'])->name('dispute.create');
+Route::post('/khieu-nai', [DisputeController::class, 'store'])->name('dispute.store')->middleware('throttle:3,10');
+Route::get('/khieu-nai/thanh-cong', [DisputeController::class, 'success'])->name('dispute.success');
 
 // ==================== SITEMAP ====================
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');

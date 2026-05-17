@@ -70,6 +70,12 @@
                             <a href="{{ route('hotels.show', $booking->room?->hotel_id) }}#review-form"
                                 class="up-btn-sm up-btn-outline">✍️ Đánh giá</a>
                             @endif
+                            {{-- Dispute / complaint --}}
+                            @if(in_array($booking->status, ['confirmed','completed','cancelled']))
+                            <a href="{{ route('dispute.create', ['booking_id' => $booking->id]) }}"
+                               class="up-btn-sm up-btn-outline"
+                               title="Gửi khiếu nại về đặt phòng này">⚖️ Khiếu nại</a>
+                            @endif
                         </div>
                     </div>
                 </div>
