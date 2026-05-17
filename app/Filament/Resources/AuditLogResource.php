@@ -43,14 +43,15 @@ class AuditLogResource extends Resource
                     ->searchable()
                     ->placeholder('Hệ thống'),
 
-                Tables\Columns\BadgeColumn::make('action')
+                Tables\Columns\TextColumn::make('action')
                     ->label('Hành động')
-                    ->colors([
-                        'success' => fn($state) => str_contains($state, 'creat') || str_contains($state, 'confirm'),
-                        'warning' => fn($state) => str_contains($state, 'updat') || str_contains($state, 'refund'),
-                        'danger'  => fn($state) => str_contains($state, 'delet') || str_contains($state, 'cancel'),
-                        'gray'    => fn() => true,
-                    ])
+                    ->badge()
+                    ->color(fn($state) => match(true) {
+                        str_contains($state, 'creat') || str_contains($state, 'confirm') => 'success',
+                        str_contains($state, 'updat') || str_contains($state, 'refund')  => 'warning',
+                        str_contains($state, 'delet') || str_contains($state, 'cancel')  => 'danger',
+                        default                                                           => 'gray',
+                    })
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('subject_type')

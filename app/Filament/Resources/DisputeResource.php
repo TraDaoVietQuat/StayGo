@@ -414,43 +414,50 @@ class DisputeResource extends Resource
                     ->placeholder('—')
                     ->limit(25),
 
-                Tables\Columns\BadgeColumn::make('type')
+                Tables\Columns\TextColumn::make('type')
                     ->label('Loại')
                     ->formatStateUsing(fn($s) => Dispute::typeLabels()[$s] ?? $s)
-                    ->colors([
-                        'gray'    => ['no_show', 'slow_refund'],
-                        'warning' => ['quality', 'hidden_fees'],
-                        'danger'  => ['overbooking', 'misconduct'],
-                    ]),
+                    ->badge()
+                    ->color(fn($s) => match($s) {
+                        'no_show', 'slow_refund'    => 'gray',
+                        'quality', 'hidden_fees'    => 'warning',
+                        'overbooking', 'misconduct' => 'danger',
+                        default                     => 'gray',
+                    }),
 
-                Tables\Columns\BadgeColumn::make('priority')
+                Tables\Columns\TextColumn::make('priority')
                     ->label('Ưu tiên')
                     ->formatStateUsing(fn($s) => $s === 'urgent' ? '🔴 Khẩn' : '🔵 Thường')
-                    ->colors(['danger' => 'urgent', 'info' => 'normal']),
+                    ->badge()
+                    ->color(fn($s) => $s === 'urgent' ? 'danger' : 'info'),
 
-                Tables\Columns\BadgeColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->label('Trạng thái')
                     ->formatStateUsing(fn($s) => Dispute::statusLabels()[$s] ?? $s)
-                    ->colors([
-                        'gray'    => ['closed'],
-                        'warning' => ['open', 'pending_hotel', 'pending_customer'],
-                        'info'    => ['investigating'],
-                        'success' => ['resolved'],
-                        'danger'  => ['escalated'],
-                    ]),
+                    ->badge()
+                    ->color(fn($s) => match($s) {
+                        'closed'                                         => 'gray',
+                        'open', 'pending_hotel', 'pending_customer'      => 'warning',
+                        'investigating'                                  => 'info',
+                        'resolved'                                       => 'success',
+                        'escalated'                                      => 'danger',
+                        default                                          => 'gray',
+                    }),
 
-                Tables\Columns\BadgeColumn::make('ai_recommendation')
+                Tables\Columns\TextColumn::make('ai_recommendation')
                     ->label('AI đề xuất')
                     ->placeholder('—')
                     ->formatStateUsing(fn($s) => Dispute::aiRecommendationLabels()[$s] ?? $s)
-                    ->colors([
-                        'success' => ['REFUND_100', 'REFUND_PARTIAL'],
-                        'info'    => ['VOUCHER', 'HOTEL_COMPENSATE'],
-                        'danger'  => ['REJECT'],
-                        'gray'    => ['NEED_MORE_INFO'],
-                    ]),
+                    ->badge()
+                    ->color(fn($s) => match($s) {
+                        'REFUND_100', 'REFUND_PARTIAL'  => 'success',
+                        'VOUCHER', 'HOTEL_COMPENSATE'   => 'info',
+                        'REJECT'                        => 'danger',
+                        'NEED_MORE_INFO'                => 'gray',
+                        default                         => 'gray',
+                    }),
 
-                Tables\Columns\BadgeColumn::make('verdict')
+                Tables\Columns\TextColumn::make('verdict')
                     ->label('Phán quyết')
                     ->placeholder('Chưa có')
                     ->formatStateUsing(fn($s) => match ($s) {
@@ -461,11 +468,13 @@ class DisputeResource extends Resource
                         'hotel_compensate' => 'KS bồi thường',
                         default            => '—',
                     })
-                    ->colors([
-                        'success' => ['refund_full', 'refund_partial'],
-                        'info'    => ['voucher', 'hotel_compensate'],
-                        'danger'  => ['rejected'],
-                    ]),
+                    ->badge()
+                    ->color(fn($s) => match($s) {
+                        'refund_full', 'refund_partial' => 'success',
+                        'voucher', 'hotel_compensate'   => 'info',
+                        'rejected'                      => 'danger',
+                        default                         => 'gray',
+                    }),
 
                 Tables\Columns\TextColumn::make('deadline_at')
                     ->label('Hạn xử lý')
