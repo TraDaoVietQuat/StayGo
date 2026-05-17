@@ -22,6 +22,7 @@ use App\Http\Controllers\PaymentWebhookController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\DisputeController;
 use App\Http\Controllers\Admin\AdminAiChatController;
+use App\Http\Controllers\Partner\PartnerAiController;
 use App\Http\Controllers\PartnerRegistrationController;
 use Illuminate\Support\Facades\Route;
 
@@ -172,4 +173,10 @@ Route::prefix('partner')->name('partner.')->group(function () {
 Route::middleware(['auth:admin'])->prefix('admin-api')->group(function () {
     Route::post('/ai/chat', [AdminAiChatController::class, 'chat'])->name('admin.ai.chat');
     Route::get('/ai/kpi',  [AdminAiChatController::class, 'kpi'])->name('admin.ai.kpi');
+});
+
+// ==================== PARTNER AI ASSISTANT ====================
+Route::middleware(['auth:hotel_partner'])->prefix('partner-api')->name('partner.')->group(function () {
+    Route::post('/ai/chat', [PartnerAiController::class, 'chat'])->name('ai.chat');
+    Route::get('/ai/kpi',  [PartnerAiController::class, 'kpi'])->name('ai.kpi');
 });
