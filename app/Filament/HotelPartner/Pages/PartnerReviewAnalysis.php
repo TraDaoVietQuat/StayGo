@@ -59,7 +59,7 @@ class PartnerReviewAnalysis extends Page
         $reviews = Review::where('hotel_id', $hotelId)
             ->where('is_active', true)
             ->whereBetween('created_at', [$start, $end])
-            ->get(['rating', 'comment', 'partner_reply']);
+            ->get(['rating', 'comment', 'partner_reply', 'cleanliness', 'service_score', 'location_score', 'value_score']);
 
         $total       = $reviews->count();
         $avgRating   = $total > 0 ? round($reviews->avg('rating'), 2) : 0;
@@ -74,6 +74,16 @@ class PartnerReviewAnalysis extends Page
         $negativeCount = $twoStars + $oneStar;
         $positiveRate  = $total > 0 ? round($positiveCount / $total * 100, 1) : 0;
         $responseRate  = $total > 0 ? round(($total - $unresponded) / $total * 100, 1) : 0;
+
+        // Sub-score averages
+        $withCleanliness = $reviews->whereNotNull('cleanliness');
+        $withService     = $reviews->whereNotNull('service_score');
+        $withLocation    = $reviews->whereNotNull('location_score');
+        $withValue       = $reviews->whereNotNull('value_score');
+        $avgCleanliness = $withCleanliness->count() > 0 ? round($withCleanliness->avg('cleanliness'), 2) : null;
+        $avgService     = $withService->count()     > 0 ? round($withService->avg('service_score'), 2)   : null;
+        $avgLocation    = $withLocation->count()    > 0 ? round($withLocation->avg('location_score'), 2) : null;
+        $avgValue       = $withValue->count()       > 0 ? round($withValue->avg('value_score'), 2)       : null;
 
         // Lấy comments để phân tích keywords (top từ khóa đơn giản)
         $allComments = $reviews->pluck('comment')->filter()->implode(' ');
@@ -95,7 +105,8 @@ class PartnerReviewAnalysis extends Page
         return compact(
             'total', 'avgRating', 'fiveStars', 'fourStars', 'threeStars',
             'twoStars', 'oneStar', 'unresponded', 'positiveRate',
-            'responseRate', 'keywords', 'urgentReviews', 'positiveCount', 'negativeCount'
+            'responseRate', 'keywords', 'urgentReviews', 'positiveCount', 'negativeCount',
+            'avgCleanliness', 'avgService', 'avgLocation', 'avgValue'
         );
     }
 
@@ -145,6 +156,7 @@ class PartnerReviewAnalysis extends Page
             'threeStars' => 0, 'twoStars' => 0, 'oneStar' => 0, 'unresponded' => 0,
             'positiveRate' => 0, 'responseRate' => 0, 'keywords' => ['positive'=>[],'negative'=>[]],
             'urgentReviews' => collect(), 'positiveCount' => 0, 'negativeCount' => 0,
+            'avgCleanliness' => null, 'avgService' => null, 'avgLocation' => null, 'avgValue' => null,
         ];
         return ['current' => $empty, 'previous' => $empty, 'hotel' => null];
     }

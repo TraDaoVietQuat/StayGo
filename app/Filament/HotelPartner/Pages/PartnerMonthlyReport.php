@@ -231,9 +231,16 @@ class PartnerMonthlyReport extends Page
         $bestComment  = (clone $reviews)->where('rating', 5)->latest('created_at')->value('comment');
         $worstComment = (clone $reviews)->where('rating', '<=', 2)->latest('created_at')->value('comment');
 
+        // Sub-score averages (nullable — only from reviews that filled them in)
+        $avgCleanliness = round((float) (clone $reviews)->whereNotNull('cleanliness')->avg('cleanliness'), 2);
+        $avgService     = round((float) (clone $reviews)->whereNotNull('service_score')->avg('service_score'), 2);
+        $avgLocation    = round((float) (clone $reviews)->whereNotNull('location_score')->avg('location_score'), 2);
+        $avgValue       = round((float) (clone $reviews)->whereNotNull('value_score')->avg('value_score'), 2);
+
         return compact(
             'total', 'avgRating', 'fiveStars', 'fourStars', 'threeStars', 'lowStars',
-            'fivePct', 'lowPct', 'unresponded', 'bestComment', 'worstComment'
+            'fivePct', 'lowPct', 'unresponded', 'bestComment', 'worstComment',
+            'avgCleanliness', 'avgService', 'avgLocation', 'avgValue'
         );
     }
 
@@ -248,17 +255,35 @@ class PartnerMonthlyReport extends Page
         $bookings = Booking::whereIn('room_id', $roomIds)
             ->whereIn('status', ['confirmed', 'completed'])
             ->whereBetween('created_at', [$start, $end])
-            ->get(['phone', 'user_id']);
+            ->get(['phone', 'user_id', 'guest_country', 'guest_country_code']);
 
-        $total        = $bookings->count();
-        $domestic     = $bookings->filter(fn($b) => $this->isDomestic($b->phone))->count();
+        $total = $bookings->count();
+
+        // Ưu tiên dùng GeoIP; nếu chưa có, fallback sang phone prefix
+        $domestic = $bookings->filter(function ($b) {
+            if ($b->guest_country_code !== null) {
+                return $b->guest_country_code === 'VN';
+            }
+            return $this->isDomestic($b->phone);
+        })->count();
         $international = $total - $domestic;
 
         $domesticPct      = $total > 0 ? round($domestic     / $total * 100) : 0;
         $internationalPct = $total > 0 ? round($international / $total * 100) : 0;
-        $guestCount       = $bookings->whereNull('user_id')->count(); // no account
+        $guestCount       = $bookings->whereNull('user_id')->count();
 
-        return compact('total', 'domestic', 'international', 'domesticPct', 'internationalPct', 'guestCount');
+        // Top quốc gia quốc tế (từ GeoIP thực)
+        $topCountries = $bookings
+            ->whereNotNull('guest_country_code')
+            ->where('guest_country_code', '!=', 'VN')
+            ->groupBy('guest_country_code')
+            ->map(fn($g) => ['country' => $g->first()->guest_country ?? $g->first()->guest_country_code, 'count' => $g->count()])
+            ->sortByDesc('count')
+            ->take(5)
+            ->values()
+            ->toArray();
+
+        return compact('total', 'domestic', 'international', 'domesticPct', 'internationalPct', 'guestCount', 'topCountries');
     }
 
     private function isDomestic(?string $phone): bool
@@ -295,6 +320,18 @@ class PartnerMonthlyReport extends Page
 
         $vietnameseHolidays = $this->getVietnameseEvents($nextMonthNum);
 
+        $subScoreText = '';
+        if ($rev['avgCleanliness'] > 0 || $rev['avgService'] > 0 || $rev['avgLocation'] > 0 || $rev['avgValue'] > 0) {
+            $subScoreText = "Điểm chi tiết — Vệ sinh: {$rev['avgCleanliness']}/5 | Dịch vụ: {$rev['avgService']}/5 | Vị trí: {$rev['avgLocation']}/5 | Giá trị: {$rev['avgValue']}/5";
+        }
+
+        $topCountriesText = '';
+        if (!empty($guest['topCountries'])) {
+            $topCountriesText = "\nTop quốc gia: " . collect($guest['topCountries'])
+                ->map(fn($c) => "{$c['country']} ({$c['count']} đơn)")
+                ->implode(', ');
+        }
+
         return <<<PROMPT
 Bạn là chuyên gia tư vấn quản lý khách sạn OTA tại Việt Nam. Hãy phân tích dữ liệu và tạo báo cáo nội bộ cho khách sạn "{$hotel->name}".
 
@@ -318,9 +355,10 @@ Lead time trung bình: {$cur['avgLeadTime']} ngày
 Tổng đánh giá: {$rev['total']} | Rating TB: {$rev['avgRating']}/5
 5 sao: {$rev['fivePct']}% | 1-2 sao: {$rev['lowPct']}%
 Chưa phản hồi: {$rev['unresponded']}
+{$subScoreText}
 
 [NGUỒN KHÁCH]
-Nội địa: {$guest['domesticPct']}% ({$guest['domestic']} đơn) | Quốc tế: {$guest['internationalPct']}% ({$guest['international']} đơn)
+Nội địa: {$guest['domesticPct']}% ({$guest['domestic']} đơn) | Quốc tế: {$guest['internationalPct']}% ({$guest['international']} đơn){$topCountriesText}
 
 [SỰ KIỆN THÁNG TỚI — {$nextMonthLabel}]
 {$vietnameseHolidays}

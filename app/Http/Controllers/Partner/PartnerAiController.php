@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Partner;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Review;
-use App\Models\RoomUnavailableDate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -170,6 +169,16 @@ PROMPT;
             $totalReviews = Review::where('hotel_id', $hotel->id)->where('is_active', true)->count();
             $lowReviews   = Review::where('hotel_id', $hotel->id)->where('is_active', true)->where('rating', '<=', 2)->count();
 
+            $subScores = Review::where('hotel_id', $hotel->id)->where('is_active', true)
+                ->selectRaw('AVG(cleanliness) as c, AVG(service_score) as s, AVG(location_score) as l, AVG(value_score) as v')
+                ->first();
+            $subScoreStr = collect([
+                $subScores->c ? '🧹 Vệ sinh: ' . round($subScores->c, 1) . '/5' : null,
+                $subScores->s ? '🤝 Dịch vụ: ' . round($subScores->s, 1) . '/5' : null,
+                $subScores->l ? '📍 Vị trí: '  . round($subScores->l, 1) . '/5' : null,
+                $subScores->v ? '💰 Giá trị: '  . round($subScores->v, 1) . '/5' : null,
+            ])->filter()->implode(' | ') ?: 'Chưa có dữ liệu sub-scores';
+
             $recentLowReviews = Review::where('hotel_id', $hotel->id)
                 ->where('is_active', true)
                 ->where('rating', '<=', 2)
@@ -178,6 +187,20 @@ PROMPT;
                 ->get()
                 ->map(fn($r) => "★{$r->rating} — \"{$r->comment}\"")
                 ->implode(' || ');
+
+            // ---- Geo breakdown (khách quốc tế tháng này) ----
+            $geoRows = Booking::whereIn('room_id', $roomIds)
+                ->where('created_at', 'like', "$thisMonth%")
+                ->whereIn('status', ['confirmed', 'completed'])
+                ->whereNotNull('guest_country_code')
+                ->selectRaw('guest_country_code, guest_country, COUNT(*) as cnt')
+                ->groupBy('guest_country_code', 'guest_country')
+                ->orderByDesc('cnt')
+                ->limit(5)
+                ->get();
+            $geoStr = $geoRows->isEmpty()
+                ? 'Chưa có dữ liệu GeoIP tháng này'
+                : $geoRows->map(fn($r) => ($r->guest_country ?: $r->guest_country_code) . " ({$r->cnt} đơn)")->implode(', ');
 
             // ---- 5 đơn gần nhất ----
             $recentBookings = Booking::whereIn('room_id', $roomIds)
@@ -236,8 +259,12 @@ RevPAR: {$revpar} VNĐ
 
 [ĐÁNH GIÁ & UY TÍN]
 Rating trung bình: {$avgRating}/5 | Tổng đánh giá: {$totalReviews}
+Điểm chi tiết TB: {$subScoreStr}
 Đánh giá 1-2 sao: {$lowReviews} cái
 Đánh giá thấp gần đây: {$recentLowReviews}
+
+[NGUỒN KHÁCH (GeoIP tháng này)]
+{$geoStr}
 
 [5 ĐƠN ĐẶT PHÒNG GẦN NHẤT]
 {$recentBookings}

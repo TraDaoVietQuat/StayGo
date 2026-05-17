@@ -87,6 +87,12 @@ class PartnerReviewResource extends Resource
                 Tables\Columns\TextColumn::make('rating')
                     ->label('Điểm')
                     ->formatStateUsing(fn($s) => str_repeat('⭐', (int)$s) . " ($s/5)")
+                    ->description(fn(Review $r) => collect([
+                        $r->cleanliness    ? "🧹{$r->cleanliness}" : null,
+                        $r->service_score  ? "🤝{$r->service_score}" : null,
+                        $r->location_score ? "📍{$r->location_score}" : null,
+                        $r->value_score    ? "💰{$r->value_score}" : null,
+                    ])->filter()->implode(' | '))
                     ->badge()
                     ->color(fn($s) => (int)$s >= 4 ? 'success' : ((int)$s >= 3 ? 'warning' : 'danger')),
 
@@ -140,6 +146,16 @@ class PartnerReviewResource extends Resource
                             ->label('Đánh giá của khách')
                             ->content(fn(Review $r) => "\"{$r->comment}\""),
 
+                        Forms\Components\Placeholder::make('sub_scores_ai')
+                            ->label('Điểm chi tiết')
+                            ->content(fn(Review $r) => collect([
+                                $r->cleanliness    ? "🧹 Vệ sinh: {$r->cleanliness}/5" : null,
+                                $r->service_score  ? "🤝 Dịch vụ: {$r->service_score}/5" : null,
+                                $r->location_score ? "📍 Vị trí: {$r->location_score}/5" : null,
+                                $r->value_score    ? "💰 Giá trị: {$r->value_score}/5" : null,
+                            ])->filter()->implode('   ') ?: '—')
+                            ->visible(fn(Review $r) => $r->cleanliness || $r->service_score || $r->location_score || $r->value_score),
+
                         Forms\Components\Textarea::make('reply')
                             ->label('Gợi ý phản hồi (có thể chỉnh sửa trước khi lưu)')
                             ->required()
@@ -164,6 +180,16 @@ class PartnerReviewResource extends Resource
                         Forms\Components\Placeholder::make('review_preview')
                             ->label('Đánh giá của khách')
                             ->content(fn(Review $r) => "\"{$r->comment}\""),
+
+                        Forms\Components\Placeholder::make('sub_scores_reply')
+                            ->label('Điểm chi tiết')
+                            ->content(fn(Review $r) => collect([
+                                $r->cleanliness    ? "🧹 Vệ sinh: {$r->cleanliness}/5" : null,
+                                $r->service_score  ? "🤝 Dịch vụ: {$r->service_score}/5" : null,
+                                $r->location_score ? "📍 Vị trí: {$r->location_score}/5" : null,
+                                $r->value_score    ? "💰 Giá trị: {$r->value_score}/5" : null,
+                            ])->filter()->implode('   ') ?: '—')
+                            ->visible(fn(Review $r) => $r->cleanliness || $r->service_score || $r->location_score || $r->value_score),
 
                         Forms\Components\Textarea::make('reply')
                             ->label('Nội dung phản hồi')

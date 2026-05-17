@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -100,6 +102,9 @@ class BookingController extends Controller
             }
         }
 
+        // ---- GeoIP: detect quốc gia từ IP (non-blocking, timeout 3s) ----
+        $this->resolveGeoIp($request);
+
         // ---- Redis distributed lock — ngăn 2 request cùng đặt 1 phòng 1 lúc ----
         $roomId    = $request->input('room_id');
         $lockKey   = "booking_lock:room_{$roomId}:{$checkIn}:{$checkOut}";
@@ -156,23 +161,26 @@ class BookingController extends Controller
             }
 
             return Booking::create([
-                'order_code'       => $orderCode,
-                'user_id'          => Auth::id(),
-                'room_id'          => $room->id,
-                'full_name'        => $request->input('full_name'),
-                'email'            => $request->input('email'),
-                'phone'            => $request->input('phone'),
-                'check_in'         => $checkIn,
-                'check_out'        => $checkOut,
-                'total_price'      => $total,
-                'payment_method'   => $request->input('payment_method'),
-                'note'             => $request->input('note'),
-                'stay_type'        => $stayType,
-                'discount_code'    => $discountCode,
-                'discount_percent' => $discountPercent,
-                'discount_amount'  => $discountAmount,
-                'status'           => 'pending',
-                'created_at'       => now(),
+                'order_code'          => $orderCode,
+                'user_id'             => Auth::id(),
+                'room_id'             => $room->id,
+                'full_name'           => $request->input('full_name'),
+                'email'               => $request->input('email'),
+                'phone'               => $request->input('phone'),
+                'check_in'            => $checkIn,
+                'check_out'           => $checkOut,
+                'total_price'         => $total,
+                'payment_method'      => $request->input('payment_method'),
+                'note'                => $request->input('note'),
+                'stay_type'           => $stayType,
+                'discount_code'       => $discountCode,
+                'discount_percent'    => $discountPercent,
+                'discount_amount'     => $discountAmount,
+                'status'              => 'pending',
+                'created_at'          => now(),
+                'guest_country'       => $request->attributes->get('geo_country'),
+                'guest_country_code'  => $request->attributes->get('geo_country_code'),
+                'guest_city'          => $request->attributes->get('geo_city'),
             ]);
             });
         } catch (\RuntimeException $e) {
@@ -283,5 +291,30 @@ class BookingController extends Controller
             'Content-Type'        => $contentType,
             'Content-Disposition' => "attachment; filename=\"hoa-don-{$booking->order_code}.{$ext}\"",
         ]);
+    }
+
+    private function resolveGeoIp(Request $request): void
+    {
+        $ip = $request->ip();
+        if (
+            in_array($ip, ['127.0.0.1', '::1']) ||
+            str_starts_with($ip, '192.168.') ||
+            str_starts_with($ip, '10.') ||
+            str_starts_with($ip, '172.')
+        ) {
+            return;
+        }
+        try {
+            $geo = Http::timeout(3)
+                ->get("http://ip-api.com/json/{$ip}?fields=status,country,countryCode,city&lang=vi")
+                ->json();
+            if (($geo['status'] ?? '') === 'success') {
+                $request->attributes->set('geo_country',      $geo['country']     ?? null);
+                $request->attributes->set('geo_country_code', $geo['countryCode'] ?? null);
+                $request->attributes->set('geo_city',         $geo['city']        ?? null);
+            }
+        } catch (\Exception $e) {
+            Log::debug('GeoIP lookup failed: ' . $e->getMessage());
+        }
     }
 }
