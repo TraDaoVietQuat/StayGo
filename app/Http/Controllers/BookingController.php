@@ -195,44 +195,52 @@ class BookingController extends Controller
             $lock->release();
         }
 
-        // Gửi email xác nhận (load relations trước)
+        // Load relations trước khi dispatch
         $booking->load('room.hotel');
-        try {
-            Mail::to($booking->email)->send(new BookingConfirmation($booking));
-            Log::info('BookingConfirmation sent', ['booking_id' => $booking->id, 'email' => $booking->email]);
-        } catch (\Exception $e) {
-            Log::error('BookingConfirmation FAILED', ['booking_id' => $booking->id, 'email' => $booking->email, 'error' => $e->getMessage()]);
-        }
+        $userId        = Auth::id();
+        $partnerUserId = $booking->room->hotel->partner_user_id ?? null;
 
-        // Thông báo cho admin
-        try {
-            Mail::to(config('mail.from.address'))->send(new AdminNewBooking($booking));
-        } catch (\Exception $e) {
-            Log::error('AdminNewBooking FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
-        }
-
-        // Thông báo DB cho user đã đăng nhập
-        if (Auth::check()) {
+        // Gửi email + thông báo SAU KHI response đã về browser (không block user)
+        dispatch(function () use ($booking, $userId, $partnerUserId) {
+            // Email xác nhận cho khách
             try {
-                Auth::user()->notify(new BookingConfirmedNotification($booking));
+                Mail::to($booking->email)->send(new BookingConfirmation($booking));
+                Log::info('BookingConfirmation sent', ['booking_id' => $booking->id, 'email' => $booking->email]);
             } catch (\Exception $e) {
-                Log::error('BookingConfirmedNotification FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
+                Log::error('BookingConfirmation FAILED', ['booking_id' => $booking->id, 'email' => $booking->email, 'error' => $e->getMessage()]);
             }
-        }
 
-        // Thông báo real-time + email cho hotel partner
-        try {
-            $partnerUserId = $booking->room->hotel->partner_user_id ?? null;
-            if ($partnerUserId) {
-                $partner = User::find($partnerUserId);
-                $partner?->notify(new NewBookingPartnerNotification($booking));
-                if ($partner?->email) {
-                    Mail::to($partner->email)->send(new PartnerNewBooking($booking));
+            // Email cho admin
+            try {
+                Mail::to(config('mail.from.address'))->send(new AdminNewBooking($booking));
+            } catch (\Exception $e) {
+                Log::error('AdminNewBooking FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
+            }
+
+            // Thông báo DB cho user đã đăng nhập
+            if ($userId) {
+                try {
+                    /** @var \App\Models\User|null $notifyUser */
+                    $notifyUser = User::find($userId);
+                    $notifyUser?->notify(new BookingConfirmedNotification($booking));
+                } catch (\Exception $e) {
+                    Log::error('BookingConfirmedNotification FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
                 }
             }
-        } catch (\Exception $e) {
-            Log::error('PartnerNewBooking FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
-        }
+
+            // Thông báo real-time + email cho hotel partner
+            try {
+                if ($partnerUserId) {
+                    $partner = User::find($partnerUserId);
+                    $partner?->notify(new NewBookingPartnerNotification($booking));
+                    if ($partner?->email) {
+                        Mail::to($partner->email)->send(new PartnerNewBooking($booking));
+                    }
+                }
+            } catch (\Exception $e) {
+                Log::error('PartnerNewBooking FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
+            }
+        })->afterResponse();
 
         session(['booking_order_code' => $booking->order_code]);
 
