@@ -2032,6 +2032,13 @@ h2.sg-rooms-editorial-title {
   color: #ffffff !important;
   border-color: var(--sg-brand) !important;
 }
+/* Exclude .hl-active-filters container (chứa cả "filter" + "active" trong class name) */
+.hl-active-filters {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: inherit !important;
+  border-color: transparent !important;
+}
 
 /* Auth form submit button — nền xanh, chữ trắng */
 .auth-btn,
