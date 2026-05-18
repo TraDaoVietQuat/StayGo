@@ -59,7 +59,7 @@ class PartnerReviewAnalysis extends Page
         $reviews = Review::where('hotel_id', $hotelId)
             ->where('is_active', true)
             ->whereBetween('created_at', [$start, $end])
-            ->get(['rating', 'comment', 'partner_reply', 'cleanliness', 'service_score', 'location_score', 'value_score']);
+            ->get();
 
         $total       = $reviews->count();
         $avgRating   = $total > 0 ? round($reviews->avg('rating'), 2) : 0;

@@ -29,10 +29,14 @@ class PartnerBookingResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $hotel   = auth('hotel_partner')->user()?->managedHotel;
-        $roomIds = $hotel ? $hotel->rooms()->pluck('id') : collect();
-        $count   = Booking::whereIn('room_id', $roomIds)->where('status', 'pending')->count();
-        return $count > 0 ? (string) $count : null;
+        try {
+            $hotel   = auth('hotel_partner')->user()?->managedHotel;
+            $roomIds = $hotel ? $hotel->rooms()->pluck('id') : collect();
+            $count   = Booking::whereIn('room_id', $roomIds)->where('status', 'pending')->count();
+            return $count > 0 ? (string) $count : null;
+        } catch (\Exception) {
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): string|array|null

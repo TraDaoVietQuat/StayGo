@@ -9,9 +9,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->string('guest_country',      100)->nullable()->after('note');
-            $table->string('guest_country_code', 2  )->nullable()->after('guest_country');
-            $table->string('guest_city',         100)->nullable()->after('guest_country_code');
+            if (!Schema::hasColumn('bookings', 'guest_country')) {
+                $table->string('guest_country', 100)->nullable()->after('note');
+            }
+            if (!Schema::hasColumn('bookings', 'guest_country_code')) {
+                $table->string('guest_country_code', 2)->nullable()->after('guest_country');
+            }
+            if (!Schema::hasColumn('bookings', 'guest_city')) {
+                $table->string('guest_city', 100)->nullable()->after('guest_country_code');
+            }
         });
     }
 

@@ -12,9 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->timestamp('reminder_7day_sent_at')->nullable()->after('reminder_sent_at');
-            $table->timestamp('morning_reminder_sent_at')->nullable()->after('reminder_7day_sent_at');
-            $table->timestamp('survey_reminder_sent_at')->nullable()->after('survey_sent_at');
+            if (!Schema::hasColumn('bookings', 'reminder_7day_sent_at')) {
+                $table->timestamp('reminder_7day_sent_at')->nullable()->after('reminder_sent_at');
+            }
+            if (!Schema::hasColumn('bookings', 'morning_reminder_sent_at')) {
+                $table->timestamp('morning_reminder_sent_at')->nullable()->after('reminder_7day_sent_at');
+            }
+            if (!Schema::hasColumn('bookings', 'survey_reminder_sent_at')) {
+                $table->timestamp('survey_reminder_sent_at')->nullable()->after('survey_sent_at');
+            }
         });
     }
 
