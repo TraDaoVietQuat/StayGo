@@ -49,13 +49,17 @@ class PartnerReviewResource extends Resource
         $hotel = auth('hotel_partner')->user()?->managedHotel;
         if (!$hotel) return null;
 
-        $count = Review::where('hotel_id', $hotel->id)
-            ->where('is_active', true)
-            ->where('rating', '<=', 2)
-            ->whereNull('partner_reply')
-            ->count();
+        try {
+            $count = Review::where('hotel_id', $hotel->id)
+                ->where('is_active', true)
+                ->where('rating', '<=', 2)
+                ->whereNull('partner_reply')
+                ->count();
 
-        return $count > 0 ? (string) $count : null;
+            return $count > 0 ? (string) $count : null;
+        } catch (\Exception) {
+            return null;
+        }
     }
 
     public static function getNavigationBadgeColor(): ?string

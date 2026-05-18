@@ -9,8 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->text('partner_reply')->nullable()->after('is_active');
-            $table->timestamp('partner_replied_at')->nullable()->after('partner_reply');
+            if (!Schema::hasColumn('reviews', 'partner_reply')) {
+                $table->text('partner_reply')->nullable()->after('is_active');
+            }
+            if (!Schema::hasColumn('reviews', 'partner_replied_at')) {
+                $table->timestamp('partner_replied_at')->nullable()->after('partner_reply');
+            }
         });
     }
 
