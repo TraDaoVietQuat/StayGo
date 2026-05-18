@@ -319,11 +319,20 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
             Mã giảm giá
         </div>
-        <div class="bk-promo-row">
-            <input type="text" id="promoCodeInput" name="promo_code"
-                placeholder="Nhập mã giảm giá..." value="{{ old('promo_code') }}"
-                class="bk-promo-input" oninput="this.value=this.value.toUpperCase()">
-            <button type="button" onclick="applyPromo()" class="bk-promo-btn">Áp dụng</button>
+        <div class="bk-promo-wrap">
+            <div class="bk-promo-row">
+                <input type="text" id="promoCodeInput" name="promo_code"
+                    placeholder="Nhập mã giảm giá..." value="{{ old('promo_code') }}"
+                    class="bk-promo-input"
+                    oninput="this.value=this.value.toUpperCase()"
+                    onfocus="openVoucherList()"
+                    onblur="closeVoucherList()">
+                <button type="button" onclick="applyPromo()" class="bk-promo-btn">Áp dụng</button>
+            </div>
+            {{-- Dropdown hiện voucher khi focus --}}
+            <div class="bk-vd-list" id="bkVdList">
+                <div class="bk-vd-empty" id="bkVdLoading">Đang tải mã giảm giá...</div>
+            </div>
         </div>
         <div id="promoMsg" class="bk-promo-msg"></div>
         {{-- Voucher chip hiện ra bên ngoài khi mã được áp dụng --}}
@@ -359,7 +368,7 @@
             <div class="bk-sps-row" style="color:#94a3b8;font-style:italic"><span>Thuế & phí</span><span>Hiển thị khi xác nhận</span></div>
         </div>
         <button type="submit" form="bkForm" class="bk-cta-btn" id="bkCtaBtn">
-            Thanh toán &nbsp;<span id="bkCtaMethodName">Thẻ thanh toán</span>
+            Xác nhận thanh toán
         </button>
         <div class="bk-cta-terms">Bằng cách thanh toán, bạn đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a> của StayGo.</div>
     </div>
@@ -624,6 +633,22 @@
 .bk-cvv-tip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#e2e8f0;border-radius:50%;font-size:10px;color:#718096;cursor:help}
 .bk-cf-ssl{font-size:11px;color:#15803d;display:flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:7px;padding:7px 10px}
 
+/* Voucher dropdown */
+.bk-promo-wrap{position:relative}
+.bk-vd-list{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1.5px solid #dbeafe;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.1);z-index:200;max-height:280px;overflow-y:auto;display:none}
+.bk-vd-list.show{display:block}
+.bk-vd-header{padding:10px 14px 8px;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #f0f4f8}
+.bk-vd-item{padding:11px 14px;cursor:pointer;border-bottom:1px solid #f8fafc;display:flex;align-items:center;gap:10px;transition:background .12s}
+.bk-vd-item:last-child{border-bottom:none}
+.bk-vd-item:hover{background:#f0f7ff}
+.bk-vd-code{font-size:12px;font-weight:700;color:#1e73be;background:#eff6ff;padding:3px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0}
+.bk-vd-body{flex:1;min-width:0}
+.bk-vd-desc{font-size:13px;font-weight:600;color:#1a202c}
+.bk-vd-min{font-size:11px;color:#94a3b8;margin-top:2px}
+.bk-vd-badge{font-size:11px;font-weight:700;color:#15803d;background:#dcfce7;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.bk-vd-exp{font-size:10.5px;color:#94a3b8;white-space:nowrap;flex-shrink:0}
+.bk-vd-empty{padding:20px;text-align:center;color:#94a3b8;font-size:13px}
+
 /* Promo */
 .bk-promo-row{display:flex;gap:10px;align-items:center}
 .bk-promo-input{flex:1;border:1.5px solid #e2e8f0!important;border-radius:10px!important;padding:11px 14px!important;font-size:13.5px!important;color:#1a202c!important;font-family:'Be Vietnam Pro','Segoe UI',Arial,sans-serif!important;outline:none;transition:border-color .2s,box-shadow .2s;margin:0!important;box-sizing:border-box!important;background:#fff!important}
@@ -650,8 +675,11 @@
 .bk-cta-chevron{color:#94a3b8;transition:transform .2s;flex-shrink:0}
 .bk-cta-breakdown{margin-bottom:12px}
 .bk-sps-row{display:flex;justify-content:space-between;font-size:12.5px;color:#4a5568;padding:4px 0}
-.bk-cta-btn{width:100%;background:linear-gradient(135deg,#1e73be,#2563eb);color:#fff;border:none;border-radius:11px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px}
-.bk-cta-btn:hover{background:linear-gradient(135deg,#1557a0,#1d4ed8);box-shadow:0 6px 20px rgba(30,115,190,.4);transform:translateY(-1px)}
+.bk-cta-btn{width:100%;background:linear-gradient(135deg,#1e73be,#2563eb);color:#fff;border:none;border-radius:11px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:8px}
+.bk-cta-btn:hover:not(:disabled){background:linear-gradient(135deg,#1557a0,#1d4ed8);box-shadow:0 6px 20px rgba(30,115,190,.4);transform:translateY(-1px)}
+.bk-cta-btn:disabled{opacity:.75;cursor:not-allowed;transform:none}
+@keyframes bk-spin{to{transform:rotate(360deg)}}
+.bk-spin-icon{animation:bk-spin .8s linear infinite;display:inline-block}
 .bk-cta-terms{margin-top:10px;font-size:11px;color:#94a3b8;text-align:center;line-height:1.5}
 .bk-cta-terms a{color:#1e73be;text-decoration:none}
 
@@ -846,8 +874,6 @@ function activatePayRow(row, value) {
     const radioInput = row.querySelector('input[type=radio]');
     if (radioInput) radioInput.checked = true;
     document.getElementById('bkCardForm').classList.toggle('show', value === 'card');
-    const btnName = document.getElementById('bkCtaMethodName');
-    if (btnName) btnName.textContent = pmMethodNames[value] || value;
 }
 
 // ── Card number formatting ────────────────────────────────
@@ -951,16 +977,15 @@ function syncSpecialRequests() {
         section.style.display = 'none';
     }
 }
+// Chỉ dùng 'change' — label HTML đã tự toggle checkbox, không cần click listener thêm
 document.querySelectorAll('input[name="special_requests[]"]').forEach(cb => {
-    cb.addEventListener('change', () => {
-        const box = cb.closest('.bk-req-item')?.querySelector('.bk-req-box');
-        if (box) { box.textContent = cb.checked ? '✓' : ''; box.style.color = cb.checked ? '#fff' : 'transparent'; }
+    cb.addEventListener('change', function() {
+        const box = this.closest('.bk-req-item')?.querySelector('.bk-req-box');
+        if (box) {
+            box.textContent = this.checked ? '✓' : '';
+            box.style.color = this.checked ? '#fff' : 'transparent';
+        }
         syncSpecialRequests();
-    });
-    cb.closest('.bk-req-item')?.addEventListener('click', e => {
-        if (e.target === cb) return;
-        cb.checked = !cb.checked;
-        cb.dispatchEvent(new Event('change'));
     });
 });
 
@@ -1026,6 +1051,62 @@ function mergeSpecialRequests(form) {
     const noteEl = document.getElementById('bkNote');
     noteEl.value = (noteEl.value.trim() ? noteEl.value.trim() + '\n' : '') + line;
 }
+
+// ── Voucher dropdown ──────────────────────────────────────
+let vouchersLoaded = false;
+async function openVoucherList() {
+    const list = document.getElementById('bkVdList');
+    if (!list) return;
+    list.classList.add('show');
+    if (vouchersLoaded) return;
+    try {
+        const res = await fetch('{{ route("promo.available") }}', {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        vouchersLoaded = true;
+        const promos = data.promos || [];
+        if (!promos.length) {
+            list.innerHTML = '<div class="bk-vd-empty">Không có mã giảm giá khả dụng cho tài khoản của bạn</div>';
+            return;
+        }
+        list.innerHTML = '<div class="bk-vd-header">Mã giảm giá có thể dùng</div>' +
+            promos.map(p => `
+                <div class="bk-vd-item" onmousedown="selectVoucher('${p.code}')">
+                    <span class="bk-vd-code">${p.code}</span>
+                    <div class="bk-vd-body">
+                        <div class="bk-vd-desc">${p.display}</div>
+                        ${p.min_order > 0 ? `<div class="bk-vd-min">Đơn tối thiểu ${Math.round(p.min_order).toLocaleString('vi-VN')}đ</div>` : ''}
+                    </div>
+                    <span class="bk-vd-badge">${p.display}</span>
+                    ${p.expires_at ? `<span class="bk-vd-exp">HSD: ${p.expires_at}</span>` : ''}
+                </div>
+            `).join('');
+    } catch(e) {
+        list.innerHTML = '<div class="bk-vd-empty">Không thể tải mã giảm giá</div>';
+    }
+}
+function closeVoucherList() {
+    setTimeout(() => {
+        const list = document.getElementById('bkVdList');
+        if (list) list.classList.remove('show');
+    }, 200);
+}
+function selectVoucher(code) {
+    const inp = document.getElementById('promoCodeInput');
+    if (inp) inp.value = code;
+    const list = document.getElementById('bkVdList');
+    if (list) list.classList.remove('show');
+    applyPromo();
+}
+
+// ── Form submit — loading state ───────────────────────────
+document.getElementById('bkForm').addEventListener('submit', function() {
+    const btn = document.getElementById('bkCtaBtn');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.innerHTML = '<svg class="bk-spin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Đang xử lý...';
+});
 
 checkIn.addEventListener('change', calcNights);
 checkOut.addEventListener('change', calcNights);

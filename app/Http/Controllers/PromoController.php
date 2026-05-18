@@ -44,6 +44,56 @@ class PromoController extends Controller
 
 
     /**
+     * AJAX: trả về danh sách mã giảm giá mà user hiện tại có thể dùng
+     */
+    public function available(Request $request)
+    {
+        if (! Auth::check()) {
+            return response()->json(['promos' => []]);
+        }
+
+        $user = Auth::user();
+
+        $promos = Promo::where('is_active', true)
+            ->where(function ($q) {
+                $q->whereNull('starts_at')->orWhere('starts_at', '<=', now());
+            })
+            ->where(function ($q) {
+                $q->whereNull('expires_at')->orWhere('expires_at', '>=', now());
+            })
+            ->where(function ($q) use ($user) {
+                $q->where('new_user_only', false)
+                  ->orWhere(fn ($q2) => $q2->where('new_user_only', true)->where(fn ($q3) => $q3->whereRaw('? = 1', [(int) ($user->is_new_user ?? false)])));
+            })
+            ->get()
+            ->filter(function ($promo) use ($user) {
+                if ($promo->max_uses !== null && $promo->used_count >= $promo->max_uses) return false;
+                if ($promo->new_user_only && ! ($user->is_new_user ?? false)) return false;
+
+                $timesUsed = \App\Models\Booking::where('user_id', $user->id)
+                    ->where('discount_code', $promo->code)
+                    ->whereNotIn('status', ['cancelled'])
+                    ->count();
+
+                return $timesUsed < $promo->max_uses_per_user;
+            })
+            ->map(fn ($p) => [
+                'code'        => $p->code,
+                'description' => $p->description,
+                'type'        => $p->type,
+                'value'       => $p->value,
+                'min_order'   => (float) $p->min_order,
+                'expires_at'  => $p->expires_at?->format('d/m/Y'),
+                'display'     => $p->type === 'percent'
+                    ? 'Giảm ' . $p->value . '%'
+                    : 'Giảm ' . number_format($p->value, 0, ',', '.') . 'đ',
+            ])
+            ->values();
+
+        return response()->json(['promos' => $promos]);
+    }
+
+    /**
      * Được gọi khi quét QR / nhấn link promo.
      * Lưu promo vào session rồi redirect về trang chủ (hoặc trang booking nếu có).
      */

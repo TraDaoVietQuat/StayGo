@@ -55,7 +55,8 @@ Route::post('/chatbot/escalate', [ChatbotController::class, 'escalate'])->name('
 Route::get('/uu-dai/moi', [PromoController::class, 'applyNewUser'])->name('promo.new_user');
 
 // Promo code validation (AJAX)
-Route::post('/promo/validate', [PromoController::class, 'validate'])->name('promo.validate');
+Route::post('/promo/validate',  [PromoController::class, 'validate'])->name('promo.validate');
+Route::get('/promo/available',  [PromoController::class, 'available'])->name('promo.available');
 
 // ==================== AUTH ROUTES (guests only) ====================
 Route::middleware('guest')->group(function () {
