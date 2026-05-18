@@ -588,8 +588,8 @@
         </div>
 
         <div class="cnd-carousel-wrap">
-            <button class="cnd-arrow cnd-arrow--prev" id="cndPrev" aria-label="Trước">&#8592;</button>
-            <div class="cndSwiper">
+            <button class="cnd-arrow cnd-arrow--prev" aria-label="Trước" onclick="cndScroll(-1)">&#8592;</button>
+            <div class="cndSwiper" id="cndTrack">
                 <div class="cnd-track">
                     @foreach($blogPosts as $post)
                     <div class="cnd-slide">
@@ -612,7 +612,7 @@
                     @endforeach
                 </div>
             </div>
-            <button class="cnd-arrow cnd-arrow--next" id="cndNext" aria-label="Tiếp">&#8594;</button>
+            <button class="cnd-arrow cnd-arrow--next" aria-label="Tiếp" onclick="cndScroll(1)">&#8594;</button>
         </div>
 
         <div class="cnd-more-wrap">
@@ -621,52 +621,54 @@
     </div>
 </section>
 <script>
+/* Global: gọi từ onclick trực tiếp */
+function cndScroll(dir) {
+    var el = document.getElementById('cndTrack');
+    if (!el) return;
+    /* Force scrollable */
+    el.style.overflowX = 'scroll';
+    var slide = el.querySelector('.cnd-slide');
+    var w = (slide && slide.offsetWidth > 0) ? slide.offsetWidth + 20 : 300;
+    el.scrollLeft += dir * w;
+}
+
 (function(){
-    var el   = document.querySelector('.cndSwiper');
-    var prev = document.getElementById('cndPrev');
-    var next = document.getElementById('cndNext');
+    var el = document.getElementById('cndTrack');
     if (!el) return;
 
-    var slideW = function(){ return (el.querySelector('.cnd-slide') || {}).offsetWidth || 290; };
-    var step   = function(){ return slideW() + 20; };
+    /* Force overflow qua JS — vượt qua mọi CSS conflict */
+    el.style.overflowX = 'scroll';
+    el.style.overflowY = 'hidden';
+    el.style.scrollBehavior = 'smooth';
 
-    /* Arrow buttons */
-    if (prev) prev.addEventListener('click', function(){ el.scrollLeft -= step(); });
-    if (next) next.addEventListener('click', function(){ el.scrollLeft += step(); });
-
-    /* Ngăn browser drag mặc định (drag link, drag image) */
-    el.addEventListener('dragstart', function(e){ e.preventDefault(); });
-
-    /* Mouse drag — chỉ scroll nếu di chuyển > 4px (tránh nhầm với click) */
-    var dragging = false, moved = false, startX = 0, startScroll = 0;
+    /* Drag chuột */
+    var down = false, sx = 0, ss = 0, moved = false;
     el.addEventListener('mousedown', function(e){
         if (e.button !== 0) return;
-        dragging = true; moved = false;
-        startX = e.clientX; startScroll = el.scrollLeft;
+        down = true; moved = false;
+        sx = e.clientX; ss = el.scrollLeft;
         el.style.cursor = 'grabbing';
+        e.preventDefault();
     });
-    window.addEventListener('mouseup', function(e){
-        if (!dragging) return;
-        dragging = false;
+    el.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    document.addEventListener('mouseup', function(){
+        if (!down) return;
+        down = false;
         el.style.cursor = '';
-        if (moved) e.stopPropagation(); /* chặn click qua khi đã drag */
-    }, true);
-    window.addEventListener('mousemove', function(e){
-        if (!dragging) return;
-        var dx = e.clientX - startX;
-        if (Math.abs(dx) > 4) {
-            moved = true;
-            el.scrollLeft = startScroll - dx;
-        }
+    });
+    document.addEventListener('mousemove', function(e){
+        if (!down) return;
+        var dx = e.clientX - sx;
+        if (Math.abs(dx) > 3) { moved = true; el.scrollLeft = ss - dx; }
     });
     el.addEventListener('click', function(e){
-        if (moved) { e.preventDefault(); e.stopPropagation(); }
+        if (moved) { moved = false; e.preventDefault(); e.stopPropagation(); }
     }, true);
 
     /* Touch swipe */
-    var touchX = 0, touchScroll = 0;
-    el.addEventListener('touchstart', function(e){ touchX = e.touches[0].clientX; touchScroll = el.scrollLeft; }, { passive: true });
-    el.addEventListener('touchmove',  function(e){ el.scrollLeft = touchScroll - (e.touches[0].clientX - touchX); }, { passive: true });
+    var tx = 0, ts = 0;
+    el.addEventListener('touchstart', function(e){ tx = e.touches[0].clientX; ts = el.scrollLeft; }, {passive:true});
+    el.addEventListener('touchmove',  function(e){ el.scrollLeft = ts - (e.touches[0].clientX - tx); }, {passive:true});
 })();
 </script>
 @endif
