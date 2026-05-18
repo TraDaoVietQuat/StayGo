@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PartnerPayoutResource\Pages;
+use App\Mail\PartnerPayoutStatement;
 use App\Models\Hotel;
 use App\Models\PartnerPayout;
 use App\Models\User;
@@ -15,6 +16,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 
 class PartnerPayoutResource extends Resource
 {
@@ -137,6 +139,9 @@ class PartnerPayoutResource extends Resource
                             'processed_by' => auth()->id(),
                             'paid_at'      => now(),
                         ]);
+                        if ($record->partner?->email) {
+                            Mail::to($record->partner->email)->send(new PartnerPayoutStatement($record));
+                        }
                         Notification::make()->title('Đã thanh toán cho ' . $record->partner?->full_name)->success()->send();
                     }),
                 Tables\Actions\EditAction::make()->label('Sửa')->iconButton(),

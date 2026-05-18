@@ -3,6 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BookingResource\Pages;
+use App\Mail\BookingCancelled;
+use App\Mail\BookingConfirmation;
+use App\Mail\BookingRefunded;
 use App\Models\Booking;
 use App\Models\Room;
 use Carbon\Carbon;
@@ -20,6 +23,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 
 class BookingResource extends Resource
@@ -339,6 +343,9 @@ class BookingResource extends Resource
                         if ($record->payment) {
                             $record->payment->update(['payment_status' => 'completed']);
                         }
+                        if ($record->email) {
+                            Mail::to($record->email)->send(new BookingConfirmation($record));
+                        }
                         Notification::make()->title('Đã xác nhận đặt phòng')->success()->send();
                     }),
 
@@ -354,6 +361,9 @@ class BookingResource extends Resource
                     ->modalSubmitActionLabel('Hủy đặt phòng')
                     ->action(function (Booking $record): void {
                         $record->update(['status' => 'cancelled']);
+                        if ($record->email) {
+                            Mail::to($record->email)->send(new BookingCancelled($record));
+                        }
                         Notification::make()->title('Đã hủy đặt phòng')->danger()->send();
                     }),
 
@@ -374,6 +384,9 @@ class BookingResource extends Resource
                         ]);
                         if ($record->payment) {
                             $record->payment->update(['payment_status' => 'refunded']);
+                        }
+                        if ($record->email) {
+                            Mail::to($record->email)->send(new BookingRefunded($record));
                         }
                         Notification::make()->title('Đã duyệt hoàn tiền')->warning()->send();
                     }),

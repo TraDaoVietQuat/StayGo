@@ -3,6 +3,8 @@
 namespace App\Filament\HotelPartner\Resources;
 
 use App\Filament\HotelPartner\Resources\PartnerBookingResource\Pages;
+use App\Mail\BookingCancelled;
+use App\Mail\BookingConfirmation;
 use App\Models\Booking;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -13,6 +15,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 class PartnerBookingResource extends Resource
 {
     protected static ?string $model = Booking::class;
@@ -116,6 +119,9 @@ class PartnerBookingResource extends Resource
                     ->requiresConfirmation()->modalHeading('Xác nhận đặt phòng?')
                     ->action(function (Booking $record) {
                         $record->update(['status' => 'confirmed']);
+                        if ($record->email) {
+                            Mail::to($record->email)->send(new BookingConfirmation($record));
+                        }
                         Notification::make()->title('Đã xác nhận đơn #' . $record->order_code)->success()->send();
                     }),
 
@@ -143,6 +149,9 @@ class PartnerBookingResource extends Resource
                     ->requiresConfirmation()->modalHeading('Từ chối đặt phòng?')
                     ->action(function (Booking $record) {
                         $record->update(['status' => 'cancelled']);
+                        if ($record->email) {
+                            Mail::to($record->email)->send(new BookingCancelled($record));
+                        }
                         Notification::make()->title('Đã từ chối đơn #' . $record->order_code)->danger()->send();
                     }),
             ]);
