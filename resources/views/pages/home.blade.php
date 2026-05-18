@@ -316,7 +316,7 @@
         <div class="home-section-head home-section-head--center" style="margin-bottom:28px;">
             <div>
                 <span class="tz-about-label" style="display:block;margin-bottom:8px;">PHÒNG NỔI BẬT</span>
-                <h2 class="home-section-title" style="color:#1B3A6B;">Nhiều lựa chọn khách sạn</h2>
+                <h2 class="home-section-title" style="color:#1B3A6B;">Nhiều lựa chọn khách sạn & Resort</h2>
                 <p class="home-section-sub">Hàng trăm phòng nghỉ tại các điểm đến hàng đầu Việt Nam</p>
             </div>
         </div>
@@ -347,6 +347,11 @@
                 <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}" loading="lazy">
                 @if($discount)
                 <span class="hlc-badge-save">-{{ $discount }}%</span>
+                @endif
+                @if($hotel->type === 'resort')
+                <span class="hlc-badge-type hlc-badge-resort">Resort</span>
+                @else
+                <span class="hlc-badge-type hlc-badge-hotel">Khách sạn</span>
                 @endif
                 <div class="hlc-card-info">
                     <div class="hlc-card-meta">
@@ -402,6 +407,11 @@
 
 /* Discount badge */
 .hlc-badge-save { position: absolute; top: 14px; right: 14px; background: #f97316; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; z-index: 2; }
+
+/* Property type badge */
+.hlc-badge-type { position: absolute; top: 14px; left: 14px; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; z-index: 2; letter-spacing: .3px; backdrop-filter: blur(4px); }
+.hlc-badge-resort { background: rgba(16,185,129,.85); color: #fff; }
+.hlc-badge-hotel  { background: rgba(30,58,107,.75); color: #fff; }
 
 /* Info overlay at bottom */
 .hlc-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 56px 18px 20px; background: linear-gradient(to top, rgba(0,8,32,.92) 55%, transparent); z-index: 1; }
