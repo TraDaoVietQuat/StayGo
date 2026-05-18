@@ -69,16 +69,18 @@
 
         {{-- Room + Hotel info --}}
         <div class="bk-room-info">
-            <div class="bk-room-info-hotel">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
-                {{ $room->hotel->name }}
+            <div class="bk-room-info-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1e73be" stroke-width="1.8" stroke-linecap="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
             </div>
-            <div class="bk-room-info-room">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 9h20v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9z"/></svg>
-                {{ $room->room_name }}
-                @if($room->package_name)
-                <span class="bk-room-info-pkg">· {{ $room->package_name }}</span>
-                @endif
+            <div class="bk-room-info-body">
+                <div class="bk-room-info-hotel">{{ $room->hotel->name }}</div>
+                <div class="bk-room-info-room">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 9h20v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9z"/></svg>
+                    {{ $room->room_name }}
+                    @if($room->package_name)
+                    <span class="bk-room-info-pkg">· {{ $room->package_name }}</span>
+                    @endif
+                </div>
             </div>
         </div>
 
@@ -319,11 +321,19 @@
         </div>
         <div class="bk-promo-row">
             <input type="text" id="promoCodeInput" name="promo_code"
-                placeholder="Thêm mã giảm..." value="{{ old('promo_code') }}"
+                placeholder="Nhập mã giảm giá..." value="{{ old('promo_code') }}"
                 class="bk-promo-input" oninput="this.value=this.value.toUpperCase()">
-            <button type="button" onclick="applyPromo()" class="bk-promo-btn">Thêm mã</button>
+            <button type="button" onclick="applyPromo()" class="bk-promo-btn">Áp dụng</button>
         </div>
         <div id="promoMsg" class="bk-promo-msg"></div>
+        {{-- Voucher chip hiện ra bên ngoài khi mã được áp dụng --}}
+        <div class="bk-voucher-area" id="bkVoucherArea">
+            <div class="bk-vt-chip">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+                <span id="bkVoucherLabel">PROMO10 – Giảm 10%</span>
+                <button type="button" class="bk-vt-remove" onclick="removePromo()" title="Bỏ mã">×</button>
+            </div>
+        </div>
         <input type="hidden" id="promoApplied" name="promo_applied" value="0">
     </div>
     @else
@@ -511,12 +521,14 @@
 .bk-layout{display:grid;grid-template-columns:1fr 320px;gap:22px;align-items:start}
 .bk-main{min-width:0}
 
-/* Cards */
-.bk-card{background:#fff;border-radius:12px;padding:22px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:12px;border:1px solid #edf2f7}
+/* Cards — display:block!important để override staygo-theme.css { display:flex } */
+.bk-card{display:block!important;background:#fff;border-radius:14px;padding:22px;box-shadow:0 1px 6px rgba(0,0,0,.07);margin-bottom:14px;border:1px solid #edf2f7}
 .bk-card-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#1a202c;margin-bottom:16px}
 
-/* Room info strip */
-.bk-room-info{background:#f0f6ff;border:1px solid #dbeafe;border-radius:10px;padding:11px 14px;margin-bottom:16px;display:flex;flex-direction:column;gap:6px}
+/* Room info strip — ngang: icon bên trái, text bên phải */
+.bk-room-info{background:#f0f6ff;border:1px solid #dbeafe;border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex!important;flex-direction:row!important;align-items:center!important;gap:12px;width:100%!important;box-sizing:border-box!important}
+.bk-room-info-icon{width:40px;height:40px;border-radius:9px;background:#dbeafe;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bk-room-info-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
 .bk-room-info-hotel{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#1a202c}
 .bk-room-info-room{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:#4a5568}
 .bk-room-info-pkg{color:#94a3b8;font-weight:400}
@@ -568,8 +580,8 @@
 .bk-pay-secure{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#15803d;background:#f0fdf4;border:1px solid #bbf7d0;padding:4px 10px;border-radius:20px;font-weight:600}
 
 /* ── Payment method rows ── */
-.bk-pm-card{padding:0;overflow:hidden}
-.bk-pm-row{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;border-bottom:1px solid #f0f4f8;transition:background .15s;user-select:none}
+.bk-pm-card{display:block!important;padding:0!important;overflow:hidden}
+.bk-pm-row{display:flex!important;flex-direction:row!important;align-items:center!important;width:100%!important;box-sizing:border-box!important;gap:12px;padding:14px 18px;cursor:pointer;border-bottom:1px solid #f0f4f8;transition:background .15s;user-select:none}
 .bk-pm-row:last-child{border-bottom:none}
 .bk-pm-row:hover{background:#f8fbff}
 .bk-pm-row-selected,.bk-pm-row.selected{background:#eff6ff}
@@ -583,11 +595,11 @@
 .bk-pm-info{flex:1;min-width:0}
 .bk-pm-name{font-size:13.5px;font-weight:600;color:#1a202c}
 .bk-pm-sub{font-size:11.5px;color:#718096;margin-top:2px}
-.bk-pm-right{display:flex;align-items:center;gap:5px;flex-shrink:0}
-.bk-pm-badge-deal{font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;border:1px solid #fbbf24;padding:2px 7px;border-radius:20px}
-.bk-pm-logo{height:24px;width:auto;object-fit:contain}
-.bk-pm-logo-sm{height:20px;width:auto;object-fit:contain}
-.bk-pm-logo-text{font-size:10px;font-weight:800;padding:2px 5px;border-radius:4px}
+.bk-pm-right{display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:nowrap;max-width:200px}
+.bk-pm-badge-deal{font-size:10px;font-weight:700;background:#fef3c7;color:#92400e;border:1px solid #fbbf24;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.bk-pm-logo{height:26px;width:auto;object-fit:contain;max-width:64px}
+.bk-pm-logo-sm{height:22px;width:auto;object-fit:contain;max-width:48px}
+.bk-pm-logo-text{font-size:10px;font-weight:800;padding:3px 6px;border-radius:5px;white-space:nowrap}
 .bk-pm-logo-zalo{background:#0068ff;color:#fff}
 .bk-pm-logo-shopeepay{background:#ee4d2d;color:#fff}
 
@@ -614,12 +626,19 @@
 
 /* Promo */
 .bk-promo-row{display:flex;gap:10px;align-items:center}
-.bk-promo-input{flex:1;border:1.5px solid #e2e8f0!important;border-radius:12px!important;padding:10px 14px!important;font-size:13.5px!important;color:#1a202c!important;font-family:'Be Vietnam Pro','Segoe UI',Arial,sans-serif!important;outline:none;transition:border-color .2s,box-shadow .2s;margin:0!important;box-sizing:border-box!important;background:#fff!important}
+.bk-promo-input{flex:1;border:1.5px solid #e2e8f0!important;border-radius:10px!important;padding:11px 14px!important;font-size:13.5px!important;color:#1a202c!important;font-family:'Be Vietnam Pro','Segoe UI',Arial,sans-serif!important;outline:none;transition:border-color .2s,box-shadow .2s;margin:0!important;box-sizing:border-box!important;background:#fff!important}
 .bk-promo-input:focus{border-color:#1e73be!important;box-shadow:0 0 0 3px rgba(30,115,190,.1)!important}
 .bk-promo-input::placeholder{color:#c1c9d4!important;font-weight:400!important}
-.bk-promo-btn{padding:10px 18px;background:#1e73be;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap}
+.bk-promo-btn{padding:11px 20px;background:#1e73be;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap;flex-shrink:0}
 .bk-promo-btn:hover{background:#1557a0}
-.bk-promo-msg{font-size:12px;margin-top:6px;min-height:16px}
+.bk-promo-msg{font-size:12px;margin-top:6px;min-height:0}
+/* Voucher chip hiển thị sau khi áp mã thành công */
+.bk-voucher-area{display:none;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid #f0f4f8}
+.bk-voucher-area.show{display:flex}
+.bk-vt-chip{display:inline-flex;align-items:center;gap:8px;background:#fef9ec;border:1.5px solid #f59e0b;border-radius:20px;padding:6px 12px 6px 10px;font-size:12.5px;color:#78350f;font-weight:600;box-shadow:0 1px 3px rgba(245,158,11,.15)}
+.bk-vt-chip svg{flex-shrink:0;color:#f59e0b}
+.bk-vt-remove{background:none;border:none;cursor:pointer;color:#b45309;font-size:16px;font-weight:700;line-height:1;padding:0 0 0 2px;display:flex;align-items:center;opacity:.7;transition:opacity .15s}
+.bk-vt-remove:hover{opacity:1}
 .bk-promo-active-bar{background:#fef3c7;border:1px solid #fbbf24;border-radius:10px;padding:11px 15px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:#78350f}
 .bk-promo-active-tag{margin-left:auto;background:#f59e0b;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0}
 
@@ -707,8 +726,9 @@
     .bk-card{padding:16px!important;display:block!important}
     .bk-cta-block{padding:14px 16px!important}
 
-    /* Room info — full width, no float */
-    .bk-room-info{width:100%!important;float:none!important;clear:both!important;padding:10px 12px!important;display:flex!important;flex-direction:column!important;box-sizing:border-box!important}
+    /* Room info — full width, giữ ngang trên mobile */
+    .bk-room-info{width:100%!important;float:none!important;clear:both!important;padding:10px 12px!important;display:flex!important;flex-direction:row!important;align-items:center!important;box-sizing:border-box!important}
+    .bk-room-info-icon{width:34px!important;height:34px!important}
 
     /* Fields */
     .bk-grid-2{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;width:100%!important}
@@ -721,8 +741,8 @@
     .bk-pay-title-row{flex-direction:column!important;align-items:flex-start!important;gap:6px!important}
 
     /* Payment method rows */
-    .bk-pm-row{padding:13px 14px!important;gap:10px!important;display:flex!important;align-items:center!important}
-    .bk-pm-right{flex-wrap:wrap!important;gap:4px!important;max-width:140px!important;flex-shrink:0!important}
+    .bk-pm-row{padding:13px 14px!important;gap:10px!important;display:flex!important;flex-direction:row!important;align-items:center!important;width:100%!important}
+    .bk-pm-right{flex-wrap:wrap!important;gap:4px!important;max-width:130px!important;flex-shrink:0!important}
     .bk-pm-info{flex:1!important;min-width:0!important}
 
     /* Card form (credit card inputs) */
@@ -964,15 +984,38 @@ async function applyPromo() {
             promoPercent = data.type==='percent' ? data.value : 0;
             promoDiscount = data.discount_amount;
             document.getElementById('promoApplied').value = '1';
-            msgEl.innerHTML = '<span style="color:#22c55e">✅ ' + data.message + '</span>';
+            msgEl.innerHTML = '';
+            // Hiển thị voucher chip bên ngoài ô nhập
+            const area  = document.getElementById('bkVoucherArea');
+            const label = document.getElementById('bkVoucherLabel');
+            if (area && label) {
+                const discTxt = data.type === 'percent'
+                    ? '−' + data.value + '%'
+                    : '−' + parseInt(data.discount_amount).toLocaleString('vi-VN') + 'đ';
+                label.textContent = code + ' · ' + discTxt;
+                area.classList.add('show');
+            }
             calcNights();
         } else {
             promoPercent = 0; promoDiscount = 0;
             document.getElementById('promoApplied').value = '0';
+            const area = document.getElementById('bkVoucherArea');
+            if (area) area.classList.remove('show');
             msgEl.innerHTML = '<span style="color:#ef4444">❌ ' + data.message + '</span>';
             calcNights();
         }
     } catch(e) { msgEl.innerHTML = '<span style="color:#ef4444">Lỗi kết nối, thử lại sau.</span>'; }
+}
+
+// ── Remove promo ──────────────────────────────────────────
+function removePromo() {
+    promoPercent = 0; promoDiscount = 0;
+    document.getElementById('promoApplied').value = '0';
+    document.getElementById('promoCodeInput').value = '';
+    document.getElementById('promoMsg').innerHTML = '';
+    const area = document.getElementById('bkVoucherArea');
+    if (area) area.classList.remove('show');
+    calcNights();
 }
 
 // ── Merge special requests into note on submit ────────────
