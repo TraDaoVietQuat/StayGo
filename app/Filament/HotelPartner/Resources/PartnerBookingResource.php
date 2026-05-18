@@ -13,8 +13,6 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\HtmlString;
-
 class PartnerBookingResource extends Resource
 {
     protected static ?string $model = Booking::class;
@@ -123,7 +121,7 @@ class PartnerBookingResource extends Resource
 
                 Action::make('checkin')
                     ->label('Check-in')->icon('heroicon-o-arrow-right-circle')->color('info')->button()
-                    ->visible(fn(Booking $r) => $r->status === 'confirmed' && $r->check_in <= now()->toDateString())
+                    ->visible(fn(Booking $r) => $r->status === 'confirmed' && $r->check_in?->lte(now()))
                     ->requiresConfirmation()->modalHeading('Xác nhận khách đã nhận phòng?')
                     ->action(function (Booking $record) {
                         $record->update(['status' => 'confirmed']);
@@ -132,7 +130,7 @@ class PartnerBookingResource extends Resource
 
                 Action::make('checkout')
                     ->label('Check-out')->icon('heroicon-o-arrow-left-circle')->color('gray')->button()
-                    ->visible(fn(Booking $r) => $r->status === 'confirmed' && $r->check_out <= now()->toDateString())
+                    ->visible(fn(Booking $r) => $r->status === 'confirmed' && $r->check_out?->lte(now()))
                     ->requiresConfirmation()->modalHeading('Xác nhận khách đã trả phòng?')
                     ->action(function (Booking $record) {
                         $record->update(['status' => 'completed']);
