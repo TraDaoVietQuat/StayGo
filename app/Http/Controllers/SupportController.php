@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminNewSupportRequest;
 use App\Models\SupportRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class SupportController extends Controller
 {
@@ -28,7 +29,7 @@ class SupportController extends Controller
             'note'      => ['nullable', 'string'],
         ]);
 
-        SupportRequest::create([
+        $support = SupportRequest::create([
             'user_id'   => Auth::id(),
             'full_name' => $request->full_name,
             'phone'     => $request->phone,
@@ -37,6 +38,8 @@ class SupportController extends Controller
             'note'      => $request->note,
             'status'    => 'pending',
         ]);
+
+        Mail::to(config('mail.admin_email'))->send(new AdminNewSupportRequest($support));
 
         if ($request->expectsJson()) {
             return response()->json(['success' => true, 'message' => 'Yêu cầu đã được gửi! Chúng tôi sẽ liên hệ trong vòng 15 phút.']);

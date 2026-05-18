@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SupportRequestResource\Pages;
+use App\Mail\SupportRequestReplied;
 use App\Models\SupportReply;
 use App\Models\SupportRequest;
 use Filament\Forms;
@@ -16,6 +17,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 
 class SupportRequestResource extends Resource
 {
@@ -183,6 +185,7 @@ class SupportRequestResource extends Resource
                             ->default(fn(SupportRequest $record): string => $record->status),
                     ])
                     ->action(function (SupportRequest $record, array $data): void {
+                        $isResolved = $data['status'] === 'resolved';
                         $record->update([
                             'admin_note' => $data['admin_note'],
                             'status'     => $data['status'],
@@ -194,6 +197,12 @@ class SupportRequestResource extends Resource
                             'message'            => $data['admin_note'],
                             'is_admin'           => true,
                         ]);
+                        // Gửi email thông báo cho user nếu có email
+                        if ($record->email) {
+                            Mail::to($record->email)->send(
+                                new SupportRequestReplied($record, $data['admin_note'], $isResolved)
+                            );
+                        }
                         Notification::make()->title('Đã lưu phản hồi')->success()->send();
                     }),
 
@@ -204,6 +213,12 @@ class SupportRequestResource extends Resource
                     ->visible(fn(SupportRequest $record): bool => ! in_array($record->status, ['resolved', 'closed']))
                     ->action(function (SupportRequest $record): void {
                         $record->update(['status' => 'resolved']);
+                        // Gửi email thông báo cho user nếu có email
+                        if ($record->email) {
+                            Mail::to($record->email)->send(
+                                new SupportRequestReplied($record, $record->admin_note ?? '', isResolved: true)
+                            );
+                        }
                         Notification::make()->title('Đánh dấu đã giải quyết')->success()->send();
                     }),
 
