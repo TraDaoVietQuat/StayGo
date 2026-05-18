@@ -588,7 +588,7 @@
         </div>
 
         <div class="cnd-carousel-wrap">
-            <button class="cnd-arrow cnd-arrow--prev" aria-label="Trước" onclick="cndScroll(-1)">&#8592;</button>
+            <button type="button" class="cnd-arrow cnd-arrow--prev" id="cndPrev" aria-label="Trước">&#8592;</button>
             <div class="cndSwiper" id="cndTrack">
                 <div class="cnd-track">
                     @foreach($blogPosts as $post)
@@ -612,7 +612,7 @@
                     @endforeach
                 </div>
             </div>
-            <button class="cnd-arrow cnd-arrow--next" aria-label="Tiếp" onclick="cndScroll(1)">&#8594;</button>
+            <button type="button" class="cnd-arrow cnd-arrow--next" id="cndNext" aria-label="Tiếp">&#8594;</button>
         </div>
 
         <div class="cnd-more-wrap">
@@ -621,25 +621,30 @@
     </div>
 </section>
 <script>
-/* Global: gọi từ onclick trực tiếp */
-function cndScroll(dir) {
-    var el = document.getElementById('cndTrack');
-    if (!el) return;
-    /* Force scrollable */
-    el.style.overflowX = 'scroll';
-    var slide = el.querySelector('.cnd-slide');
-    var w = (slide && slide.offsetWidth > 0) ? slide.offsetWidth + 20 : 300;
-    el.scrollLeft += dir * w;
-}
-
 (function(){
-    var el = document.getElementById('cndTrack');
+    var el   = document.getElementById('cndTrack');
+    var prev = document.getElementById('cndPrev');
+    var next = document.getElementById('cndNext');
     if (!el) return;
 
-    /* Force overflow qua JS — vượt qua mọi CSS conflict */
+    /* Force scroll — override mọi CSS conflict */
     el.style.overflowX = 'scroll';
     el.style.overflowY = 'hidden';
-    el.style.scrollBehavior = 'smooth';
+
+    function step() {
+        var s = el.querySelector('.cnd-slide');
+        return (s && s.offsetWidth > 50 ? s.offsetWidth : 280) + 20;
+    }
+
+    /* Buttons — dùng addEventListener như drag (KHÔNG dùng onclick) */
+    if (prev) prev.addEventListener('click', function(e){
+        e.stopPropagation();
+        el.scrollLeft = Math.max(0, el.scrollLeft - step());
+    });
+    if (next) next.addEventListener('click', function(e){
+        e.stopPropagation();
+        el.scrollLeft = Math.min(el.scrollWidth - el.clientWidth, el.scrollLeft + step());
+    });
 
     /* Drag chuột */
     var down = false, sx = 0, ss = 0, moved = false;
@@ -651,11 +656,7 @@ function cndScroll(dir) {
         e.preventDefault();
     });
     el.addEventListener('dragstart', function(e){ e.preventDefault(); });
-    document.addEventListener('mouseup', function(){
-        if (!down) return;
-        down = false;
-        el.style.cursor = '';
-    });
+    document.addEventListener('mouseup', function(){ down = false; el.style.cursor = ''; });
     document.addEventListener('mousemove', function(e){
         if (!down) return;
         var dx = e.clientX - sx;

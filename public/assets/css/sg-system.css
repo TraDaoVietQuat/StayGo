@@ -2985,12 +2985,19 @@ html body header.header:not(.header-transparent) .user-trigger:hover { backgroun
   padding: 0 !important;
 }
 .cnd-arrow {
-  position: static !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
   transform: none !important;
   flex-shrink: 0 !important;
+  z-index: 5 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
 }
 .cnd-arrow:hover {
   transform: scale(1.08) !important;
+  box-shadow: 0 6px 22px rgba(0,0,0,.22) !important;
 }
 .cndSwiper {
   flex: 1 !important;
