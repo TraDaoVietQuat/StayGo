@@ -279,13 +279,15 @@
                         <div class="fp-badge-logo" title="MoMo"><img src="{{ asset('assets/images/momo.png') }}" alt="MoMo" loading="lazy"></div>
                         <div class="fp-badge-logo" title="Visa/Mastercard"><img src="{{ asset('assets/images/thanh_toanqt.png') }}" alt="Thẻ quốc tế" loading="lazy"></div>
                         <div class="fp-badge-logo" title="Chuyển khoản ngân hàng">
-                            <svg width="36" height="28" viewBox="0 0 72 48" fill="none">
-                                <rect x="1" y="1" width="70" height="46" rx="5" fill="#1a56db"/>
-                                <rect x="1" y="13" width="70" height="11" fill="#1338be"/>
-                                <rect x="8" y="30" width="22" height="4" rx="2" fill="rgba(255,255,255,0.6)"/>
-                                <rect x="8" y="36" width="14" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
-                                <circle cx="54" cy="34" r="7" fill="#ef4444" opacity="0.9"/>
-                                <circle cx="62" cy="34" r="7" fill="#f59e0b" opacity="0.9"/>
+                            <svg width="34" height="26" viewBox="0 0 56 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="56" height="40" rx="5" fill="#1d4ed8"/>
+                                <polygon points="28,6 7,19 49,19" fill="white" opacity="0.95"/>
+                                <rect x="9"  y="20" width="4" height="11" rx="1" fill="white" opacity="0.85"/>
+                                <rect x="16" y="20" width="4" height="11" rx="1" fill="white" opacity="0.85"/>
+                                <rect x="24" y="20" width="4" height="11" rx="1" fill="white" opacity="0.85"/>
+                                <rect x="32" y="20" width="4" height="11" rx="1" fill="white" opacity="0.85"/>
+                                <rect x="39" y="20" width="4" height="11" rx="1" fill="white" opacity="0.85"/>
+                                <rect x="6"  y="32" width="44" height="3" rx="1.5" fill="white" opacity="0.9"/>
                             </svg>
                         </div>
                     </div>
