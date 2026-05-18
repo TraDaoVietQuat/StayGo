@@ -17,9 +17,11 @@
     </div>
 
     <div class="hero-content">
-        <div class="hero-search-title">Tìm khách sạn hoàn hảo cho bạn</div>
+        <div class="hero-search-title">Tìm khách sạn hoàn hảo<br>cho bạn</div>
         <div class="hero-search-sub">Hàng trăm khách sạn tại Đà Lạt, Nha Trang, Vũng Tàu &amp; Đà Nẵng</div>
+    </div>
 
+    <div class="hero-booking-bar">
         <div class="hsb-tabs-wrap">
             <button type="button" class="hsb-tab-btn {{ request('stay_type','night')==='night' ? 'active' : '' }}" onclick="setStayType('night', this)">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -30,9 +32,6 @@
                 1 ngày
             </button>
         </div>
-    </div>
-
-    <div class="hero-booking-bar">
         <form action="{{ route('hotels.index') }}" method="GET" class="hero-search-box has-filter-row" id="hsbForm">
             <input type="hidden" name="location" id="hsb-location-id" value="{{ request('location') }}">
             <input type="hidden" name="stay_type" id="hsb-stay-type" value="{{ request('stay_type','night') }}">
@@ -270,7 +269,7 @@
         @foreach([
             [null,              '🏠 Tất cả',             null],
             ['hotel',           '🏨 Khách sạn',          'hotel'],
-            ['homestay-resort', '🏨 Khách sạn & Resort',   'homestay-resort'],
+            ['homestay-resort', '🏝️ Resort',               'homestay-resort'],
         ] as [$val, $lbl, $check])
         <a href="?{{ http_build_query(array_merge(request()->except('type'), $val ? ['type' => $val] : [])) }}"
            class="hl-type-tab {{ (request('type') === $check || (!request('type') && $check === null)) ? 'active' : '' }}">

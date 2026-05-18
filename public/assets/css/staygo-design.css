@@ -3556,8 +3556,19 @@ body:has(.auth-fullscreen) footer {
     margin-bottom: 28px !important;
   }
   .hero-search-section {
+    height: auto !important;
     min-height: 55vh !important;
-    padding: 80px 16px 48px !important;
+    padding: 80px 16px 0 !important;
+    justify-content: flex-start !important;
+  }
+  .hero-content {
+    margin-bottom: 20px !important;
+  }
+  .hero-booking-bar {
+    position: relative !important;
+    bottom: auto !important;
+    padding: 0 16px 32px !important;
+    width: 100% !important;
   }
   .hero-search-box {
     flex-direction: column !important;
