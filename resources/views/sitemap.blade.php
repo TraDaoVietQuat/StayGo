@@ -10,6 +10,9 @@
   @foreach($hotels as $hotel)
   <url>
     <loc>{{ url('/hotels/' . $hotel->id) }}</loc>
+    @if($hotel->created_at)
+    <lastmod>{{ $hotel->created_at->toAtomString() }}</lastmod>
+    @endif
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -23,14 +26,6 @@
     @endif
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url>
-  @endforeach
-
-  @foreach($places as $place)
-  <url>
-    <loc>{{ url('/dia-diem/' . $place->id) }}</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
   </url>
   @endforeach
 
