@@ -16,6 +16,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class PartnerPayoutResource extends Resource
@@ -31,7 +32,7 @@ class PartnerPayoutResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = PartnerPayout::where('status', 'pending')->count();
+        $count = Cache::remember('badge.payouts.pending', 120, fn () => PartnerPayout::where('status', 'pending')->count());
         return $count > 0 ? (string) $count : null;
     }
 

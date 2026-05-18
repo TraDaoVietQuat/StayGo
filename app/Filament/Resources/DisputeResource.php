@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -37,14 +38,13 @@ class DisputeResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = Dispute::whereIn('status', ['open', 'investigating', 'escalated'])->count();
+        $count = Cache::remember('badge.disputes.open', 60, fn () => Dispute::whereIn('status', ['open', 'investigating', 'escalated'])->count());
         return $count > 0 ? (string) $count : null;
     }
 
     public static function getNavigationBadgeColor(): string|array|null
     {
-        $urgent = Dispute::where('priority', 'urgent')
-            ->whereIn('status', ['open', 'investigating'])->count();
+        $urgent = Cache::remember('badge.disputes.urgent', 60, fn () => Dispute::where('priority', 'urgent')->whereIn('status', ['open', 'investigating'])->count());
         return $urgent > 0 ? 'danger' : 'warning';
     }
 

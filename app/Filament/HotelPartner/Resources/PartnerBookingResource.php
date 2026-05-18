@@ -15,6 +15,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 class PartnerBookingResource extends Resource
 {
@@ -30,9 +31,13 @@ class PartnerBookingResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         try {
-            $hotel   = auth('hotel_partner')->user()?->managedHotel;
-            $roomIds = $hotel ? $hotel->rooms()->pluck('id') : collect();
-            $count   = Booking::whereIn('room_id', $roomIds)->where('status', 'pending')->count();
+            $hotel = auth('hotel_partner')->user()?->managedHotel;
+            if (!$hotel) return null;
+            $hotelId = $hotel->id;
+            $count = Cache::remember("badge.partner.bookings.{$hotelId}", 60, function () use ($hotelId) {
+                $roomIds = \App\Models\Room::where('hotel_id', $hotelId)->pluck('id');
+                return Booking::whereIn('room_id', $roomIds)->where('status', 'pending')->count();
+            });
             return $count > 0 ? (string) $count : null;
         } catch (\Exception) {
             return null;

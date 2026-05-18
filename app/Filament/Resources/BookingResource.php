@@ -23,6 +23,7 @@ use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 
@@ -39,7 +40,7 @@ class BookingResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = Booking::where('status', 'pending')->count();
+        $count = Cache::remember('badge.bookings.pending', 60, fn () => Booking::where('status', 'pending')->count());
         return $count > 0 ? (string) $count : null;
     }
 

@@ -16,6 +16,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\HtmlString;
 
 class ReviewResource extends Resource
@@ -31,7 +32,7 @@ class ReviewResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = Review::where('is_active', false)->count();
+        $count = Cache::remember('badge.reviews.pending', 60, fn () => Review::where('is_active', false)->count());
         return $count > 0 ? (string) $count : null;
     }
 

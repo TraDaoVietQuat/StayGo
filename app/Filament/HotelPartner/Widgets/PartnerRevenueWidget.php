@@ -8,6 +8,7 @@ use Filament\Widgets\ChartWidget;
 class PartnerRevenueWidget extends ChartWidget
 {
     protected static ?int $sort = 3;
+    protected static bool $isLazy = true;
     protected static ?string $heading = 'Doanh thu 6 tháng gần đây';
     protected int|string|array $columnSpan = 'full';
 

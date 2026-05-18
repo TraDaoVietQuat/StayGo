@@ -27,7 +27,7 @@ class HotelProfileResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         $userId = auth('hotel_partner')->id();
-        return parent::getEloquentQuery()->where('partner_user_id', $userId);
+        return parent::getEloquentQuery()->where('partner_user_id', $userId)->with(['location']);
     }
 
     public static function form(Form $form): Form

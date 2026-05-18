@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Mail\PartnerApproved;
 use App\Mail\PartnerRejected;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -37,7 +38,7 @@ class HotelPartnerResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = HotelPartnerProfile::where('status', 'pending')->count();
+        $count = Cache::remember('badge.hotel_partners.pending', 120, fn () => HotelPartnerProfile::where('status', 'pending')->count());
         return $count > 0 ? (string) $count : null;
     }
 

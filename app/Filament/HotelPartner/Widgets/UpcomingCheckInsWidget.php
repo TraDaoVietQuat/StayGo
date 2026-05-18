@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 class UpcomingCheckInsWidget extends BaseWidget
 {
     protected static ?int $sort = 2;
+    protected static bool $isLazy = true;
     protected int|string|array $columnSpan = 'full';
     protected static ?string $heading = 'Check-in sắp tới (7 ngày)';
 

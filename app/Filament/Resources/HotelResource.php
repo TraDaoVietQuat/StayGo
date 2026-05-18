@@ -245,7 +245,7 @@ class HotelResource extends Resource
     {
         return $table
             ->defaultSort('id', 'desc')
-            ->modifyQueryUsing(fn(Builder $query) => $query->with(['location', 'rooms']))
+            ->modifyQueryUsing(fn(Builder $query) => $query->with(['location'])->withCount('rooms'))
             ->searchPlaceholder('Tên khách sạn, địa chỉ...')
 
             ->columns([
@@ -300,7 +300,6 @@ class HotelResource extends Resource
 
                 Tables\Columns\TextColumn::make('rooms_count')
                     ->label('Phòng')
-                    ->getStateUsing(fn(Hotel $record): int => $record->rooms->count())
                     ->badge()
                     ->color('gray'),
 

@@ -17,6 +17,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
 class SupportRequestResource extends Resource
@@ -32,7 +33,7 @@ class SupportRequestResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = SupportRequest::where('status', 'pending')->count();
+        $count = Cache::remember('badge.support.pending', 60, fn () => SupportRequest::where('status', 'pending')->count());
         return $count > 0 ? (string) $count : null;
     }
 

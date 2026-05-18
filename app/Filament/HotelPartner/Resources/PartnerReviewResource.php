@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -50,12 +51,14 @@ class PartnerReviewResource extends Resource
         if (!$hotel) return null;
 
         try {
-            $count = Review::where('hotel_id', $hotel->id)
-                ->where('is_active', true)
-                ->where('rating', '<=', 2)
-                ->whereNull('partner_reply')
-                ->count();
-
+            $hotelId = $hotel->id;
+            $count = Cache::remember("badge.partner.reviews.{$hotelId}", 60, fn () =>
+                Review::where('hotel_id', $hotelId)
+                    ->where('is_active', true)
+                    ->where('rating', '<=', 2)
+                    ->whereNull('partner_reply')
+                    ->count()
+            );
             return $count > 0 ? (string) $count : null;
         } catch (\Exception) {
             return null;

@@ -14,6 +14,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\HtmlString;
 
 class PromoResource extends Resource
@@ -29,7 +30,7 @@ class PromoResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $count = Promo::where('is_active', true)->count();
+        $count = Cache::remember('badge.promos.active', 300, fn () => Promo::where('is_active', true)->count());
         return $count > 0 ? (string) $count : null;
     }
 

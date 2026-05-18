@@ -20,6 +20,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 
@@ -39,7 +40,7 @@ class PaymentResource extends Resource
     // ------------------------------------------------------------------
     public static function getNavigationBadge(): ?string
     {
-        $count = Payment::where('payment_status', 'pending')->count();
+        $count = Cache::remember('badge.payments.pending', 60, fn () => Payment::where('payment_status', 'pending')->count());
         return $count > 0 ? (string) $count : null;
     }
 

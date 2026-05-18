@@ -136,7 +136,7 @@ class RoomResource extends Resource
     {
         return $table
             ->defaultSort('hotel_id', 'asc')
-            ->modifyQueryUsing(fn(Builder $query) => $query->with('hotel'))
+            ->modifyQueryUsing(fn(Builder $query) => $query->with('hotel')->withCount(['bookings as active_bookings_count' => fn($q) => $q->whereIn('status', ['pending', 'confirmed'])]))
             ->searchPlaceholder('Tên khách sạn, loại phòng...')
 
             ->columns([
@@ -186,19 +186,10 @@ class RoomResource extends Resource
                     ->color('gray')
                     ->alignCenter(),
 
-                Tables\Columns\TextColumn::make('bookings_count')
-                    ->label('Đang có booking')
-                    ->getStateUsing(function (Room $record): HtmlString {
-                        $active = Booking::where('room_id', $record->id)
-                            ->whereIn('status', ['pending', 'confirmed'])
-                            ->count();
-                        $color = $active > 0 ? 'text-orange-500' : 'text-gray-400';
-                        return new HtmlString(
-                            '<span class="font-semibold ' . $color . '">' . $active . '</span>'
-                        );
-                    })
-                    ->html()
-                    ->label('Booking'),
+                Tables\Columns\TextColumn::make('active_bookings_count')
+                    ->label('Booking')
+                    ->badge()
+                    ->color(fn($state) => $state > 0 ? 'warning' : 'gray'),
             ])
 
             ->filters([
