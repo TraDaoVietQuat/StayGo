@@ -33,7 +33,7 @@ class HomeController extends Controller
                 ->get()
         );
 
-        $featuredByLocation = Cache::remember('home.featured_by_location.v3', 1800, function () {
+        $featuredByLocation = Cache::remember('home.featured_by_location.v4', 1800, function () {
             return Location::active()->get()->map(function ($loc) {
                 $hotels = Hotel::where('location_id', $loc->id)
                     ->where('is_active', true)

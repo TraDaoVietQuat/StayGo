@@ -348,7 +348,7 @@
                 @if($discount)
                 <span class="hlc-badge-save">-{{ $discount }}%</span>
                 @endif
-                @if($hotel->type === 'resort')
+                @if(in_array($hotel->type, ['resort', 'hotel_resort']))
                 <span class="hlc-badge-type hlc-badge-resort">Resort</span>
                 @else
                 <span class="hlc-badge-type hlc-badge-hotel">Khách sạn</span>

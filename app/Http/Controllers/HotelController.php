@@ -33,7 +33,7 @@ class HotelController extends Controller
         // Lọc theo loại hình (hotel / homestay / resort)
         if ($type) {
             if ($type === 'homestay-resort') {
-                $query->whereIn('type', ['homestay', 'resort']);
+                $query->whereIn('type', ['homestay', 'resort', 'hotel_resort']);
             } else {
                 $query->where('type', $type);
             }
