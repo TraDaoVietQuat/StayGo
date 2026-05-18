@@ -622,18 +622,39 @@
 </section>
 <script>
 (function(){
-    var grid = document.querySelector('.cndSwiper');
+    var el = document.querySelector('.cndSwiper');
     var prev = document.getElementById('cndPrev');
     var next = document.getElementById('cndNext');
-    if (!grid || !prev || !next) return;
-    var step = 300;
-    prev.addEventListener('click', function(){ grid.scrollBy({ left: -step, behavior: 'smooth' }); });
-    next.addEventListener('click', function(){ grid.scrollBy({ left:  step, behavior: 'smooth' }); });
-    var isDown = false, startX, scrollLeft;
-    grid.addEventListener('mousedown', function(e){ isDown = true; startX = e.pageX - grid.offsetLeft; scrollLeft = grid.scrollLeft; });
-    grid.addEventListener('mouseleave', function(){ isDown = false; });
-    grid.addEventListener('mouseup',    function(){ isDown = false; });
-    grid.addEventListener('mousemove',  function(e){ if (!isDown) return; e.preventDefault(); grid.scrollLeft = scrollLeft - (e.pageX - grid.offsetLeft - startX) * 1.4; });
+    if (!el) return;
+
+    /* Đảm bảo element scroll được */
+    el.style.overflowX = 'auto';
+    el.style.scrollBehavior = 'smooth';
+
+    var slideW = (el.querySelector('.swiper-slide') || {}).offsetWidth || 296;
+    var step = slideW + 20;
+
+    function scrollTo(delta) {
+        el.scrollLeft += delta;
+    }
+
+    if (prev) prev.addEventListener('click', function(){ scrollTo(-step); });
+    if (next) next.addEventListener('click', function(){ scrollTo(step); });
+
+    /* Mouse drag */
+    var dragging = false, startX = 0, startScroll = 0;
+    el.addEventListener('mousedown',  function(e){ dragging = true; startX = e.clientX; startScroll = el.scrollLeft; el.style.cursor = 'grabbing'; });
+    window.addEventListener('mouseup',   function(){ dragging = false; el.style.cursor = ''; });
+    window.addEventListener('mousemove', function(e){
+        if (!dragging) return;
+        e.preventDefault();
+        el.scrollLeft = startScroll - (e.clientX - startX);
+    });
+
+    /* Touch swipe */
+    var touchX = 0, touchScroll = 0;
+    el.addEventListener('touchstart', function(e){ touchX = e.touches[0].clientX; touchScroll = el.scrollLeft; }, { passive: true });
+    el.addEventListener('touchmove',  function(e){ el.scrollLeft = touchScroll - (e.touches[0].clientX - touchX); }, { passive: true });
 })();
 </script>
 @endif
