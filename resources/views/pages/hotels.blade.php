@@ -1,5 +1,12 @@
 @extends('layouts.app')
-@section('title', 'Khách sạn')
+@php
+    $pageTitle = match(request('type')) {
+        'hotel'           => 'Khách sạn',
+        'homestay-resort' => 'Resort',
+        default           => 'Khách sạn & Resort',
+    };
+@endphp
+@section('title', $pageTitle)
 @section('header_class', '')
 
 @section('content')
