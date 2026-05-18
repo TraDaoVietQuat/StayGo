@@ -633,9 +633,8 @@
 .bk-cvv-tip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;background:#e2e8f0;border-radius:50%;font-size:10px;color:#718096;cursor:help}
 .bk-cf-ssl{font-size:11px;color:#15803d;display:flex;align-items:center;gap:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:7px;padding:7px 10px}
 
-/* Voucher dropdown */
-.bk-promo-wrap{position:relative}
-.bk-vd-list{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1.5px solid #dbeafe;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.1);z-index:200;max-height:280px;overflow-y:auto;display:none}
+/* Voucher dropdown — fixed để tránh bị cắt bởi overflow:hidden của các parent */
+.bk-vd-list{position:fixed;background:#fff;border:1.5px solid #dbeafe;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.15);z-index:9999;max-height:280px;overflow-y:auto;display:none}
 .bk-vd-list.show{display:block}
 .bk-vd-header{padding:10px 14px 8px;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #f0f4f8}
 .bk-vd-item{padding:11px 14px;cursor:pointer;border-bottom:1px solid #f8fafc;display:flex;align-items:center;gap:10px;transition:background .12s}
@@ -1054,9 +1053,26 @@ function mergeSpecialRequests(form) {
 
 // ── Voucher dropdown ──────────────────────────────────────
 let vouchersLoaded = false;
+
+function positionVoucherList() {
+    const list = document.getElementById('bkVdList');
+    const inp  = document.getElementById('promoCodeInput');
+    if (!list || !inp) return;
+    const rect = inp.getBoundingClientRect();
+    list.style.top   = (rect.bottom + 6) + 'px';
+    list.style.left  = rect.left + 'px';
+    list.style.width = rect.width + 'px';
+}
+
+window.addEventListener('scroll', () => {
+    const list = document.getElementById('bkVdList');
+    if (list && list.classList.contains('show')) positionVoucherList();
+}, { passive: true });
+
 async function openVoucherList() {
     const list = document.getElementById('bkVdList');
     if (!list) return;
+    positionVoucherList();
     list.classList.add('show');
     if (vouchersLoaded) return;
     try {
