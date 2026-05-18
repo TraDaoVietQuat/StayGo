@@ -330,6 +330,9 @@ body {
   align-items: center !important;
   justify-content: center !important;
   background: var(--sg-navy-deep) !important;
+  /* Đẩy vùng centering lên trên để tránh overlap với hero-booking-bar (absolute, bottom:40px, cao ~210px) */
+  padding-top: 40px !important;
+  padding-bottom: 220px !important;
 }
 
 /* Overlay gradient trên slideshow */
