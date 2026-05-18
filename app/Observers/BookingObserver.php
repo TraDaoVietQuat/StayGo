@@ -16,7 +16,7 @@ class BookingObserver
     private function clearAll(): void
     {
         $this->forgetMany([
-            // Admin widgets phụ thuộc vào bookings
+            // Admin widgets
             'widget.stats_overview.data',
             'widget.occupancy.data',
             'widget.revenue_chart.data.3',
@@ -29,6 +29,15 @@ class BookingObserver
             'widget.top_hotels.data.bookings',
             'widget.top_hotels.data.revenue',
             'widget.revenue_ranking.data',
+            // Admin nav badges
+            'badge.bookings.pending',
         ]);
+        // Partner badge cache keyed by hotel — clear via pattern
+        try {
+            $this->forgetByPattern('badge.partner.bookings.*');
+            $this->forgetByPattern('partner.stats.*');
+        } catch (\Throwable) {
+            // Redis không available — file/database cache sẽ expire tự nhiên
+        }
     }
 }

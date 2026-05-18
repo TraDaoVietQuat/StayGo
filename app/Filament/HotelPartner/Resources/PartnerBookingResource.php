@@ -129,7 +129,11 @@ class PartnerBookingResource extends Resource
                     ->action(function (Booking $record) {
                         $record->update(['status' => 'confirmed']);
                         if ($record->email) {
-                            Mail::to($record->email)->send(new BookingConfirmation($record));
+                            try {
+                                Mail::to($record->email)->send(new BookingConfirmation($record));
+                            } catch (\Throwable $e) {
+                                \Illuminate\Support\Facades\Log::warning('PartnerBooking confirm mail failed: ' . $e->getMessage());
+                            }
                         }
                         Notification::make()->title('Đã xác nhận đơn #' . $record->order_code)->success()->send();
                     }),
@@ -159,7 +163,11 @@ class PartnerBookingResource extends Resource
                     ->action(function (Booking $record) {
                         $record->update(['status' => 'cancelled']);
                         if ($record->email) {
-                            Mail::to($record->email)->send(new BookingCancelled($record));
+                            try {
+                                Mail::to($record->email)->send(new BookingCancelled($record));
+                            } catch (\Throwable $e) {
+                                \Illuminate\Support\Facades\Log::warning('PartnerBooking reject mail failed: ' . $e->getMessage());
+                            }
                         }
                         Notification::make()->title('Đã từ chối đơn #' . $record->order_code)->danger()->send();
                     }),
