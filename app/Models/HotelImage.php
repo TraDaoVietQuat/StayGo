@@ -17,6 +17,8 @@ class HotelImage extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return asset('assets/images/' . ($this->image ?? 'placeholder.jpg'));
+        $path = $this->image ?? 'placeholder.jpg';
+        $encoded = implode('/', array_map('rawurlencode', explode('/', $path)));
+        return asset('assets/images/' . $encoded);
     }
 }
