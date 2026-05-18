@@ -1,15 +1,59 @@
 <x-filament-panels::page>
 
 <style>
-/* ── Layout ── */
-.mr-toolbar { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; margin-bottom:1.5rem; }
-.mr-select   { padding:.4rem .8rem; border-radius:8px; border:1px solid #d1d5db; font-size:13px; color:#374151; background:#fff; }
-.mr-btn      { padding:.45rem 1.25rem; border-radius:8px; font-size:13px; font-weight:600; border:none; cursor:pointer; transition:all .15s; }
-.mr-btn-primary { background:#1d4ed8; color:#fff; }
-.mr-btn-primary:hover { background:#1e40af; }
-.mr-btn-print  { background:#f3f4f6; color:#374151; border:1px solid #d1d5db; }
-.mr-btn-print:hover { background:#e5e7eb; }
-.mr-btn:disabled { opacity:.5; cursor:not-allowed; }
+/* ── Toolbar ── */
+.mr-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+}
+.mr-select {
+    height: 40px;
+    min-width: 120px;
+    padding: 0 32px 0 12px;
+    border-radius: 8px;
+    border: 1.5px solid #d1d5db;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06);
+}
+.mr-select:hover  { border-color: #9ca3af; }
+.mr-select:focus  { border-color: #1d4ed8; box-shadow: 0 0 0 3px rgba(29,78,216,.12); }
+.mr-btn {
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+.mr-btn-primary { background: #1d4ed8; color: #fff; box-shadow: 0 2px 8px rgba(29,78,216,.25); }
+.mr-btn-primary:hover { background: #1e40af; box-shadow: 0 4px 14px rgba(29,78,216,.35); transform: translateY(-1px); }
+.mr-btn-print  { background: #fff; color: #374151; border: 1.5px solid #d1d5db; box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+.mr-btn-print:hover { background: #f9fafb; border-color: #9ca3af; }
+.mr-btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
 /* ── Report container ── */
 #report-body { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:2rem 2.5rem; font-family:'Inter',sans-serif; max-width:900px; margin:0 auto; }
