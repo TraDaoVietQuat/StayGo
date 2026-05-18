@@ -199,18 +199,25 @@ class BookingController extends Controller
         $booking->load('room.hotel');
         try {
             Mail::to($booking->email)->send(new BookingConfirmation($booking));
-        } catch (\Exception $e) {}
+            Log::info('BookingConfirmation sent', ['booking_id' => $booking->id, 'email' => $booking->email]);
+        } catch (\Exception $e) {
+            Log::error('BookingConfirmation FAILED', ['booking_id' => $booking->id, 'email' => $booking->email, 'error' => $e->getMessage()]);
+        }
 
         // Thông báo cho admin
         try {
             Mail::to(config('mail.from.address'))->send(new AdminNewBooking($booking));
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            Log::error('AdminNewBooking FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
+        }
 
         // Thông báo DB cho user đã đăng nhập
         if (Auth::check()) {
             try {
                 Auth::user()->notify(new BookingConfirmedNotification($booking));
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+                Log::error('BookingConfirmedNotification FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
+            }
         }
 
         // Thông báo real-time + email cho hotel partner
@@ -223,7 +230,9 @@ class BookingController extends Controller
                     Mail::to($partner->email)->send(new PartnerNewBooking($booking));
                 }
             }
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+            Log::error('PartnerNewBooking FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
+        }
 
         session(['booking_order_code' => $booking->order_code]);
 
