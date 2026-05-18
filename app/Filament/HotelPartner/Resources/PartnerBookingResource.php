@@ -87,18 +87,18 @@ class PartnerBookingResource extends Resource
                     ->label('Check-out')->date('d/m/Y'),
                 Tables\Columns\TextColumn::make('total_price')
                     ->label('Tổng tiền')
-                    ->formatStateUsing(fn($s) => number_format($s, 0, ',', '.') . ' ₫'),
+                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Trạng thái')->badge()
-                    ->formatStateUsing(fn($s) => match ($s) {
+                    ->formatStateUsing(fn($state) => match ($state) {
                         'pending'   => 'Chờ xác nhận',
                         'confirmed' => 'Đã xác nhận',
                         'cancelled' => 'Đã hủy',
                         'completed' => 'Hoàn thành',
                         'refunded'  => 'Đã hoàn tiền',
-                        default     => $s,
+                        default     => $state,
                     })
-                    ->color(fn($s) => match ($s) {
+                    ->color(fn($state) => match ($state) {
                         'confirmed','completed' => 'success',
                         'pending'               => 'warning',
                         'cancelled','refunded'  => 'danger',

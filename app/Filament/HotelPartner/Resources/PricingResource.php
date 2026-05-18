@@ -66,14 +66,14 @@ class PricingResource extends Resource
                 Tables\Columns\TextColumn::make('label')->label('Nhãn')->placeholder('—'),
                 Tables\Columns\TextColumn::make('price_type')
                     ->label('Loại giá')
-                    ->formatStateUsing(fn($s) => RoomPrice::typeLabels()[$s] ?? $s)->badge(),
+                    ->formatStateUsing(fn($state) => RoomPrice::typeLabels()[$state] ?? $state)->badge(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->label('Từ ngày')->date('d/m/Y'),
                 Tables\Columns\TextColumn::make('end_date')
                     ->label('Đến ngày')->date('d/m/Y'),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Giá/đêm')
-                    ->formatStateUsing(fn($s) => number_format($s, 0, ',', '.') . ' ₫'),
+                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()->label('Sửa'),

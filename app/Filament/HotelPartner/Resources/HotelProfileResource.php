@@ -108,7 +108,7 @@ class HotelProfileResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('Tên khách sạn'),
                 Tables\Columns\TextColumn::make('location.name')->label('Địa điểm'),
                 Tables\Columns\TextColumn::make('stars')->label('Hạng sao')
-                    ->formatStateUsing(fn($s) => str_repeat('⭐', (int)$s)),
+                    ->formatStateUsing(fn($state) => str_repeat('⭐', (int)$state)),
                 Tables\Columns\IconColumn::make('is_active')->label('Hiển thị')->boolean(),
             ])
             ->actions([

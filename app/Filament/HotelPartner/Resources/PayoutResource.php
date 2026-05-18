@@ -39,27 +39,27 @@ class PayoutResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('period_start')
                     ->label('Kỳ thanh toán')
-                    ->formatStateUsing(fn($s, PartnerPayout $r) =>
-                        $r->period_start->format('d/m/Y') . ' → ' . $r->period_end->format('d/m/Y')
+                    ->formatStateUsing(fn(PartnerPayout $record) =>
+                        $record->period_start->format('d/m/Y') . ' → ' . $record->period_end->format('d/m/Y')
                     ),
                 Tables\Columns\TextColumn::make('booking_count')->label('Số đơn'),
                 Tables\Columns\TextColumn::make('gross_revenue')
                     ->label('Doanh thu')
-                    ->formatStateUsing(fn($s) => number_format($s, 0, ',', '.') . ' ₫'),
+                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫'),
                 Tables\Columns\TextColumn::make('commission_rate')
                     ->label('Hoa hồng')
-                    ->formatStateUsing(fn($s, PartnerPayout $r) =>
-                        $r->commission_rate . '% = ' . number_format($r->commission_amount, 0, ',', '.') . ' ₫'
+                    ->formatStateUsing(fn(PartnerPayout $record) =>
+                        $record->commission_rate . '% = ' . number_format($record->commission_amount, 0, ',', '.') . ' ₫'
                     ),
                 Tables\Columns\TextColumn::make('net_amount')
                     ->label('Nhận về')
-                    ->formatStateUsing(fn($s) => number_format($s, 0, ',', '.') . ' ₫')
+                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫')
                     ->weight(\Filament\Support\Enums\FontWeight::Bold)
                     ->color('success'),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Trạng thái')->badge()
-                    ->formatStateUsing(fn($s) => PartnerPayout::statusLabels()[$s] ?? $s)
-                    ->color(fn($s) => match ($s) {
+                    ->formatStateUsing(fn($state) => PartnerPayout::statusLabels()[$state] ?? $state)
+                    ->color(fn($state) => match ($state) {
                         'paid'       => 'success',
                         'processing' => 'info',
                         'pending'    => 'warning',

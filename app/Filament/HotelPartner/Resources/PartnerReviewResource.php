@@ -90,7 +90,7 @@ class PartnerReviewResource extends Resource
 
                 Tables\Columns\TextColumn::make('rating')
                     ->label('Điểm')
-                    ->formatStateUsing(fn($s) => str_repeat('⭐', (int)$s) . " ($s/5)")
+                    ->formatStateUsing(fn($state) => str_repeat('⭐', (int)$state) . " ($state/5)")
                     ->description(fn(Review $r) => collect([
                         $r->cleanliness    ? "🧹{$r->cleanliness}" : null,
                         $r->service_score  ? "🤝{$r->service_score}" : null,
@@ -98,7 +98,7 @@ class PartnerReviewResource extends Resource
                         $r->value_score    ? "💰{$r->value_score}" : null,
                     ])->filter()->implode(' | '))
                     ->badge()
-                    ->color(fn($s) => (int)$s >= 4 ? 'success' : ((int)$s >= 3 ? 'warning' : 'danger')),
+                    ->color(fn($state) => (int)$state >= 4 ? 'success' : ((int)$state >= 3 ? 'warning' : 'danger')),
 
                 Tables\Columns\TextColumn::make('comment')
                     ->label('Nhận xét')->limit(80)->wrap(),

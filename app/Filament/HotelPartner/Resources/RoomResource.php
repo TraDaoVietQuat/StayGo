@@ -121,15 +121,15 @@ class RoomResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('room_name')->label('Tên phòng')->searchable(),
                 Tables\Columns\TextColumn::make('bed_type')->label('Loại giường')
-                    ->formatStateUsing(fn($s) => match ($s) {
+                    ->formatStateUsing(fn($state) => match ($state) {
                         'double' => 'Đôi', 'twin' => '2 đơn', 'king' => 'King',
-                        'queen'  => 'Queen', 'suite' => 'Suite', default => ucfirst($s ?? ''),
+                        'queen'  => 'Queen', 'suite' => 'Suite', default => ucfirst($state ?? ''),
                     })->badge(),
                 Tables\Columns\TextColumn::make('quantity')->label('Số phòng'),
                 Tables\Columns\TextColumn::make('max_guests')->label('Khách tối đa'),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Giá/đêm')
-                    ->formatStateUsing(fn($s) => number_format($s, 0, ',', '.') . ' ₫'),
+                    ->formatStateUsing(fn($state) => number_format($state, 0, ',', '.') . ' ₫'),
                 Tables\Columns\IconColumn::make('is_refundable')->label('Hoàn tiền')->boolean(),
                 Tables\Columns\IconColumn::make('is_sale')->label('Đang sale')->boolean(),
             ])
