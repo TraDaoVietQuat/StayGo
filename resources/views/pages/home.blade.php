@@ -589,13 +589,13 @@
 
         <div class="cnd-carousel-wrap">
             <button class="cnd-arrow cnd-arrow--prev" id="cndPrev" aria-label="Trước">&#8592;</button>
-            <div class="swiper cndSwiper">
-                <div class="swiper-wrapper">
+            <div class="cndSwiper">
+                <div class="cnd-track">
                     @foreach($blogPosts as $post)
-                    <div class="swiper-slide">
-                        <a href="{{ route('blog.show', $post) }}" class="cnd-card">
+                    <div class="cnd-slide">
+                        <a href="{{ route('blog.show', $post) }}" class="cnd-card" draggable="false">
                             @if($post->thumb)
-                            <img class="cnd-card-img" src="{{ str_starts_with($post->thumb,'http') ? $post->thumb : asset('storage/'.$post->thumb) }}" alt="{{ $post->category }}" loading="lazy"
+                            <img class="cnd-card-img" src="{{ str_starts_with($post->thumb,'http') ? $post->thumb : asset('storage/'.$post->thumb) }}" alt="{{ $post->category }}" loading="lazy" draggable="false"
                                 onerror="this.style.display='none';this.nextElementSibling.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1B3A6B,#2D5BE3)';">
                             @else
                             <div class="cnd-card-img cnd-card-img-fallback">
@@ -622,34 +622,46 @@
 </section>
 <script>
 (function(){
-    var el = document.querySelector('.cndSwiper');
+    var el   = document.querySelector('.cndSwiper');
     var prev = document.getElementById('cndPrev');
     var next = document.getElementById('cndNext');
     if (!el) return;
 
-    /* Đảm bảo element scroll được */
-    el.style.overflowX = 'auto';
-    el.style.scrollBehavior = 'smooth';
+    var slideW = function(){ return (el.querySelector('.cnd-slide') || {}).offsetWidth || 290; };
+    var step   = function(){ return slideW() + 20; };
 
-    var slideW = (el.querySelector('.swiper-slide') || {}).offsetWidth || 296;
-    var step = slideW + 20;
+    /* Arrow buttons */
+    if (prev) prev.addEventListener('click', function(){ el.scrollLeft -= step(); });
+    if (next) next.addEventListener('click', function(){ el.scrollLeft += step(); });
 
-    function scrollTo(delta) {
-        el.scrollLeft += delta;
-    }
+    /* Ngăn browser drag mặc định (drag link, drag image) */
+    el.addEventListener('dragstart', function(e){ e.preventDefault(); });
 
-    if (prev) prev.addEventListener('click', function(){ scrollTo(-step); });
-    if (next) next.addEventListener('click', function(){ scrollTo(step); });
-
-    /* Mouse drag */
-    var dragging = false, startX = 0, startScroll = 0;
-    el.addEventListener('mousedown',  function(e){ dragging = true; startX = e.clientX; startScroll = el.scrollLeft; el.style.cursor = 'grabbing'; });
-    window.addEventListener('mouseup',   function(){ dragging = false; el.style.cursor = ''; });
+    /* Mouse drag — chỉ scroll nếu di chuyển > 4px (tránh nhầm với click) */
+    var dragging = false, moved = false, startX = 0, startScroll = 0;
+    el.addEventListener('mousedown', function(e){
+        if (e.button !== 0) return;
+        dragging = true; moved = false;
+        startX = e.clientX; startScroll = el.scrollLeft;
+        el.style.cursor = 'grabbing';
+    });
+    window.addEventListener('mouseup', function(e){
+        if (!dragging) return;
+        dragging = false;
+        el.style.cursor = '';
+        if (moved) e.stopPropagation(); /* chặn click qua khi đã drag */
+    }, true);
     window.addEventListener('mousemove', function(e){
         if (!dragging) return;
-        e.preventDefault();
-        el.scrollLeft = startScroll - (e.clientX - startX);
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) {
+            moved = true;
+            el.scrollLeft = startScroll - dx;
+        }
     });
+    el.addEventListener('click', function(e){
+        if (moved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
 
     /* Touch swipe */
     var touchX = 0, touchScroll = 0;

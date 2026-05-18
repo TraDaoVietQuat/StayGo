@@ -2977,8 +2977,24 @@ html body header.header:not(.header-transparent) .user-trigger:hover { backgroun
 .fp-badge-logo img { filter: none !important; }
 
 /* ─── FIX: Cẩm nang du lịch carousel (no Swiper.js) ─────── */
-/* Convert swiper container to manual horizontal scroll */
+/* ── CẨM NANG CAROUSEL — flex layout, arrows không bao giờ bị chặn ── */
+.cnd-carousel-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 0 !important;
+}
+.cnd-arrow {
+  position: static !important;
+  transform: none !important;
+  flex-shrink: 0 !important;
+}
+.cnd-arrow:hover {
+  transform: scale(1.08) !important;
+}
 .cndSwiper {
+  flex: 1 !important;
+  min-width: 0 !important;
   overflow-x: scroll !important;
   overflow-y: hidden !important;
   scroll-behavior: smooth !important;
@@ -2989,30 +3005,29 @@ html body header.header:not(.header-transparent) .user-trigger:hover { backgroun
   -webkit-user-select: none !important;
 }
 .cndSwiper::-webkit-scrollbar { display: none !important; }
-.cndSwiper .swiper-wrapper {
+.cnd-track {
   display: flex !important;
   flex-wrap: nowrap !important;
   gap: 20px !important;
   padding: 8px 0 16px !important;
   width: max-content !important;
 }
-/* Each slide fixed width so cards don't get squished */
-.cndSwiper .swiper-slide {
+.cnd-slide {
   flex: 0 0 280px !important;
   width: 280px !important;
 }
-/* Card fills the slide */
-.cndSwiper .swiper-slide .cnd-card {
+.cnd-slide .cnd-card {
   width: 100% !important;
   height: 320px !important;
 }
 @media (max-width: 768px) {
-  .cndSwiper .swiper-slide { flex: 0 0 240px !important; width: 240px !important; }
-  .cndSwiper .swiper-slide .cnd-card { height: 260px !important; }
+  .cnd-slide { flex: 0 0 240px !important; width: 240px !important; }
+  .cnd-slide .cnd-card { height: 260px !important; }
 }
 @media (max-width: 480px) {
-  .cndSwiper .swiper-slide { flex: 0 0 200px !important; width: 200px !important; }
-  .cndSwiper .swiper-slide .cnd-card { height: 220px !important; }
+  .cnd-arrow { display: none !important; }
+  .cnd-slide { flex: 0 0 200px !important; width: 200px !important; }
+  .cnd-slide .cnd-card { height: 220px !important; }
 }
 
 /* ══════════════════════════════════════════════════════════════
