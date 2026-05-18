@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PaymentResource\Pages;
+use App\Mail\PaymentConfirmed;
+use App\Mail\PaymentFailed;
 use App\Models\Payment;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -18,6 +20,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 
 class PaymentResource extends Resource
@@ -280,6 +283,14 @@ class PaymentResource extends Resource
                     ->modalSubmitActionLabel('Xác nhận')
                     ->action(function (Payment $record): void {
                         $record->update(['payment_status' => 'completed']);
+                        if ($record->email) {
+                            try {
+                                $booking = $record->booking?->load('room.hotel');
+                                if ($booking) {
+                                    Mail::to($record->email)->send(new PaymentConfirmed($booking));
+                                }
+                            } catch (\Exception) {}
+                        }
                         Notification::make()
                             ->title('Đã xác nhận thanh toán')
                             ->success()
@@ -298,6 +309,14 @@ class PaymentResource extends Resource
                     ->modalSubmitActionLabel('Từ chối')
                     ->action(function (Payment $record): void {
                         $record->update(['payment_status' => 'failed']);
+                        if ($record->email) {
+                            try {
+                                $booking = $record->booking?->load('room.hotel');
+                                if ($booking) {
+                                    Mail::to($record->email)->send(new PaymentFailed($booking));
+                                }
+                            } catch (\Exception) {}
+                        }
                         Notification::make()
                             ->title('Đã từ chối thanh toán')
                             ->danger()

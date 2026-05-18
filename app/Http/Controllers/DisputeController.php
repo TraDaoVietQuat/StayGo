@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminSystemAlert;
 use App\Models\Booking;
 use App\Models\Dispute;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Notifications\NewDisputeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class DisputeController extends Controller
 {
@@ -66,7 +68,21 @@ class DisputeController extends Controller
         try {
             $admins = User::where('role', 'admin')->get();
             \Illuminate\Support\Facades\Notification::send($admins, new NewDisputeNotification($dispute));
-        } catch (\Exception $e) {}
+        } catch (\Exception) {}
+
+        // Email cảnh báo cho admin nếu là khiếu nại khẩn cấp
+        if ($priority === 'urgent') {
+            try {
+                $typeLabels = Dispute::typeLabels();
+                Mail::to(config('mail.admin_email'))->send(new AdminSystemAlert(
+                    alertType:          'Khiếu nại khẩn cấp mới',
+                    severity:           'HIGH',
+                    description:        ($typeLabels[$dispute->type] ?? $dispute->type) . ': ' . $dispute->title,
+                    technicalDetails:   'ID: #' . $dispute->id . ' | Deadline: ' . $dispute->deadline_at?->format('H:i d/m/Y'),
+                    recommendedActions: 'Truy cập /admin/disputes/' . $dispute->id . '/edit để xử lý trong vòng 4 giờ.',
+                ));
+            } catch (\Exception) {}
+        }
 
         return redirect()->route('dispute.success');
     }

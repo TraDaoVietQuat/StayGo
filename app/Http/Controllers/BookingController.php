@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\AdminBookingCancelled;
 use App\Mail\AdminNewBooking;
+use App\Mail\AdminRefundNotice;
 use App\Mail\BookingCancelled;
 use App\Mail\BookingConfirmation;
 use App\Mail\PartnerNewBooking;
@@ -279,6 +280,12 @@ class BookingController extends Controller
             'refund_requested_at' => now(),
             'refund_amount'       => $booking->total_price * 0.8,
         ]);
+
+        // Thông báo admin có yêu cầu hoàn tiền mới
+        try {
+            $booking->load('room.hotel');
+            Mail::to(config('mail.from.address'))->send(new AdminRefundNotice($booking));
+        } catch (\Exception) {}
 
         return back()->with('success', 'Yêu cầu hoàn tiền đã được ghi nhận. Chúng tôi sẽ xử lý trong 3-5 ngày làm việc.');
     }

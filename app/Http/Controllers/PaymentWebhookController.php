@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminNewBooking;
 use App\Mail\PaymentConfirmed;
 use App\Mail\PaymentFailed;
 use App\Models\Booking;
@@ -248,6 +249,18 @@ class PaymentWebhookController extends Controller
         });
 
         Log::info('SePay: xác nhận thanh toán booking ' . $booking->order_code);
+
+        // Gửi email xác nhận cho khách (giống VNPay/MoMo)
+        if ($booking->email) {
+            try {
+                $booking->load('room.hotel', 'payment');
+                Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+                Mail::to(config('mail.from.address'))->send(new AdminNewBooking($booking));
+            } catch (\Exception $e) {
+                Log::error('Payment email failed (SePay): ' . $e->getMessage());
+            }
+        }
+
         return response()->json(['success' => true]);
     }
 
