@@ -62,4 +62,8 @@ return [
         'model'   => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
     ],
 
+    'sepay' => [
+        'webhook_token' => env('SEPAY_WEBHOOK_TOKEN', ''),
+    ],
+
 ];

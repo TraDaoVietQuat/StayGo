@@ -62,8 +62,19 @@ class HotelProfileResource extends Resource
                     ->label('Giờ check-in')->default('14:00'),
                 Forms\Components\TextInput::make('checkout_time')
                     ->label('Giờ check-out')->default('12:00'),
+                Forms\Components\Select::make('refund_policy')
+                    ->label('Chính sách hoàn tiền')
+                    ->options([
+                        'flexible'       => 'Linh hoạt — Hoàn 100% trước 24h, 50% cùng ngày',
+                        'moderate'       => 'Vừa phải — Hoàn 100% trước 5 ngày, 50% trước 1-4 ngày',
+                        'strict'         => 'Nghiêm ngặt — Hoàn 50% trước 7 ngày, không hoàn sau đó',
+                        'non_refundable' => 'Không hoàn tiền',
+                    ])
+                    ->default('moderate')
+                    ->required()
+                    ->columnSpan(2),
                 Forms\Components\Textarea::make('cancellation_policy')
-                    ->label('Chính sách hủy phòng')->rows(3)->columnSpan(2),
+                    ->label('Ghi chú chính sách hủy phòng (hiển thị cho khách)')->rows(3)->columnSpan(2),
                 Forms\Components\CheckboxList::make('amenities')
                     ->label('Tiện nghi khách sạn')
                     ->options([

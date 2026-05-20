@@ -292,15 +292,21 @@ class BookingController extends Controller
         abort_if($booking->user_id !== Auth::id(), 403);
         abort_if($booking->refund_requested, 400, 'Bạn đã gửi yêu cầu hoàn tiền trước đó.');
 
+        $booking->load('room.hotel');
+        $hotel = $booking->room?->hotel;
+        $daysBeforeCheckIn = (int) now()->diffInDays($booking->check_in, false);
+        $refundAmount = $hotel
+            ? $hotel->calculateRefundAmount((float) $booking->total_price, $daysBeforeCheckIn)
+            : $booking->total_price * 0.8;
+
         $booking->update([
             'refund_requested'    => true,
             'refund_requested_at' => now(),
-            'refund_amount'       => $booking->total_price * 0.8,
+            'refund_amount'       => $refundAmount,
         ]);
 
         // Thông báo admin có yêu cầu hoàn tiền mới
         try {
-            $booking->load('room.hotel');
             Mail::to(config('mail.from.address'))->send(new AdminRefundNotice($booking));
         } catch (\Exception) {}
 
