@@ -1204,4 +1204,4 @@ JS IMPORT (Phần 9)
   [ ] app.js import đúng thứ tự: utils → toast → modal → counter → init?
   [ ] DOMContentLoaded bao bọc tất cả .init() call?
   [ ] SgDark.init() trong DOMContentLoaded (chỉ đăng ký toggle, không apply lại)?
-```
+```# StayGo - Wed May 20 16:50:51 SEAST 2026
