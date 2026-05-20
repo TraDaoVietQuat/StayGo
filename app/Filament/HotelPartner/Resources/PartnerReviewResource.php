@@ -3,6 +3,7 @@
 namespace App\Filament\HotelPartner\Resources;
 
 use App\Filament\HotelPartner\Resources\PartnerReviewResource\Pages;
+use App\Mail\ReviewReplied;
 use App\Models\Review;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PartnerReviewResource extends Resource
 {
@@ -174,7 +176,15 @@ class PartnerReviewResource extends Resource
                             'partner_reply'      => $data['reply'],
                             'partner_replied_at' => now(),
                         ]);
-                        Notification::make()->title('Đã lưu phản hồi')->success()->send();
+                        // Gửi email thông báo cho user (nếu chưa reply trước đó)
+                        if ($record->user?->email) {
+                            try {
+                                Mail::to($record->user->email)->send(new ReviewReplied($record->fresh(['user', 'hotel'])));
+                            } catch (\Exception $e) {
+                                Log::error('ReviewReplied email failed: ' . $e->getMessage());
+                            }
+                        }
+                        Notification::make()->title('Đã lưu phản hồi và gửi email cho khách')->success()->send();
                     }),
 
                 // ── Reply thủ công ──
@@ -205,11 +215,21 @@ class PartnerReviewResource extends Resource
                     ])
                     ->fillForm(fn(Review $r) => ['reply' => $r->partner_reply ?? ''])
                     ->action(function (Review $record, array $data): void {
+                        $wasReplied = !is_null($record->partner_reply);
                         $record->update([
                             'partner_reply'      => $data['reply'],
                             'partner_replied_at' => now(),
                         ]);
-                        Notification::make()->title('Đã lưu phản hồi')->success()->send();
+                        // Chỉ gửi email lần đầu reply, không gửi lại khi chỉnh sửa
+                        if (!$wasReplied && $record->user?->email) {
+                            try {
+                                Mail::to($record->user->email)->send(new ReviewReplied($record->fresh(['user', 'hotel'])));
+                            } catch (\Exception $e) {
+                                Log::error('ReviewReplied email failed: ' . $e->getMessage());
+                            }
+                        }
+                        $msg = $wasReplied ? 'Đã cập nhật phản hồi' : 'Đã lưu phản hồi và gửi email cho khách';
+                        Notification::make()->title($msg)->success()->send();
                     }),
             ])
             ->defaultSort('created_at', 'desc');
