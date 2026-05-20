@@ -19,7 +19,7 @@
             <img src="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" alt="" fetchpriority="high">
         </div>
         <div class="hero-slide" style="--delay:2s">
-            <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="" loading="lazy">
+            <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="" loading="lazy" decoding="async">
         </div>
     </div>
 
@@ -282,7 +282,7 @@
         <div class="sg-showcase-grid">
             <div class="sg-showcase-card">
                 <div class="sg-showcase-img-wrap">
-                    <img src="{{ asset('assets/images/hotels/01KQ7RMTP55JMKGPP4AYY9VA61.jpg') }}" alt="The Imperial Vung Tau Hotel & Resort" loading="lazy">
+                    <img src="{{ asset('assets/images/hotels/01KQ7RMTP55JMKGPP4AYY9VA61.jpg') }}" alt="The Imperial Vung Tau Hotel & Resort" loading="lazy" decoding="async">
                 </div>
                 <div class="sg-showcase-info">
                     <span class="sg-showcase-badge">Khách sạn 5 sao · Vũng Tàu</span>
@@ -294,7 +294,7 @@
 
             <div class="sg-showcase-card sg-showcase-card--reverse">
                 <div class="sg-showcase-img-wrap">
-                    <img src="{{ asset('assets/images/hotels/01KQ658AECY4YJ9AGAF4J1VAGJ.jpg') }}" alt="Marina Bay Vung Tau Resort" loading="lazy">
+                    <img src="{{ asset('assets/images/hotels/01KQ658AECY4YJ9AGAF4J1VAGJ.jpg') }}" alt="Marina Bay Vung Tau Resort" loading="lazy" decoding="async">
                 </div>
                 <div class="sg-showcase-info">
                     <span class="sg-showcase-badge">Resort 4 sao · Vũng Tàu</span>
@@ -344,7 +344,7 @@
                 $locationBadge = $hotel->location->name ?? null;
             @endphp
             <a href="{{ route('hotels.show', $hotel) }}" class="hlc-card">
-                <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}" loading="lazy">
+                <img src="{{ $hotel->image_url }}" alt="{{ $hotel->name }}" loading="lazy" decoding="async">
                 @if($discount)
                 <span class="hlc-badge-save">-{{ $discount }}%</span>
                 @endif
@@ -464,7 +464,7 @@
                 @foreach($locations as $loc)
                 <a href="{{ route('hotels.index', ['location' => $loc->id]) }}" class="location-card">
                     @if($loc->image)
-                    <img src="{{ asset('storage/' . $loc->image) }}" alt="{{ $loc->name }}" loading="lazy">
+                    <img src="{{ asset('storage/' . $loc->image) }}" alt="{{ $loc->name }}" loading="lazy" decoding="async">
                     @endif
                     <div class="location-info">
                         <div class="location-count-badge">🏨 {{ $loc->hotels_count }} khách sạn</div>
@@ -692,7 +692,7 @@
 
         {{-- Left: image --}}
         <div class="tz-why-img-wrap">
-            <img src="{{ asset('assets/images/amiana-resort-nha-trang-4.webp') }}" alt="Resort Nha Trang" loading="lazy">
+            <img src="{{ asset('assets/images/amiana-resort-nha-trang-4.webp') }}" alt="Resort Nha Trang" loading="lazy" decoding="async">
         </div>
 
         {{-- Right: features --}}

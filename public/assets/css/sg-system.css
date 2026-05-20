@@ -3381,7 +3381,31 @@ img[loading="lazy"] {
   }
 }
 
-/* ─── 29. FOOTER SOCIAL LINKS — touch target 44px ──────────── */
+/* ─── 29. BREAKPOINT 375px — iPhone SE / nhỏ nhất ──────────── */
+@media (max-width: 375px) {
+  /* Hero title giảm thêm cho màn 375px */
+  .hero-search-title { font-size: 24px !important; line-height: 1.2 !important; }
+  .hero-search-sub   { font-size: 12px !important; }
+
+  /* Booking bar padding sát hơn */
+  .hero-booking-bar  { padding: 0 8px 24px !important; }
+
+  /* Search fields: chiều cao nhỏ hơn, font giữ 16px để iOS không zoom */
+  .hsb-field { padding: 10px 10px !important; min-height: 48px !important; }
+  .hsb-label { font-size: 9px !important; }
+  .hsb-input { font-size: 16px !important; }
+
+  /* Hotel card grid: 1 cột */
+  .hlc-grid { grid-template-columns: 1fr !important; }
+
+  /* Location grid: 1 cột */
+  .locations-grid { grid-template-columns: 1fr !important; }
+
+  /* Container padding */
+  .container { padding-left: 10px !important; padding-right: 10px !important; }
+}
+
+/* ─── 30. FOOTER SOCIAL LINKS — touch target 44px ──────────── */
 @media (max-width: 768px) {
   .footer-links a {
     display: inline-block !important;

@@ -368,115 +368,69 @@
      SCRIPTS
      ════════════════════════════════════════ --}}
 <script>
-// Scroll to Top
+// ── Scroll to Top ──
 window.addEventListener('scroll', function () {
     document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 300);
-});
+}, { passive: true });
 
-// Header transparent → scrolled
+// ── Header transparent → scrolled ──
 (function() {
     const header = document.getElementById('siteHeader');
     if (!header || !header.classList.contains('header-transparent')) return;
-    function onScroll() {
-        header.classList.toggle('scrolled', window.scrollY > 60);
-    }
+    function onScroll() { header.classList.toggle('scrolled', window.scrollY > 60); }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 })();
 
-// Support Popup
-function openSupportPopup() {
-    document.getElementById('supportOverlay').classList.add('open');
-}
-function closeSupportPopup() {
-    document.getElementById('supportOverlay').classList.remove('open');
-}
-function closeSupportPopupOutside(e) {
-    if (e.target === document.getElementById('supportOverlay')) closeSupportPopup();
-}
-
+// ── Support Popup ──
+function openSupportPopup() { document.getElementById('supportOverlay').classList.add('open'); }
+function closeSupportPopup() { document.getElementById('supportOverlay').classList.remove('open'); }
+function closeSupportPopupOutside(e) { if (e.target === document.getElementById('supportOverlay')) closeSupportPopup(); }
 async function submitSupport(e) {
     e.preventDefault();
     const form = document.getElementById('supportForm');
     const msg  = document.getElementById('spMsg');
     const btn  = form.querySelector('.sp-submit');
-    btn.disabled = true;
-    btn.textContent = 'Đang gửi...';
+    btn.disabled = true; btn.textContent = 'Đang gửi...';
     try {
-        const res  = await fetch('{{ route("support.store") }}', {
-            method: 'POST',
-            headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content, 'Accept': 'application/json' },
-            body: new FormData(form),
-        });
+        const res  = await fetch('{{ route("support.store") }}', { method: 'POST', headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content, 'Accept': 'application/json' }, body: new FormData(form) });
         const data = await res.json();
         msg.style.display = 'block';
         msg.className = 'sp-msg ' + (data.success ? 'success' : 'error');
         msg.textContent = data.message ?? (data.success ? 'Gửi thành công!' : 'Có lỗi xảy ra!');
         if (data.success) { form.reset(); setTimeout(closeSupportPopup, 2500); }
-    } catch {
-        msg.style.display = 'block';
-        msg.className = 'sp-msg error';
-        msg.textContent = 'Có lỗi kết nối, vui lòng thử lại!';
-    } finally {
-        btn.disabled = false;
-        btn.textContent = 'Gửi yêu cầu tư vấn';
-    }
+    } catch { msg.style.display = 'block'; msg.className = 'sp-msg error'; msg.textContent = 'Có lỗi kết nối, vui lòng thử lại!'; }
+    finally { btn.disabled = false; btn.textContent = 'Gửi yêu cầu tư vấn'; }
 }
-</script>
 
-<script>
-// Mobile nav toggle
+// ── Mobile nav toggle ──
 function toggleMobileNav() {
-    const nav = document.getElementById('mainNav');
-    const btn = document.getElementById('navHamburger');
-    nav.classList.toggle('nav-open');
-    btn.classList.toggle('active');
+    document.getElementById('mainNav').classList.toggle('nav-open');
+    document.getElementById('navHamburger').classList.toggle('active');
 }
 function closeMobileNav() {
-    const nav = document.getElementById('mainNav');
-    const btn = document.getElementById('navHamburger');
+    const nav = document.getElementById('mainNav'), btn = document.getElementById('navHamburger');
     if (nav) nav.classList.remove('nav-open');
     if (btn) btn.classList.remove('active');
 }
-document.addEventListener('click', function(e) {
-    const nav = document.getElementById('mainNav');
-    const btn = document.getElementById('navHamburger');
-    if (!nav || !nav.classList.contains('nav-open')) return;
-    if (e.target === nav || (!nav.contains(e.target) && !btn.contains(e.target))) closeMobileNav();
-});
-</script>
 
-<script>
-// Mobile drawer
+// ── Mobile drawer ──
 function toggleMobileMenu() {
     document.getElementById('mobileDrawer').classList.toggle('open');
     document.getElementById('mobileDrawerOverlay').classList.toggle('open');
     document.body.classList.toggle('drawer-open');
 }
-</script>
 
-<script>
-// User dropdown
-function toggleDropdown() {
-    const dd = document.getElementById('userDropdown');
-    dd.classList.toggle('open');
-}
-document.addEventListener('click', function(e) {
-    const dd = document.getElementById('userDropdown');
-    if (dd && !dd.contains(e.target)) dd.classList.remove('open');
-});
-</script>
+// ── User dropdown ──
+function toggleDropdown() { document.getElementById('userDropdown').classList.toggle('open'); }
 
-<script>
-// Favorite toggle (AJAX)
+// ── Favorite toggle (AJAX) ──
 async function toggleFav(btn, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const url   = btn.dataset.url;
+    e.preventDefault(); e.stopPropagation();
     const token = document.querySelector('meta[name="csrf-token"]').content;
     btn.style.opacity = '.5';
     try {
-        const res  = await fetch(url, { method: 'POST', headers: { 'X-CSRF-TOKEN': token, 'Accept': 'application/json' } });
+        const res  = await fetch(btn.dataset.url, { method: 'POST', headers: { 'X-CSRF-TOKEN': token, 'Accept': 'application/json' } });
         const data = await res.json();
         btn.classList.toggle('is-fav', data.favorited);
         const path = btn.querySelector('svg path');
@@ -485,28 +439,27 @@ async function toggleFav(btn, e) {
     } catch {}
     btn.style.opacity = '1';
 }
-</script>
 
-<script src="{{ asset('assets/js/main.js') }}" defer></script>
-
-<script>
-// SgDark toggle (DOMContentLoaded — chỉ toggle, không re-apply)
+// ── Dark mode toggle ──
 document.addEventListener('DOMContentLoaded', function() {
-    var toggle = document.querySelector('[data-sg-dark-toggle]');
+    const toggle = document.querySelector('[data-sg-dark-toggle]');
     if (!toggle) return;
     toggle.addEventListener('click', function() {
-        var html = document.documentElement;
-        var isDark = html.classList.contains('sg-dark');
-        if (isDark) {
-            html.classList.remove('sg-dark');
-            localStorage.setItem('sg-theme', 'light');
-        } else {
-            html.classList.add('sg-dark');
-            localStorage.setItem('sg-theme', 'dark');
-        }
+        const html = document.documentElement, isDark = html.classList.contains('sg-dark');
+        html.classList.toggle('sg-dark', !isDark);
+        localStorage.setItem('sg-theme', isDark ? 'light' : 'dark');
+    });
+    // Close mobile nav / dropdown on outside click
+    document.addEventListener('click', function(e) {
+        const nav = document.getElementById('mainNav'), btn = document.getElementById('navHamburger');
+        if (nav && nav.classList.contains('nav-open') && !nav.contains(e.target) && btn && !btn.contains(e.target)) closeMobileNav();
+        const dd = document.getElementById('userDropdown');
+        if (dd && !dd.contains(e.target)) dd.classList.remove('open');
     });
 });
 </script>
+
+<script src="{{ asset('assets/js/main.js') }}" defer></script>
 
 @stack('scripts')
 
