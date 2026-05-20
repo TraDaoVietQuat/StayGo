@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
     // Profile
     Route::get('/tai-khoan', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('/tai-khoan', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/tai-khoan/mat-khau', [ProfileController::class, 'showChangePassword'])->name('profile.password');
     Route::put('/tai-khoan/mat-khau', [ProfileController::class, 'changePassword'])->name('profile.change-password');
 
     // Booking (chỉ user đã đăng nhập)

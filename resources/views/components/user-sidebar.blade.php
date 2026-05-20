@@ -40,7 +40,7 @@
             @php $favCount = $user->favorites()->count(); @endphp
             @if($favCount > 0)<span class="up-nav-count">{{ $favCount }}</span>@endif
         </a>
-        <a href="{{ route('profile.show') }}#doi-mat-khau" class="up-nav-item">
+        <a href="{{ route('profile.password') }}" class="up-nav-item {{ request()->routeIs('profile.password') ? 'active' : '' }}">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             Đổi mật khẩu
         </a>

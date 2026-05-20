@@ -16,6 +16,11 @@ class ProfileController extends Controller
         return view('pages.profile', ['user' => Auth::user()]);
     }
 
+    public function showChangePassword()
+    {
+        return view('pages.profile-password', ['user' => Auth::user()]);
+    }
+
     public function update(Request $request)
     {
         /** @var \App\Models\User $user */
@@ -53,7 +58,7 @@ class ProfileController extends Controller
             Mail::to($user->email)->send(new PasswordChanged($user));
         } catch (\Exception) {}
 
-        return back()->with('success', 'Đổi mật khẩu thành công!');
+        return redirect()->route('profile.password')->with('success', 'Đổi mật khẩu thành công!');
     }
 
     public function uploadAvatar(Request $request)
