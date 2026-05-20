@@ -195,7 +195,7 @@ class PaymentWebhookController extends Controller
     {
         // Verify webhook token if configured
         $token = config('services.sepay.webhook_token');
-        if ($token && $request->header('Authorization') !== 'Bearer ' . $token) {
+        if ($token && $request->header('Authorization') !== 'Apikey ' . $token) {
             Log::warning('SePay webhook: unauthorized request', ['ip' => $request->ip()]);
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
