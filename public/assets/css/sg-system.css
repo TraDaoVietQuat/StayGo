@@ -2431,28 +2431,28 @@ html.sg-dark .footer-logo-link .logo-text-stay,
 html.sg-dark .footer-logo-link .logo-text-go { color: #0066cc !important; }
 
 /* =============================================
-   AUTH FORM — glassmorphism dark → solid white
+   AUTH FORM — glassmorphism with background
    ============================================= */
 
-/* Hide the dark background image — page shows white */
+/* Show background image */
 .auth-bg,
 .auth-bg img,
 .auth-bg-overlay {
-  display: none !important;
+  display: block !important;
 }
 
-/* Card — solid white with subtle shadow */
+/* Card — glassmorphism */
 .auth-card {
-  background: #ffffff !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  border: 1px solid #e0e0e0 !important;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.08) !important;
+  background: rgba(255,255,255,0.15) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255,255,255,0.25) !important;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.3) !important;
 }
 
 /* Card text */
-.auth-card-title { color: #111111 !important; }
-.auth-card-sub   { color: #666666 !important; }
+.auth-card-title { color: #ffffff !important; }
+.auth-card-sub   { color: rgba(255,255,255,0.75) !important; }
 .auth-alert {
   background: rgba(220,38,38,0.08) !important;
   border: 1px solid rgba(220,38,38,0.25) !important;
@@ -2460,53 +2460,53 @@ html.sg-dark .footer-logo-link .logo-text-go { color: #0066cc !important; }
 }
 
 /* Floating-label inputs */
-.auth-ig-icon { stroke: #999999 !important; }
+.auth-ig-icon { stroke: rgba(255,255,255,0.7) !important; }
 .auth-ig-input {
-  color: #111111 !important;
-  caret-color: #111111 !important;
-  border-bottom-color: #cccccc !important;
+  color: #ffffff !important;
+  caret-color: #ffffff !important;
+  border-bottom-color: rgba(255,255,255,0.4) !important;
 }
 .auth-ig-input:-webkit-autofill,
 .auth-ig-input:-webkit-autofill:hover,
 .auth-ig-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
-  box-shadow: 0 0 0 1000px #ffffff inset !important;
-  -webkit-text-fill-color: #111111 !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(0,30,80,0.5) inset !important;
+  box-shadow: 0 0 0 1000px rgba(0,30,80,0.5) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
-.auth-ig-label { color: #888888 !important; }
+.auth-ig-label { color: rgba(255,255,255,0.6) !important; }
 .auth-ig-input:focus ~ .auth-ig-label,
-.auth-ig-input:valid ~ .auth-ig-label { color: #0066cc !important; }
-.auth-ig-input:focus { border-bottom-color: #0066cc !important; }
-.auth-input-group:focus-within .auth-ig-icon { stroke: #0066cc !important; }
+.auth-ig-input:valid ~ .auth-ig-label { color: #93c5fd !important; }
+.auth-ig-input:focus { border-bottom-color: #93c5fd !important; }
+.auth-input-group:focus-within .auth-ig-icon { stroke: #93c5fd !important; }
 
 /* Forgot / remember / error */
-.auth-remember { color: #444444 !important; }
-.auth-forgot   { color: #0066cc !important; }
-.auth-forgot:hover { color: #0052a3 !important; }
-.auth-error { color: #dc2626 !important; }
+.auth-remember { color: rgba(255,255,255,0.75) !important; }
+.auth-forgot   { color: #93c5fd !important; }
+.auth-forgot:hover { color: #ffffff !important; }
+.auth-error { color: #fca5a5 !important; }
 
 /* Divider */
-.auth-divider::before { background: #e0e0e0 !important; }
-.auth-divider span    { color: #999999 !important; background: #ffffff !important; }
+.auth-divider::before { background: rgba(255,255,255,0.25) !important; }
+.auth-divider span    { color: rgba(255,255,255,0.6) !important; background: transparent !important; }
 
 /* Social buttons (Google, OTP) */
 .auth-social-btn {
-  background: #f8f9fa !important;
-  border: 1px solid #e0e0e0 !important;
-  color: #111111 !important;
+  background: rgba(255,255,255,0.15) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  color: #ffffff !important;
 }
 .auth-social-btn:hover {
-  background: #eff6ff !important;
-  color: #0066cc !important;
+  background: rgba(255,255,255,0.25) !important;
+  color: #ffffff !important;
 }
 /* Span inside social btn may have inline color:#fff */
-.auth-social-btn span { color: #111111 !important; }
-.auth-social-btn svg  { stroke: #0066cc !important; }
+.auth-social-btn span { color: #ffffff !important; }
+.auth-social-btn svg  { stroke: #ffffff !important; }
 
 /* Footer text */
-.auth-footer-text { color: #444444 !important; }
-.auth-footer-text a { color: #0066cc !important; }
-.auth-footer-text a:hover { color: #0052a3 !important; }
+.auth-footer-text { color: rgba(255,255,255,0.75) !important; }
+.auth-footer-text a { color: #93c5fd !important; }
+.auth-footer-text a:hover { color: #ffffff !important; }
 
 /* ═══════════════════════════════════════════════════════════════
    24. TRENZO-INSPIRED LAYOUT — Home page redesign sections
@@ -2594,6 +2594,14 @@ html body header.header:not(.header-transparent) .user-trigger:hover { backgroun
 }
 .hero-search-box {
   border-radius: 16px !important;
+}
+
+/* Search bar — 4 ô bằng nhau (1:1:1:1) */
+.hero-search-box .hsb-field {
+  flex: 1 1 0% !important;
+}
+.hero-search-box .hsb-field.hsb-keyword {
+  flex: 1 1 0% !important;
 }
 
 /* ── About / Stats Section ──────────────────────────────────── */

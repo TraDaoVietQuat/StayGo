@@ -4,7 +4,7 @@
 @section('header_class', '')
 
 @section('preload_assets')
-<link rel="preload" as="image" href="{{ asset('assets/images/hero-bg.jpg') }}" fetchpriority="high">
+<link rel="preload" as="image" href="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" fetchpriority="high">
 @endsection
 
 @section('content')
@@ -16,10 +16,10 @@
 
     <div class="hero-slides">
         <div class="hero-slide" style="--delay:0s">
-            <img src="{{ asset('assets/images/hero-bg.jpg') }}" alt="" fetchpriority="high">
+            <img src="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" alt="" fetchpriority="high">
         </div>
         <div class="hero-slide" style="--delay:2s">
-            <img src="{{ asset('assets/images/anhbien.jpg') }}" alt="" loading="lazy">
+            <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="" loading="lazy">
         </div>
     </div>
 
