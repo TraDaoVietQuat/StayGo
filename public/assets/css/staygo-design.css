@@ -361,17 +361,35 @@ body {
   height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
-  /* Không dùng opacity !important ở đây — animation sẽ tự điều khiển opacity */
-  animation: heroFade 4s linear infinite both;
-  animation-delay: var(--delay, 0s);
+  will-change: opacity, transform !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
 }
 
-@keyframes heroFade {
-  0%   { opacity: 0; transform: scale(1);    }
-  8%   { opacity: 1; }
-  42%  { opacity: 1; transform: scale(1.04); }
+/* Slide 1 và Slide 2 crossfade đồng thời — không có khoảng tối nào giữa 2 ảnh */
+.hero-slide:nth-child(1) img {
+  animation: heroFade1 10s ease-in-out infinite !important;
+}
+.hero-slide:nth-child(2) img {
+  animation: heroFade2 10s ease-in-out infinite !important;
+}
+
+/* Slide 1: hiện trước, mờ dần ở 40-50%, ẩn 50-90%, hiện lại 90-100% */
+@keyframes heroFade1 {
+  0%   { opacity: 1; transform: scale(1);    }
+  40%  { opacity: 1; transform: scale(1.04); }
   50%  { opacity: 0; transform: scale(1.04); }
-  100% { opacity: 0; transform: scale(1);    }
+  90%  { opacity: 0; transform: scale(1);    }
+  100% { opacity: 1; transform: scale(1);    }
+}
+
+/* Slide 2: ẩn trước, hiện dần ở 40-50% (đúng lúc slide 1 mờ), mờ dần 90-100% */
+@keyframes heroFade2 {
+  0%   { opacity: 0; transform: scale(1);    }
+  40%  { opacity: 0; transform: scale(1);    }
+  50%  { opacity: 1; transform: scale(1.04); }
+  90%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 0; transform: scale(1.04); }
 }
 
 /* Nội dung giữa hero */
