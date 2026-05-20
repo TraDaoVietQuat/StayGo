@@ -4,7 +4,7 @@
     $pendingCount = $user->bookings()->where('status', 'pending')->count();
 @endphp
 <aside class="up-sidebar">
-    <div class="up-avatar-wrap">
+    <div class="up-avatar-wrap" style="background:#fff!important;color:#1a2b4a!important;">
         @if($user->avatar)
             @if(str_starts_with($user->avatar, 'http'))
                 <img src="{{ $user->avatar }}" alt="Avatar" class="up-avatar up-avatar-img">
