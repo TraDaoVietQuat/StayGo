@@ -2595,12 +2595,44 @@ html body header.header:not(.header-transparent) .user-trigger:hover { backgroun
   border-radius: 16px !important;
 }
 
-/* Search bar — 4 ô bằng nhau (1:1:1:1) */
-.hero-search-box .hsb-field {
-  flex: 1 1 0% !important;
+/* Search bar — 4 ô bằng nhau tuyệt đối (grid) */
+.hero-search-box {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) auto !important;
+  align-items: stretch !important;
 }
-.hero-search-box .hsb-field.hsb-keyword {
-  flex: 1 1 0% !important;
+.hero-search-box .hsb-field {
+  width: auto !important;
+  flex: unset !important;
+  min-width: 0 !important;
+}
+.hero-search-box .hsb-btn {
+  flex-shrink: 0 !important;
+  align-self: stretch !important;
+  display: flex !important;
+  align-items: center !important;
+}
+/* Tablet (768–1024px): 2 cột, keyword full width */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-search-box {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .hero-search-box .hsb-field.hsb-keyword {
+    grid-column: 1 / -1 !important;
+  }
+  .hero-search-box .hsb-btn {
+    grid-column: 1 / -1 !important;
+  }
+}
+/* Mobile (≤640px): 1 cột dọc */
+@media (max-width: 640px) {
+  .hero-search-box {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-search-box .hsb-field,
+  .hero-search-box .hsb-btn {
+    grid-column: 1 !important;
+  }
 }
 
 /* ── About / Stats Section ──────────────────────────────────── */
