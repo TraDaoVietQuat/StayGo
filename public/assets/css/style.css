@@ -6471,12 +6471,12 @@ input[type="date"].hsb-input { min-width: 0; }
 
 /* Sidebar */
 .up-sidebar { width: 260px; flex-shrink: 0; position: sticky; top: 20px; }
-.up-avatar-wrap { background: linear-gradient(135deg, #e91e8c, #f472b6); border-radius: 16px; padding: 24px; text-align: center; color: #fff; margin-bottom: 12px; }
-.up-avatar { width: 64px; height: 64px; background: rgba(255,255,255,.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; margin: 0 auto 10px; border: 3px solid rgba(255,255,255,.5); }
-.up-avatar-img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; border: 3px solid rgba(255,255,255,.5); display: block; }
-.up-user-name { font-weight: 700; font-size: 15px; }
-.up-user-email { font-size: 12px; opacity: .8; margin-top: 3px; word-break: break-all; }
-.up-joined { font-size: 11px; opacity: .7; margin-top: 6px; }
+.up-avatar-wrap { background: #fff; border-radius: 16px; padding: 24px; text-align: center; color: #1a2b4a; margin-bottom: 12px; }
+.up-avatar { width: 64px; height: 64px; background: #f0f4f8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; margin: 0 auto 10px; border: 3px solid #1B3A6B; color: #1B3A6B; }
+.up-avatar-img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; border: 3px solid #1B3A6B; display: block; }
+.up-user-name { font-weight: 700; font-size: 15px; color: #1a2b4a; }
+.up-user-email { font-size: 12px; color: #64748b; margin-top: 3px; word-break: break-all; }
+.up-joined { font-size: 11px; color: #94a3b8; margin-top: 6px; }
 .up-badge-wrap { margin-top: 10px; }
 .up-pending-badge { background: rgba(255,255,255,.25); font-size: 11px; padding: 3px 10px; border-radius: 20px; }
 
