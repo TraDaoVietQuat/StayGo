@@ -12,6 +12,7 @@ class PartnerStatsWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
     protected static bool $isLazy = true;
+    protected static ?string $pollingInterval = '30s';
 
     protected function getStats(): array
     {

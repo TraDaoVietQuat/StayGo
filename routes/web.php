@@ -133,6 +133,13 @@ Route::middleware('auth')->group(function () {
         return back();
     })->name('notifications.read-all');
 
+    // Polling endpoint: trả về unread count để JS cập nhật badge
+    Route::get('/api/notifications/unread-count', function () {
+        return response()->json([
+            'count' => \Illuminate\Support\Facades\Auth::user()->unreadNotifications()->count(),
+        ]);
+    })->name('notifications.unread-count');
+
     // Invoice download
     Route::get('/dat-phong/{booking}/hoa-don', [BookingController::class, 'invoice'])->name('booking.invoice');
 

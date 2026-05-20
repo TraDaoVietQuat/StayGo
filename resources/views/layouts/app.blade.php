@@ -461,6 +461,71 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script src="{{ asset('assets/js/main.js') }}" defer></script>
 
+@auth
+{{-- Polling: cập nhật notification badge mỗi 60s, không cần WebSocket --}}
+<script>
+(function() {
+    const badge = document.querySelector('.notif-badge');
+    let lastCount = parseInt(badge?.textContent) || 0;
+
+    function pollNotifications() {
+        fetch('/api/notifications/unread-count', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(r => r.ok ? r.json() : null)
+            .then(data => {
+                if (!data) return;
+                const count = data.count;
+                const badge = document.querySelector('.notif-badge');
+
+                if (count > lastCount) {
+                    // Có notification mới — hiện browser toast nếu được phép
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification('StayGo — Thông báo mới', {
+                            body: `Bạn có ${count} thông báo chưa đọc`,
+                            icon: '/assets/images/logo.png',
+                        });
+                    }
+                }
+
+                lastCount = count;
+
+                // Cập nhật badge
+                if (count > 0) {
+                    if (badge) {
+                        badge.textContent = count > 9 ? '9+' : count;
+                    } else {
+                        // Tạo badge nếu chưa có
+                        const trigger = document.querySelector('.user-trigger .user-name');
+                        if (trigger) {
+                            const span = document.createElement('span');
+                            span.className = 'notif-badge';
+                            span.textContent = count > 9 ? '9+' : count;
+                            trigger.insertAdjacentElement('afterend', span);
+                        }
+                    }
+                } else if (badge) {
+                    badge.remove();
+                }
+            })
+            .catch(() => {}); // bỏ qua lỗi network
+    }
+
+    // Xin quyền browser notification khi user click lần đầu
+    document.addEventListener('click', function askPermission() {
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+        document.removeEventListener('click', askPermission);
+    }, { once: true });
+
+    // Bắt đầu poll sau 10s, sau đó mỗi 60s
+    setTimeout(function loop() {
+        pollNotifications();
+        setTimeout(loop, 60000);
+    }, 10000);
+})();
+</script>
+@endauth
+
 @stack('scripts')
 
 </body>
