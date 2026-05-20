@@ -239,6 +239,18 @@
             </a>
             @endif
         </div>
+
+        {{-- Filter row 2: Loại hình --}}
+        <div class="hsb-filter-row" style="border-top: 1.5px solid #f0f4f8 !important;">
+            <div class="hsb-fr-group">
+                <a href="?{{ http_build_query(request()->except('type')) }}"
+                   class="hsb-fr-chip {{ !request('type') ? 'active' : '' }}">Tất cả</a>
+                <a href="?{{ http_build_query(array_merge(request()->except('type'), ['type'=>'hotel'])) }}"
+                   class="hsb-fr-chip {{ request('type')==='hotel' ? 'active' : '' }}">🏨 Khách sạn</a>
+                <a href="?{{ http_build_query(array_merge(request()->except('type'), ['type'=>'homestay-resort'])) }}"
+                   class="hsb-fr-chip {{ request('type')==='homestay-resort' ? 'active' : '' }}">🏝️ Resort</a>
+            </div>
+        </div>
     </div>
 </div>
 
