@@ -463,7 +463,7 @@
 /* ---- Hero ---- */
 .dh-hero {
     position: relative;
-    min-height: 400px;
+    min-height: 440px;
     display: flex;
     align-items: center;
     overflow: hidden;
