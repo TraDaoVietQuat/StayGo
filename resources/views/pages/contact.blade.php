@@ -9,7 +9,6 @@
 
 {{-- Hero --}}
 <div class="ct-hero">
-    <div class="ct-hero-overlay"></div>
     <img class="ct-hero-photo" src="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" alt="Liên hệ StayGo" loading="eager" fetchpriority="high">
     <div class="container ct-hero-inner">
         <h1 class="ct-hero-title">Liên hệ & Hỗ trợ</h1>
@@ -172,11 +171,6 @@
     object-position: center 60%;
     z-index: 0;
 }
-.ct-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to right, rgba(0,25,75,.90) 0%, rgba(0,55,160,.78) 35%, rgba(0,35,110,.45) 60%, rgba(0,15,50,.10) 100%);
-    z-index: 1;
-}
 .ct-hero-inner {
     position: relative; z-index: 2;
     width: 100%;
@@ -189,13 +183,13 @@
     color: #ffffff !important;
     margin: 0 0 8px !important;
     letter-spacing: -.3px !important;
-    text-shadow: 0 2px 12px rgba(0,0,0,.45) !important;
+    text-shadow: 0 2px 16px rgba(0,0,0,.7), 0 1px 4px rgba(0,0,0,.5) !important;
 }
 .ct-hero-sub {
     font-size: 15px !important;
-    color: rgba(255,255,255,.88) !important;
+    color: rgba(255,255,255,.95) !important;
     margin: 0 !important;
-    text-shadow: 0 1px 6px rgba(0,0,0,.3) !important;
+    text-shadow: 0 1px 8px rgba(0,0,0,.6) !important;
 }
 @media (max-width: 640px) {
     .ct-hero { min-height: 220px; }
