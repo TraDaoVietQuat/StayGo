@@ -8,7 +8,7 @@
 ====================================================== --}}
 <div class="dh-hero">
     <div class="dh-hero-overlay"></div>
-    <img class="dh-hero-photo" src="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" alt="Resort background" loading="eager" fetchpriority="high">
+    <img class="dh-hero-photo" src="{{ asset('assets/images/222549-14036454.jpg') }}" alt="Resort background" loading="eager" fetchpriority="high">
     <div class="container dh-hero-inner">
 
         {{-- Left text --}}
