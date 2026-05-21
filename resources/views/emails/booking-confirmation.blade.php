@@ -117,15 +117,38 @@ body{margin:0;padding:0;background:#f4f6f8;font-family:'Segoe UI',Arial,sans-ser
         <span class="val">{{ $booking->check_out?->format('d/m/Y') }} trước {{ $booking->room?->hotel?->checkout_time ?? '12:00' }}</span>
       </div>
       <div class="row">
-        <span class="lbl">Số đêm</span>
+        <span class="lbl">{{ $booking->stay_type === 'day' ? 'Số ngày' : 'Số đêm' }}</span>
         @php $nights = ($booking->check_in && $booking->check_out) ? $booking->check_in->diffInDays($booking->check_out) : 1; @endphp
-        <span class="val">{{ $nights }} đêm</span>
+        <span class="val">{{ $nights }} {{ $booking->stay_type === 'day' ? 'ngày' : 'đêm' }}</span>
       </div>
       <div class="row">
         <span class="lbl">Phương thức TT</span>
-        @php $methods=['hotel'=>'Tại khách sạn','momo'=>'Ví MoMo','vnpay'=>'VNPay','bank'=>'Chuyển khoản','bank_transfer'=>'Chuyển khoản','zalopay'=>'ZaloPay','cod'=>'Khi nhận phòng']; @endphp
-        <span class="val">{{ $methods[$booking->payment_method] ?? strtoupper($booking->payment_method) }}</span>
+        @php
+          $methods = [
+            'hotel'         => '🏨 Tại khách sạn',
+            'momo'          => '🟣 Ví MoMo',
+            'vnpay'         => '🔵 VNPay',
+            'bank'          => '🏦 Chuyển khoản ngân hàng',
+            'bank_transfer' => '🏦 Chuyển khoản ngân hàng',
+            'zalopay'       => '🔵 ZaloPay',
+            'cod'           => '💵 Tiền mặt khi nhận phòng',
+            'card'          => '💳 Thẻ quốc tế (Visa/MC)',
+            'vietqr'        => '📱 VietQR',
+            'wallet'        => '💰 Ví điện tử',
+          ];
+        @endphp
+        <span class="val">{{ $methods[$booking->payment_method] ?? $booking->payment_method }}</span>
       </div>
+      @if($booking->discount_code)
+      <div class="row">
+        <span class="lbl">Mã giảm giá</span>
+        <span class="val" style="color:#16a34a;">{{ $booking->discount_code }} (−{{ $booking->discount_percent }}%)</span>
+      </div>
+      <div class="row">
+        <span class="lbl">Số tiền giảm</span>
+        <span class="val" style="color:#16a34a;">−{{ number_format($booking->discount_amount, 0, ',', '.') }}đ</span>
+      </div>
+      @endif
     </div>
 
     {{-- TOTAL --}}
