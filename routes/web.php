@@ -163,9 +163,13 @@ Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
     Route::get('/webhook/momo/return',      [PaymentWebhookController::class, 'momoReturn'])->name('webhook.momo.return');
     // SePay (bank transfer auto-detect)
     Route::post('/webhook/sepay',           [PaymentWebhookController::class, 'sepayWebhook'])->name('webhook.sepay');
-    // ZaloPay
+    // ZaloPay (direct — giữ lại cho tương lai)
     Route::post('/webhook/zalopay/callback', [PaymentWebhookController::class, 'zalopayCallback'])->name('webhook.zalopay.callback');
     Route::get('/webhook/zalopay/return',    [PaymentWebhookController::class, 'zalopayReturn'])->name('webhook.zalopay.return');
+    // PayOS (ZaloPay + Card + ATM + chuyển khoản qua một cổng)
+    Route::post('/webhook/payos/webhook',    [PaymentWebhookController::class, 'payosWebhook'])->name('webhook.payos.webhook');
+    Route::get('/webhook/payos/return',      [PaymentWebhookController::class, 'payosReturn'])->name('webhook.payos.return');
+    Route::get('/webhook/payos/cancel',      [PaymentWebhookController::class, 'payosCancel'])->name('webhook.payos.cancel');
 });
 
 // ==================== DISPUTE / COMPLAINT ====================

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Services\MoMoService;
+use App\Services\PayOSService;
 use App\Services\VNPayService;
-use App\Services\ZalopayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -109,42 +109,28 @@ class PaymentController extends Controller
             }
         }
 
-        // --- ZaloPay ---
-        if ($method === 'zalopay') {
+        // --- ZaloPay & Card — qua PayOS (hỗ trợ ZaloPay, Visa/Mastercard, ATM) ---
+        if (in_array($method, ['zalopay', 'card'])) {
             try {
-                $zalopay  = app(ZalopayService::class);
-                $response = $zalopay->createPayment([
-                    'order_code' => $booking->order_code,
-                    'amount'     => $booking->total_price,
-                    'user_id'    => $booking->user_id,
+                $payos    = app(PayOSService::class);
+                $response = $payos->createPaymentLink([
+                    'booking_id'  => $booking->id,
+                    'order_code'  => $booking->order_code,
+                    'amount'      => $booking->total_price,
+                    'buyer_name'  => $booking->full_name,
+                    'buyer_email' => $booking->email,
+                    'buyer_phone' => $booking->phone,
                 ]);
 
-                if (!empty($response['order_url']) && (int)($response['return_code'] ?? 0) === 1) {
-                    return redirect()->away($response['order_url']);
+                if (($response['code'] ?? '') === '00' && !empty($response['data']['checkoutUrl'])) {
+                    return redirect()->away($response['data']['checkoutUrl']);
                 }
 
-                Log::error('ZaloPay create payment failed', $response);
-                return back()->with('error', 'Không thể tạo yêu cầu ZaloPay. Vui lòng thử lại.');
+                Log::error('PayOS create payment link failed', $response);
+                return back()->with('error', 'Không thể tạo link thanh toán. Vui lòng thử lại.');
             } catch (\Exception $e) {
-                Log::error('ZaloPay error: ' . $e->getMessage());
-                return back()->with('error', 'Lỗi kết nối ZaloPay. Vui lòng thử lại sau.');
-            }
-        }
-
-        // --- Card (Visa/Mastercard/JCB qua VNPay INTL) ---
-        if ($method === 'card') {
-            try {
-                $vnpay = app(VNPayService::class);
-                $url   = $vnpay->createPaymentUrl([
-                    'order_code' => $booking->order_code,
-                    'amount'     => $booking->total_price,
-                    'ip'         => $request->ip(),
-                    'bank_code'  => 'INTL',
-                ]);
-                return redirect()->away($url);
-            } catch (\Exception $e) {
-                Log::error('Card (VNPay INTL) redirect error: ' . $e->getMessage());
-                return back()->with('error', 'Không thể kết nối cổng thanh toán thẻ. Vui lòng thử lại sau.');
+                Log::error('PayOS error: ' . $e->getMessage());
+                return back()->with('error', 'Lỗi kết nối cổng thanh toán. Vui lòng thử lại sau.');
             }
         }
 

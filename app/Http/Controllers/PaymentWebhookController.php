@@ -8,6 +8,7 @@ use App\Mail\PaymentFailed;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Services\MoMoService;
+use App\Services\PayOSService;
 use App\Services\VNPayService;
 use App\Services\ZalopayService;
 use Illuminate\Http\Request;
@@ -379,6 +380,119 @@ class PaymentWebhookController extends Controller
 
         return redirect()->route('payment.show', $booking)
             ->with('error', 'Thanh toán ZaloPay không thành công. Vui lòng thử lại.');
+    }
+
+    // =========================================================
+    // PayOS — ZaloPay, Card, ATM, chuyển khoản qua một cổng
+    // =========================================================
+
+    /** Webhook — PayOS gọi ngầm khi thanh toán hoàn tất */
+    public function payosWebhook(Request $request, PayOSService $payos)
+    {
+        $webhookData = $request->all();
+
+        if (!$payos->verifyWebhookSignature($webhookData)) {
+            Log::warning('PayOS webhook: chữ ký không hợp lệ', ['data' => $webhookData]);
+            return response()->json(['error' => 'Invalid signature'], 400);
+        }
+
+        $bookingId = $payos->getBookingIdFromWebhook($webhookData);
+        $booking   = $bookingId ? Booking::find($bookingId) : null;
+
+        if (!$booking) {
+            Log::warning('PayOS webhook: không tìm thấy booking', ['orderCode' => $bookingId]);
+            return response()->json(['error' => 'Booking not found'], 404);
+        }
+
+        if ($booking->payment && $booking->payment->payment_status === 'completed') {
+            return response()->json(['message' => 'Already confirmed']);
+        }
+
+        $isSuccess = $payos->isWebhookSuccess($webhookData);
+        $txnRef    = $payos->getTransactionRef($webhookData);
+
+        DB::transaction(function () use ($booking, $isSuccess, $txnRef, $webhookData) {
+            $payStatus = $isSuccess ? 'completed' : 'failed';
+            $paidAt    = $isSuccess ? now() : null;
+            $method    = $booking->payment_method; // 'zalopay' hoặc 'card'
+
+            if ($booking->payment) {
+                $booking->payment->update([
+                    'payment_status' => $payStatus,
+                    'transaction_no' => $txnRef,
+                    'paid_at'        => $paidAt,
+                ]);
+            } else {
+                Payment::create([
+                    'booking_id'     => $booking->id,
+                    'hotel_id'       => $booking->room?->hotel_id,
+                    'hotel_name'     => $booking->room?->hotel?->name,
+                    'room_name'      => $booking->room?->room_name,
+                    'method'         => $method,
+                    'full_name'      => $booking->full_name,
+                    'email'          => $booking->email,
+                    'phone'          => $booking->phone,
+                    'amount'         => $booking->total_price,
+                    'payment_status' => $payStatus,
+                    'transaction_no' => $txnRef,
+                    'paid_at'        => $paidAt,
+                ]);
+            }
+
+            if ($payStatus === 'completed') {
+                $booking->update(['status' => 'confirmed']);
+            }
+        });
+
+        if ($booking->email) {
+            try {
+                $booking->load('room.hotel', 'payment');
+                if ($isSuccess) {
+                    Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+                } else {
+                    Mail::to($booking->email)->send(new PaymentFailed($booking));
+                }
+            } catch (\Exception $e) {
+                Log::error('Payment email failed (PayOS): ' . $e->getMessage());
+            }
+        }
+
+        return response()->json(['message' => 'OK']);
+    }
+
+    /** Return URL — user redirect về sau khi thanh toán thành công */
+    public function payosReturn(Request $request, PayOSService $payos)
+    {
+        $params    = $request->all();
+        $bookingId = $payos->getBookingIdFromReturn($params);
+        $booking   = $bookingId ? Booking::find($bookingId) : null;
+
+        if (!$booking) {
+            return redirect()->route('home')->with('error', 'Không tìm thấy đơn đặt phòng.');
+        }
+
+        if ($payos->isReturnSuccess($params)) {
+            return redirect()->route('booking.my')
+                ->with('success', "Thanh toán thành công! Đặt phòng #{$booking->order_code} đã được xác nhận.");
+        }
+
+        return redirect()->route('payment.show', $booking)
+            ->with('error', 'Thanh toán chưa hoàn tất. Vui lòng thử lại.');
+    }
+
+    /** Cancel URL — user bấm huỷ trên trang PayOS */
+    public function payosCancel(Request $request, PayOSService $payos)
+    {
+        $params    = $request->all();
+        $bookingId = $payos->getBookingIdFromReturn($params);
+        $booking   = $bookingId ? Booking::find($bookingId) : null;
+
+        if (!$booking) {
+            return redirect()->route('home')->with('info', 'Thanh toán đã bị huỷ.');
+        }
+
+        return redirect()->route('payment.show', $booking)
+            ->with('info', 'Bạn đã huỷ thanh toán. Đơn đặt phòng vẫn được giữ, bạn có thể thanh toán lại.');
     }
 
     /** Return URL — user được redirect về */

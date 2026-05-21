@@ -31,7 +31,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | ZaloPay Configuration
+    | ZaloPay Configuration (direct — giữ lại cho tương lai nếu cần)
     |--------------------------------------------------------------------------
     */
     'zalopay' => [
@@ -41,6 +41,22 @@ return [
         'endpoint'   => env('ZALOPAY_ENDPOINT', 'https://sb-openapi.zalopay.vn/v2/create'),
         'return_url' => env('APP_URL') . '/webhook/zalopay/return',
         'ipn_url'    => env('APP_URL') . '/webhook/zalopay/callback',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | PayOS Configuration
+    | Đăng ký tại: https://my.payos.vn
+    | Hỗ trợ: ZaloPay, MoMo, ATM, Visa/Mastercard, chuyển khoản
+    |--------------------------------------------------------------------------
+    */
+    'payos' => [
+        'client_id'    => env('PAYOS_CLIENT_ID', ''),
+        'api_key'      => env('PAYOS_API_KEY', ''),
+        'checksum_key' => env('PAYOS_CHECKSUM_KEY', ''),
+        'base_url'     => env('PAYOS_BASE_URL', 'https://api-merchant.payos.vn'),
+        'return_url'   => env('APP_URL') . '/webhook/payos/return',
+        'cancel_url'   => env('APP_URL') . '/webhook/payos/cancel',
     ],
 
 ];
