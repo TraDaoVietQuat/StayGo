@@ -857,14 +857,15 @@
 
 /* ---- Newsletter form ---- */
 .dh-nl-form { display: flex; flex-direction: column; gap: 10px; }
-.dh-nl-row  { display: flex; gap: 8px; }
+.dh-nl-row  { display: flex; gap: 8px; align-items: center; }
 .dh-nl-input {
-    flex: 1; padding: 11px 16px;
+    flex: 1; padding: 13px 18px;
     border-radius: 12px !important;
     border: 1.5px solid #e2e8f0;
     background: #f8fafc; color: #0f172a; font-size: 14px;
+    height: 48px; box-sizing: border-box;
     outline: none; transition: border-color .2s, box-shadow .2s;
-    -webkit-appearance: none;
+    -webkit-appearance: none; appearance: none;
 }
 .dh-nl-input::placeholder { color: #94a3b8; }
 .dh-nl-input:focus {
@@ -872,11 +873,11 @@
     box-shadow: 0 0 0 3px rgba(0,100,210,.1);
 }
 .dh-nl-btn {
-    padding: 11px 18px; border-radius: 12px;
+    height: 48px; padding: 0 20px; border-radius: 12px;
     background: #0064D2; color: #fff;
     border: none; cursor: pointer; font-weight: 600; font-size: 13.5px;
     white-space: nowrap; flex-shrink: 0;
-    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
     transition: background .18s, transform .18s;
 }
 .dh-nl-btn:hover { background: #004fb3; transform: translateY(-1px); }
