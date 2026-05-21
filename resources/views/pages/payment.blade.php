@@ -17,9 +17,12 @@
         'card'         => '💳 Thẻ quốc tế',
         'zalopay'      => '🔵 ZaloPay',
         'bank_transfer'=> '🏦 Chuyển khoản',
+        'vietqr'       => '📱 VietQR',
+        'wallet'       => '💰 Ví điện tử',
+        'cod'          => '💵 Thanh toán khi nhận phòng',
         default        => '🏨 Thanh toán tại khách sạn',
     };
-    $isOnlineMethod  = in_array($booking->payment_method, ['bank','bank_transfer','momo','vnpay','card','zalopay']);
+    $isOnlineMethod  = in_array($booking->payment_method, ['bank','bank_transfer','momo','vnpay','card','zalopay','vietqr','wallet']);
     $isAlreadyPaid   = $payment && $payment->payment_status === 'completed';
 @endphp
 
@@ -361,6 +364,21 @@
             <p>Số tiền: <strong class="pmt-order-ref">{{ number_format($booking->total_price) }}đ</strong></p>
             <p>Nội dung: <strong class="pmt-order-ref">{{ $booking->order_code }}</strong></p>
         </div>
+
+        @elseif($booking->payment_method === 'vietqr')
+        <div class="pmt-method-box pmt-method-bank">
+            <div class="pmt-method-title">📱 VietQR</div>
+            <p>Quét mã VietQR bằng app ngân hàng để thanh toán.</p>
+            <p>Số tiền: <strong class="pmt-order-ref">{{ number_format($booking->total_price) }}đ</strong></p>
+            <p>Nội dung: <strong class="pmt-order-ref">{{ $booking->order_code }}</strong></p>
+        </div>
+
+        @elseif($booking->payment_method === 'wallet')
+        <div class="pmt-method-box pmt-method-bank">
+            <div class="pmt-method-title">💰 Ví điện tử</div>
+            <p>Thanh toán qua ví điện tử được liên kết với tài khoản của bạn.</p>
+            <p>Số tiền: <strong class="pmt-order-ref">{{ number_format($booking->total_price) }}đ</strong></p>
+        </div>
         @endif
 
         {{-- Confirm button --}}
@@ -371,12 +389,17 @@
                     'vnpay'        => '🟢 Tiến hành thanh toán qua VNPay',
                     'momo'         => '💜 Xác nhận & chuyển khoản MoMo',
                     'bank','bank_transfer' => '🏦 Tôi đã chuyển khoản, xác nhận đặt phòng',
+                    'card'         => '💳 Tiến hành thanh toán thẻ',
+                    'zalopay'      => '🔵 Tiến hành thanh toán ZaloPay',
+                    'vietqr'       => '📱 Tiến hành thanh toán VietQR',
+                    'wallet'       => '💰 Tiến hành thanh toán ví điện tử',
                     default        => '✅ Xác nhận đặt phòng',
                 };
                 $btnNote = match($booking->payment_method) {
                     'vnpay'  => 'Bạn sẽ được chuyển đến cổng thanh toán VNPay an toàn',
                     'momo'   => 'Hệ thống sẽ tự động xác nhận sau khi nhận tiền qua SePay',
                     'bank','bank_transfer' => 'Nhấn sau khi đã chuyển khoản. Hệ thống sẽ kiểm tra trong vài phút',
+                    'card','zalopay','vietqr','wallet' => 'Bạn sẽ được chuyển đến cổng thanh toán an toàn',
                     default  => 'Đặt phòng sẽ được xác nhận sau khi chúng tôi kiểm tra (trong 15 phút)',
                 };
             @endphp
@@ -518,7 +541,7 @@
 @push('scripts')
 <script src="{{ asset('assets/js/payment.js') }}" defer></script>
 @php
-    $needsPolling = in_array($booking->payment_method, ['bank','bank_transfer','momo'])
+    $needsPolling = in_array($booking->payment_method, ['bank','bank_transfer','momo','vietqr','wallet','zalopay','card'])
                  && (!$payment || $payment->payment_status !== 'completed');
 @endphp
 @if($needsPolling)
