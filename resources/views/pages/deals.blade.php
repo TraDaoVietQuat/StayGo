@@ -929,6 +929,7 @@
     flex-shrink: 0;
     align-self: flex-end;
     margin-bottom: -1px;
+    margin-right: 24px;
 }
 .dh-phone-frame {
     width: 148px; height: 280px;
