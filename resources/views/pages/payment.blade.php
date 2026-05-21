@@ -379,6 +379,14 @@
             <p>Thanh toán qua ví điện tử được liên kết với tài khoản của bạn.</p>
             <p>Số tiền: <strong class="pmt-order-ref">{{ number_format($booking->total_price) }}đ</strong></p>
         </div>
+
+        @elseif($booking->payment_method === 'cod')
+        <div class="pmt-method-box pmt-method-hotel">
+            <div class="pmt-method-title">💵 Thanh toán tiền mặt khi nhận phòng</div>
+            <p>Bạn sẽ thanh toán bằng tiền mặt tại quầy lễ tân khi nhận phòng.</p>
+            <p>Số tiền: <strong class="pmt-order-ref">{{ number_format($booking->total_price) }}đ</strong></p>
+            <p style="color:#92400e;background:#fef3c7;padding:8px 12px;border-radius:8px;font-size:13px;margin-top:8px">⚠️ Vui lòng chuẩn bị đúng số tiền khi đến nhận phòng.</p>
+        </div>
         @endif
 
         {{-- Confirm button --}}

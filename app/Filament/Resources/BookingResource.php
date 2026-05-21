@@ -69,7 +69,10 @@ class BookingResource extends Resource
             'bank'          => 'Chuyển khoản ngân hàng',
             'bank_transfer' => 'Chuyển khoản ngân hàng',
             'zalopay'       => 'ZaloPay',
-            'cod'           => 'Thanh toán khi nhận phòng',
+            'cod'           => 'Thanh toán tiền mặt khi nhận phòng',
+            'card'          => 'Thẻ quốc tế',
+            'vietqr'        => 'VietQR',
+            'wallet'        => 'Ví điện tử',
         ];
     }
 

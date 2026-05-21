@@ -76,7 +76,7 @@ class BookingController extends Controller
             'phone'          => ['required', 'string', 'regex:/^[0-9\s\+\-\(\)]{8,20}$/'],
             'check_in'       => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'check_out'      => ['required', 'date_format:Y-m-d', 'after:check_in'],
-            'payment_method' => ['required', 'in:bank,momo,vnpay,card,hotel,zalopay,cod,bank_transfer,vietqr,wallet'],
+            'payment_method' => ['required', \Illuminate\Validation\Rule::in(\App\Models\Booking::PAYMENT_METHODS)],
         ], [
             'full_name.required'      => 'Vui lòng nhập họ tên.',
             'email.required'          => 'Vui lòng nhập email.',

@@ -11,6 +11,11 @@ class Booking extends Model
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = null;
 
+    public const PAYMENT_METHODS = [
+        'bank', 'bank_transfer', 'momo', 'vnpay', 'card',
+        'hotel', 'zalopay', 'cod', 'vietqr', 'wallet',
+    ];
+
     protected $fillable = [
         'order_code', 'user_id', 'room_id', 'full_name', 'email', 'phone',
         'check_in', 'check_out', 'total_price', 'payment_method', 'note',

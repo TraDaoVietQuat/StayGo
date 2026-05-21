@@ -279,13 +279,39 @@
             </div>
         </div>
 
+        {{-- MoMo --}}
+        <label class="bk-pm-row" id="pm-momo">
+            <input type="radio" name="payment_method" value="momo" {{ old('payment_method')==='momo'?'checked':'' }}>
+            <span class="bk-pm-radio"></span>
+            <span class="bk-pm-info">
+                <span class="bk-pm-name">Ví MoMo</span>
+                <span class="bk-pm-sub">Quét QR hoặc nhập số điện thoại MoMo</span>
+            </span>
+            <span class="bk-pm-right">
+                <img src="{{ asset('assets/images/momo.png') }}" alt="MoMo" class="bk-pm-logo-sm" onerror="this.style.display='none'">
+            </span>
+        </label>
+
+        {{-- VNPay --}}
+        <label class="bk-pm-row" id="pm-vnpay">
+            <input type="radio" name="payment_method" value="vnpay" {{ old('payment_method')==='vnpay'?'checked':'' }}>
+            <span class="bk-pm-radio"></span>
+            <span class="bk-pm-info">
+                <span class="bk-pm-name">VNPay</span>
+                <span class="bk-pm-sub">Thẻ ATM nội địa & ví VNPay</span>
+            </span>
+            <span class="bk-pm-right">
+                <span class="bk-pm-logo-text" style="background:#0068ae;color:#fff;font-size:11px;padding:3px 8px;border-radius:5px">VNPay</span>
+            </span>
+        </label>
+
         {{-- At hotel --}}
         <label class="bk-pm-row" id="pm-hotel">
             <input type="radio" name="payment_method" value="hotel" {{ old('payment_method')==='hotel'?'checked':'' }}>
             <span class="bk-pm-radio"></span>
             <span class="bk-pm-info">
                 <span class="bk-pm-name">Tại khách sạn</span>
-                <span class="bk-pm-sub">Thanh toán khi nhận phòng</span>
+                <span class="bk-pm-sub">Chuyển khoản / tiền mặt khi nhận phòng</span>
             </span>
             <span class="bk-pm-right">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="1.5" stroke-linecap="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
@@ -851,7 +877,8 @@ tickTimer();
 // ── Payment method selection ──────────────────────────────
 const pmMethodNames = {
     vietqr:'VietQR', wallet:'Ví điện tử', bank:'Ngân hàng',
-    card:'Thẻ thanh toán', hotel:'Tại khách sạn'
+    card:'Thẻ thanh toán', hotel:'Tại khách sạn',
+    momo:'Ví MoMo', vnpay:'VNPay'
 };
 document.querySelectorAll('.bk-pm-row:not(.bk-pm-disabled)').forEach(row => {
     const radio = row.querySelector('input[type=radio]');
