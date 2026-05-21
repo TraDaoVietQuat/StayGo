@@ -2992,6 +2992,8 @@ footer a:hover {
   height: 24px !important;
   width: auto !important;
   object-fit: contain !important;
+  background: transparent !important;
+  mix-blend-mode: multiply !important;
 }
 .fp-badge-logo[data-tip="VNPay"] img {
   height: 34px !important;
