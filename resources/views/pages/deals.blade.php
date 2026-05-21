@@ -859,11 +859,12 @@
 .dh-nl-form { display: flex; flex-direction: column; gap: 10px; }
 .dh-nl-row  { display: flex; gap: 8px; }
 .dh-nl-input {
-    flex: 1; padding: 12px 16px;
-    border-radius: 10px;
+    flex: 1; padding: 11px 16px;
+    border-radius: 12px !important;
     border: 1.5px solid #e2e8f0;
     background: #f8fafc; color: #0f172a; font-size: 14px;
     outline: none; transition: border-color .2s, box-shadow .2s;
+    -webkit-appearance: none;
 }
 .dh-nl-input::placeholder { color: #94a3b8; }
 .dh-nl-input:focus {
@@ -871,10 +872,11 @@
     box-shadow: 0 0 0 3px rgba(0,100,210,.1);
 }
 .dh-nl-btn {
-    padding: 12px 22px; border-radius: 10px;
+    padding: 11px 18px; border-radius: 12px;
     background: #0064D2; color: #fff;
-    border: none; cursor: pointer; font-weight: 700; font-size: 14px;
-    white-space: nowrap;
+    border: none; cursor: pointer; font-weight: 600; font-size: 13.5px;
+    white-space: nowrap; flex-shrink: 0;
+    line-height: 1;
     transition: background .18s, transform .18s;
 }
 .dh-nl-btn:hover { background: #004fb3; transform: translateY(-1px); }
