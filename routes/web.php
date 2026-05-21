@@ -38,6 +38,7 @@ Route::get('/hotels/{hotel}/availability', [HotelController::class, 'availabilit
 
 // Deals
 Route::get('/uu-dai', [DealsController::class, 'index'])->name('deals.index');
+Route::post('/uu-dai/newsletter', [DealsController::class, 'subscribeNewsletter'])->name('deals.newsletter')->middleware('throttle:5,1');
 
 // Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');

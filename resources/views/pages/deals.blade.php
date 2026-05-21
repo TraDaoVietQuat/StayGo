@@ -1069,11 +1069,47 @@ function copyDealCode(code, btn) {
 /* ---- Newsletter ---- */
 function handleNewsletter(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('.dh-newsletter-btn');
-    btn.textContent = 'Đã đăng ký ✓';
-    btn.style.background = '#059669';
-    e.target.querySelector('input').value = '';
-    setTimeout(() => { btn.textContent = 'Đăng ký'; btn.style.background = ''; }, 3000);
+    const form  = e.target;
+    const input = form.querySelector('input[type="email"]');
+    const btn   = form.querySelector('.dh-nl-btn');
+    const email = input.value.trim();
+
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Đang gửi...';
+
+    fetch('{{ route("deals.newsletter") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.message === 'already_subscribed') {
+            btn.textContent = 'Đã đăng ký rồi';
+            btn.style.background = '#f59e0b';
+        } else {
+            btn.textContent = 'Đăng ký thành công ✓';
+            btn.style.background = '#059669';
+            input.value = '';
+        }
+        setTimeout(() => {
+            btn.textContent = 'Đăng ký ngay';
+            btn.style.background = '';
+            btn.disabled = false;
+        }, 3000);
+    })
+    .catch(() => {
+        btn.textContent = 'Lỗi, thử lại';
+        btn.style.background = '#ef4444';
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = 'Đăng ký ngay'; btn.style.background = ''; }, 3000);
+    });
 }
 
 /* ---- Countdown timers ---- */
