@@ -145,6 +145,27 @@
     </div>
 </div>
 
+{{-- Newsletter Card --}}
+<div class="blg-nl-wrap">
+    <div class="container">
+        <div class="blg-nl-card">
+            <div class="blg-nl-text">
+                <p class="blg-nl-label">STAYGO NEWSLETTER</p>
+                <h2 class="blg-nl-title">Nhận cẩm nang du lịch<br><em>mới nhất</em> mỗi tuần</h2>
+                <p class="blg-nl-sub">Mẹo đặt phòng, địa điểm ẩn, ưu đãi độc quyền — gửi thẳng vào hộp thư của bạn.</p>
+            </div>
+            <form class="blg-nl-form" id="blgNlForm">
+                @csrf
+                <div class="blg-nl-row">
+                    <input type="email" name="email" class="blg-nl-input" placeholder="email@example.com" required>
+                    <button type="submit" class="blg-nl-btn">Đăng ký →</button>
+                </div>
+                <div class="blg-nl-msg" id="blgNlMsg"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('styles')
@@ -321,5 +342,166 @@
     .blg-featured__body { padding: 24px 20px; }
     .blg-featured__title { font-size: 18px; }
 }
+
+/* ── Newsletter Card ── */
+.blg-nl-wrap {
+    padding: 48px 0 64px;
+}
+.blg-nl-card {
+    background: linear-gradient(135deg, #0d1b3e 0%, #0a3d7a 50%, #1565c0 100%);
+    border-radius: 20px;
+    padding: 48px 56px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    overflow: hidden;
+    position: relative;
+}
+.blg-nl-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+}
+.blg-nl-card::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: 120px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,.03);
+    border-radius: 50%;
+}
+.blg-nl-text {
+    flex: 1;
+    min-width: 0;
+    position: relative; z-index: 1;
+}
+.blg-nl-label {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: .14em !important;
+    color: rgba(255,255,255,.55) !important;
+    text-transform: uppercase !important;
+    margin: 0 0 14px !important;
+}
+.blg-nl-title {
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    line-height: 1.3 !important;
+    margin: 0 0 12px !important;
+    text-shadow: none !important;
+}
+.blg-nl-title em {
+    font-style: italic;
+    color: #7ec8f8 !important;
+    font-family: Georgia, serif;
+}
+.blg-nl-sub {
+    font-size: 14px !important;
+    color: rgba(255,255,255,.70) !important;
+    line-height: 1.65 !important;
+    margin: 0 !important;
+}
+.blg-nl-form {
+    flex: 0 0 360px;
+    position: relative; z-index: 1;
+}
+.blg-nl-row {
+    display: flex;
+    gap: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+}
+.blg-nl-input {
+    flex: 1;
+    padding: 0 18px !important;
+    height: 52px !important;
+    border: none !important;
+    outline: none !important;
+    font-size: 14px !important;
+    color: #1a202c !important;
+    background: #fff !important;
+    border-radius: 0 !important;
+    width: auto !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+.blg-nl-input::placeholder { color: #94a3b8; }
+.blg-nl-btn {
+    flex-shrink: 0;
+    padding: 0 26px;
+    height: 52px;
+    background: #1976d2;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .2s;
+}
+.blg-nl-btn:hover { background: #1565c0; }
+.blg-nl-msg {
+    margin-top: 10px;
+    font-size: 13px;
+    min-height: 18px;
+    color: rgba(255,255,255,.85);
+}
+@media (max-width: 768px) {
+    .blg-nl-card { flex-direction: column; padding: 36px 24px; gap: 28px; }
+    .blg-nl-form { flex: unset; width: 100%; }
+    .blg-nl-title { font-size: 22px !important; }
+}
 </style>
+@endpush
+
+@push('scripts')
+<script>
+document.getElementById('blgNlForm')?.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = this;
+    const btn  = form.querySelector('.blg-nl-btn');
+    const msg  = document.getElementById('blgNlMsg');
+    const email = form.querySelector('[name="email"]').value.trim();
+
+    btn.disabled = true;
+    btn.textContent = 'Đang gửi...';
+    msg.textContent = '';
+
+    try {
+        const res = await fetch('{{ route("deals.newsletter") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+        const data = await res.json();
+
+        if (data.message === 'success') {
+            msg.style.color = '#86efac';
+            msg.textContent = '✓ Đăng ký thành công! Chúng tôi sẽ gửi cẩm nang mới đến bạn.';
+            form.querySelector('[name="email"]').value = '';
+        } else if (data.message === 'already_subscribed') {
+            msg.style.color = '#fde68a';
+            msg.textContent = '⚡ Email này đã đăng ký nhận cẩm nang rồi.';
+        } else {
+            msg.style.color = '#fca5a5';
+            msg.textContent = 'Đã có lỗi xảy ra, vui lòng thử lại.';
+        }
+    } catch {
+        msg.style.color = '#fca5a5';
+        msg.textContent = 'Không kết nối được. Vui lòng thử lại.';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Đăng ký →';
+    }
+});
+</script>
 @endpush

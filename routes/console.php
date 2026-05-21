@@ -24,3 +24,5 @@ Schedule::command('staygo:send-admin-daily-digest')->dailyAt('07:00');      // 0
 Schedule::command('staygo:send-payout-emails')->dailyAt('09:00');           // 09:00 — gửi payout statement email
 // E-08: Kiểm tra KPI và gửi cảnh báo yellow/red cho partner
 Schedule::command('staygo:check-partner-kpi-alerts')->dailyAt('09:30');     // 09:30 — KPI alert emails
+// Blog newsletter: gửi digest bài viết mới trong tuần cho subscribers mỗi thứ Hai 9:00 sáng
+Schedule::command('staygo:blog-weekly-digest')->weeklyOn(1, '09:00');       // Thứ Hai 09:00 — blog weekly digest
