@@ -2799,7 +2799,7 @@ select,
 textarea {
   font-family: var(--sg-font-body) !important;
   border: 1px solid var(--sg-border) !important;
-  border-radius: 0 !important;
+  border-radius: 0;
   padding: 10px 16px !important;
   font-size: 14px !important;
   font-weight: 400 !important;
