@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class PayOSService
 {
@@ -93,8 +92,16 @@ class PayOSService
             return false;
         }
 
+        // null → '' để match cách PayOS tính signature
+        $data = array_map(fn($v) => $v ?? '', $data);
         ksort($data);
-        $queryString      = http_build_query($data, '', '&', PHP_QUERY_RFC3986);
+
+        // PayOS dùng key=value nối & trực tiếp, không URL-encode
+        $parts = [];
+        foreach ($data as $k => $v) {
+            $parts[] = $k . '=' . $v;
+        }
+        $queryString       = implode('&', $parts);
         $expectedSignature = hash_hmac('sha256', $queryString, $this->checksumKey);
 
         return hash_equals($expectedSignature, $signature);
