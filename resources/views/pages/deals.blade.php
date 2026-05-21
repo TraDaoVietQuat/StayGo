@@ -298,30 +298,36 @@
 <div class="dh-bottom-section">
     <div class="container dh-bottom-grid">
 
-        {{-- Newsletter --}}
-        <div class="dh-newsletter">
-            <div class="dh-newsletter-icon">📬</div>
-            <h3 class="dh-newsletter-title">Nhận ưu đãi qua email</h3>
-            <p class="dh-newsletter-sub">Đăng ký để không bỏ lỡ bất kỳ khuyến mãi độc quyền nào từ StayGo.</p>
-            <form class="dh-newsletter-form" onsubmit="handleNewsletter(event)">
-                <input type="email" class="dh-newsletter-input" placeholder="Nhập email của bạn..." required>
-                <button type="submit" class="dh-newsletter-btn">Đăng ký</button>
+        {{-- Newsletter card --}}
+        <div class="dh-bottom-card dh-bottom-card--blue">
+            <div class="dh-bottom-card-icon">📬</div>
+            <h3 class="dh-bottom-card-title">Nhận ưu đãi qua email</h3>
+            <p class="dh-bottom-card-sub">Đăng ký để không bỏ lỡ bất kỳ khuyến mãi độc quyền nào từ StayGo.</p>
+            <form class="dh-nl-form" onsubmit="handleNewsletter(event)">
+                <div class="dh-nl-input-wrap">
+                    <svg class="dh-nl-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <input type="email" class="dh-nl-input" placeholder="email@example.com" required>
+                </div>
+                <button type="submit" class="dh-nl-btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Đăng ký ngay
+                </button>
             </form>
-            <div class="dh-newsletter-note">Không spam. Có thể hủy bất cứ lúc nào.</div>
+            <div class="dh-nl-note">🔒 Không spam &nbsp;·&nbsp; Hủy bất kỳ lúc nào</div>
         </div>
 
-        {{-- App download --}}
-        <div class="dh-app-download">
-            <div class="dh-app-icon">📱</div>
-            <h3 class="dh-app-title">Đặt phòng dễ dàng hơn</h3>
-            <p class="dh-app-sub">Trải nghiệm StayGo trên điện thoại — tìm phòng, đặt ngay, nhận ưu đãi riêng dành cho app.</p>
+        {{-- App download card --}}
+        <div class="dh-bottom-card dh-bottom-card--purple">
+            <div class="dh-bottom-card-icon">📱</div>
+            <h3 class="dh-bottom-card-title">Đặt phòng dễ dàng hơn</h3>
+            <p class="dh-bottom-card-sub">Trải nghiệm StayGo trên điện thoại — tìm phòng, đặt ngay, nhận ưu đãi riêng dành cho app.</p>
             <div class="dh-app-badges">
                 <div class="dh-app-badge">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
                     <div><div class="dh-app-badge-sub">Tải trên</div><div class="dh-app-badge-name">App Store</div></div>
                 </div>
                 <div class="dh-app-badge">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14 8.5c.6.37.6 1.23 0 1.6l-14 8.5c-.66.5-1.6.03-1.6-.8z"/></svg>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14 8.5c.6.37.6 1.23 0 1.6l-14 8.5c-.66.5-1.6.03-1.6-.8z"/></svg>
                     <div><div class="dh-app-badge-sub">Tải trên</div><div class="dh-app-badge-name">Google Play</div></div>
                 </div>
             </div>
@@ -664,54 +670,87 @@
 
 /* ---- Bottom section ---- */
 .dh-bottom-section {
-    background: #fff;
+    background: #f1f5f9;
     border-top: 1px solid #e2e8f0;
     padding: 60px 0;
 }
 .dh-bottom-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
-    align-items: start;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    align-items: stretch;
 }
-.dh-newsletter { color: #0f172a; }
-.dh-newsletter-icon { font-size: 36px; margin-bottom: 12px; }
-.dh-newsletter-title { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
-.dh-newsletter-sub { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
-.dh-newsletter-form { display: flex; gap: 8px; }
-.dh-newsletter-input {
-    flex: 1; padding: 12px 16px;
-    border-radius: 12px; border: 1px solid #cbd5e1;
-    background: #f8fafc; color: #0f172a; font-size: 14px;
-    outline: none; transition: border-color .2s;
-}
-.dh-newsletter-input::placeholder { color: #94a3b8; }
-.dh-newsletter-input:focus { border-color: #0064D2; background: #fff; }
-.dh-newsletter-btn {
-    padding: 12px 22px; border-radius: 12px;
-    background: #0064D2; color: #fff;
-    border: none; cursor: pointer; font-weight: 700; font-size: 14px;
-    transition: background .2s;
-    white-space: nowrap;
-}
-.dh-newsletter-btn:hover { background: #004fb3; }
-.dh-newsletter-note { font-size: 11.5px; color: #94a3b8; margin-top: 10px; }
 
-.dh-app-download { color: #0f172a; }
-.dh-app-icon { font-size: 36px; margin-bottom: 12px; }
-.dh-app-title { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
-.dh-app-sub { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
-.dh-app-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+/* ---- Bottom cards ---- */
+.dh-bottom-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px 28px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.06);
+    border: 1px solid #e2e8f0;
+    display: flex; flex-direction: column;
+}
+.dh-bottom-card--blue   { border-top: 4px solid #0064D2; }
+.dh-bottom-card--purple { border-top: 4px solid #7c3aed; }
+.dh-bottom-card-icon  { font-size: 36px; margin-bottom: 14px; }
+.dh-bottom-card-title { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+.dh-bottom-card-sub   { font-size: 14px; color: #64748b; line-height: 1.65; margin-bottom: 24px; }
+
+/* ---- Newsletter form ---- */
+.dh-nl-form { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+.dh-nl-input-wrap {
+    position: relative;
+    display: flex; align-items: center;
+}
+.dh-nl-input-icon {
+    position: absolute; left: 14px;
+    color: #94a3b8; pointer-events: none;
+}
+.dh-nl-input {
+    width: 100%; padding: 13px 16px 13px 42px;
+    border-radius: 99px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc; color: #0f172a; font-size: 14px;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+    box-sizing: border-box;
+}
+.dh-nl-input::placeholder { color: #94a3b8; }
+.dh-nl-input:focus {
+    border-color: #0064D2;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(0,100,210,.1);
+}
+.dh-nl-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 24px; border-radius: 99px;
+    background: linear-gradient(135deg, #0064D2, #0ea5e9);
+    color: #fff; border: none; cursor: pointer;
+    font-weight: 700; font-size: 14px;
+    box-shadow: 0 4px 16px rgba(0,100,210,.3);
+    transition: transform .18s, box-shadow .18s;
+}
+.dh-nl-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,100,210,.4);
+}
+.dh-nl-note { font-size: 12px; color: #94a3b8; margin-top: 10px; text-align: center; }
+
+/* ---- App badges ---- */
+.dh-app-badges { display: flex; gap: 12px; flex-wrap: wrap; margin-top: auto; }
 .dh-app-badge {
     display: flex; align-items: center; gap: 10px;
     background: #f8fafc; border: 1.5px solid #e2e8f0;
-    border-radius: 12px; padding: 11px 18px;
+    border-radius: 14px; padding: 12px 20px;
     color: #0f172a; cursor: pointer;
-    transition: background .2s, border-color .2s, color .2s;
+    transition: background .2s, border-color .2s, color .2s, transform .18s, box-shadow .18s;
 }
-.dh-app-badge:hover { background: #0064D2; border-color: #0064D2; color: #fff; }
-.dh-app-badge-sub { font-size: 9px; color: #64748b; }
-.dh-app-badge:hover .dh-app-badge-sub { color: rgba(255,255,255,.75); }
-.dh-app-badge-name { font-size: 15px; font-weight: 700; }
-.dh-app-note { font-size: 11.5px; color: #94a3b8; margin-top: 16px; }
+.dh-app-badge:hover {
+    background: #7c3aed; border-color: #7c3aed; color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(124,58,237,.3);
+}
+.dh-app-badge:hover .dh-app-badge-sub { color: rgba(255,255,255,.7); }
+.dh-app-badge-sub  { font-size: 9px; color: #64748b; }
+.dh-app-badge-name { font-size: 15px; font-weight: 800; }
+.dh-app-note { font-size: 12px; color: #94a3b8; margin-top: 16px; }
 
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
@@ -726,15 +765,14 @@
     .dh-coupon-card { display: none; }
     .dh-cards-grid  { grid-template-columns: 1fr 1fr; gap: 14px; }
     .dh-trust-grid  { grid-template-columns: repeat(2, 1fr); }
-    .dh-bottom-grid { grid-template-columns: 1fr; gap: 36px; }
+    .dh-bottom-grid { grid-template-columns: 1fr; gap: 20px; }
     .dh-how-steps   { justify-content: center; }
 }
 @media (max-width: 480px) {
     .dh-hero-inner  { flex-direction: column; align-items: flex-start; }
     .dh-cards-grid  { grid-template-columns: 1fr; }
     .dh-trust-grid  { grid-template-columns: 1fr 1fr; }
-    .dh-newsletter-form { flex-direction: column; }
-    .dh-newsletter-btn { width: 100%; }
+    .dh-bottom-card { padding: 24px 18px; }
 }
 </style>
 @endpush
