@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\Payment;
 use App\Services\MoMoService;
 use App\Services\VNPayService;
+use App\Services\ZalopayService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -269,6 +270,115 @@ class PaymentWebhookController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    // =========================================================
+    // ZaloPay
+    // =========================================================
+
+    /** IPN (callback) — ZaloPay gọi ngầm sau khi thanh toán */
+    public function zalopayCallback(Request $request, ZalopayService $zalopay)
+    {
+        $data = $request->input('data', '');
+        $mac  = $request->input('mac', '');
+
+        if (!$zalopay->verifyCallback($data, $mac)) {
+            Log::warning('ZaloPay callback: chữ ký không hợp lệ', ['mac' => $mac]);
+            return response()->json(['return_code' => 0, 'return_message' => 'Invalid signature']);
+        }
+
+        $cbData    = $zalopay->parseCallbackData($data);
+        $appTransId = $cbData['app_trans_id'] ?? '';
+        $orderCode  = $zalopay->getOrderCode($appTransId);
+        $status     = (int) ($cbData['status'] ?? 0);
+
+        $booking = Booking::where('order_code', $orderCode)->first();
+
+        if (!$booking) {
+            Log::warning('ZaloPay callback: không tìm thấy booking', ['order_code' => $orderCode]);
+            return response()->json(['return_code' => 0, 'return_message' => 'Order not found']);
+        }
+
+        if ($booking->payment && $booking->payment->payment_status === 'completed') {
+            return response()->json(['return_code' => 1, 'return_message' => 'Already confirmed']);
+        }
+
+        DB::transaction(function () use ($booking, $status, $cbData, $appTransId) {
+            $payStatus = $status === 1 ? 'completed' : 'failed';
+            $paidAt    = $payStatus === 'completed' ? now() : null;
+
+            if ($booking->payment) {
+                $booking->payment->update([
+                    'payment_status' => $payStatus,
+                    'transaction_no' => $appTransId,
+                    'paid_at'        => $paidAt,
+                ]);
+            } else {
+                Payment::create([
+                    'booking_id'     => $booking->id,
+                    'hotel_id'       => $booking->room?->hotel_id,
+                    'hotel_name'     => $booking->room?->hotel?->name,
+                    'room_name'      => $booking->room?->room_name,
+                    'method'         => 'zalopay',
+                    'full_name'      => $booking->full_name,
+                    'email'          => $booking->email,
+                    'phone'          => $booking->phone,
+                    'amount'         => $booking->total_price,
+                    'payment_status' => $payStatus,
+                    'transaction_no' => $appTransId,
+                    'paid_at'        => $paidAt,
+                ]);
+            }
+
+            if ($payStatus === 'completed') {
+                $booking->update(['status' => 'confirmed']);
+            }
+        });
+
+        if ($booking->email) {
+            try {
+                $booking->load('room.hotel', 'payment');
+                if ($zalopay->isSuccess($status)) {
+                    Mail::to($booking->email)->send(new PaymentConfirmed($booking));
+                } else {
+                    Mail::to($booking->email)->send(new PaymentFailed($booking));
+                }
+            } catch (\Exception $e) {
+                Log::error('Payment email failed (ZaloPay): ' . $e->getMessage());
+            }
+        }
+
+        return response()->json(['return_code' => 1, 'return_message' => 'success']);
+    }
+
+    /** Return URL — user được redirect về sau khi thanh toán ZaloPay */
+    public function zalopayReturn(Request $request, ZalopayService $zalopay)
+    {
+        $params    = $request->all();
+        $orderCode = $request->query('order_code');
+
+        // Fallback: lấy từ apptransid nếu không có order_code param
+        if (!$orderCode && !empty($params['apptransid'])) {
+            $orderCode = $zalopay->getOrderCode($params['apptransid']);
+        }
+
+        $booking = $orderCode
+            ? Booking::where('order_code', $orderCode)->with('room.hotel')->first()
+            : null;
+
+        if (!$booking) {
+            return redirect()->route('home')->with('error', 'Không tìm thấy đơn đặt phòng.');
+        }
+
+        $status = (int) ($params['status'] ?? 0);
+
+        if ($zalopay->isSuccess($status)) {
+            return redirect()->route('booking.my')
+                ->with('success', "Thanh toán ZaloPay thành công! Đặt phòng #{$orderCode} đã được xác nhận.");
+        }
+
+        return redirect()->route('payment.show', $booking)
+            ->with('error', 'Thanh toán ZaloPay không thành công. Vui lòng thử lại.');
     }
 
     /** Return URL — user được redirect về */

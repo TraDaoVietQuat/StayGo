@@ -163,6 +163,9 @@ Route::withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
     Route::get('/webhook/momo/return',      [PaymentWebhookController::class, 'momoReturn'])->name('webhook.momo.return');
     // SePay (bank transfer auto-detect)
     Route::post('/webhook/sepay',           [PaymentWebhookController::class, 'sepayWebhook'])->name('webhook.sepay');
+    // ZaloPay
+    Route::post('/webhook/zalopay/callback', [PaymentWebhookController::class, 'zalopayCallback'])->name('webhook.zalopay.callback');
+    Route::get('/webhook/zalopay/return',    [PaymentWebhookController::class, 'zalopayReturn'])->name('webhook.zalopay.return');
 });
 
 // ==================== DISPUTE / COMPLAINT ====================
