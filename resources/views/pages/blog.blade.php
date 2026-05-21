@@ -367,6 +367,9 @@
 .blg-nl-wrap {
     padding: 28px 0 48px;
 }
+.blg-nl-wrap .container {
+    max-width: 75%;
+}
 .blg-nl-card {
     background: linear-gradient(135deg, #0d1b3e 0%, #0a3d7a 50%, #1565c0 100%);
     border-radius: 16px;
@@ -472,6 +475,7 @@
     color: rgba(255,255,255,.85);
 }
 @media (max-width: 768px) {
+    .blg-nl-wrap .container { max-width: 100%; }
     .blg-nl-card { flex-direction: column; padding: 28px 20px; gap: 20px; }
     .blg-nl-form { flex: unset; width: 100%; }
     .blg-nl-title { font-size: 19px !important; }
