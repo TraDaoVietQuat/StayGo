@@ -5,7 +5,9 @@
 
 {{-- Hero --}}
 <div class="blog-hero">
-    <div class="container">
+    <div class="blog-hero-overlay"></div>
+    <img class="blog-hero-photo" src="{{ asset('assets/images/photo-1591373.jpg') }}" alt="Cẩm nang du lịch" loading="eager" fetchpriority="high">
+    <div class="container blog-hero-inner">
         <h1 class="blog-hero-title">Cẩm Nang Du Lịch</h1>
         <p class="blog-hero-sub">Bí quyết, điểm đến và trải nghiệm nghỉ dưỡng tuyệt vời nhất Việt Nam</p>
     </div>
@@ -97,29 +99,48 @@
 @push('styles')
 <style>
 .blog-hero {
-    background: linear-gradient(135deg, #0066cc 0%, #1976d2 60%, #42a5f5 100%) !important;
-    padding: 52px 0 44px !important;
-    text-align: center !important;
-    display: flex !important;
-    align-items: center !important;
+    position: relative;
+    min-height: 380px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
-.blog-hero .container { width: 100%; }
+.blog-hero-photo {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+    z-index: 0;
+}
+.blog-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(100deg, rgba(0,30,80,.82) 0%, rgba(0,64,180,.65) 55%, rgba(0,20,60,.45) 100%);
+    z-index: 1;
+}
+.blog-hero-inner {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 64px 0;
+}
 .blog-hero-title {
-    font-size: 34px !important;
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    margin: 0 0 10px !important;
-    letter-spacing: -.3px !important;
-    text-shadow: none !important;
+    font-size: 38px;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 12px;
+    letter-spacing: -.3px;
+    text-shadow: 0 2px 10px rgba(0,0,0,.35);
 }
 .blog-hero-sub {
-    font-size: 15px;
-    color: rgba(255,255,255,.85) !important;
+    font-size: 16px;
+    color: rgba(255,255,255,.88);
     margin: 0;
+    text-shadow: 0 1px 4px rgba(0,0,0,.25);
 }
 @media (max-width: 640px) {
-    .blog-hero { padding: 36px 0 30px !important; }
-    .blog-hero-title { font-size: 26px !important; }
+    .blog-hero { min-height: 260px; }
+    .blog-hero-inner { padding: 44px 20px; }
+    .blog-hero-title { font-size: 26px; }
+    .blog-hero-sub { font-size: 14px; }
 }
 </style>
 @endpush
