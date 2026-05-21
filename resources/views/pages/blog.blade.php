@@ -13,23 +13,41 @@
     </div>
 </div>
 
+{{-- Filter floating card (giống trang Ưu đãi) --}}
+<div class="dh-filter-wrap">
+    <div class="container">
+        <div class="dh-filter-card">
+            <div class="dh-filter-label-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>Lọc theo<br>chủ đề</span>
+            </div>
+            <div class="dh-filter-divider"></div>
+            <div class="dh-filter-tabs">
+                @php
+                $catIcons = ['Đà Lạt'=>'🌲','Nha Trang'=>'🌊','Vũng Tàu'=>'⛱️','Đà Nẵng'=>'🏖️'];
+                @endphp
+                <a href="{{ route('blog.index') }}"
+                   class="dh-ftab blg-ftab {{ !request('category') ? 'active' : '' }}">
+                    <span class="dh-ftab-icon">📖</span> Tất cả
+                </a>
+                @foreach($categories as $cat)
+                <a href="{{ route('blog.index', ['category' => $cat]) }}"
+                   class="dh-ftab blg-ftab {{ request('category') === $cat ? 'active' : '' }}">
+                    <span class="dh-ftab-icon">{{ $catIcons[$cat] ?? '📍' }}</span>
+                    {{ $cat }}
+                </a>
+                @endforeach
+            </div>
+            <div style="margin-left:auto;flex-shrink:0;">
+                <span class="blg-total-count">{{ $posts->total() }} bài viết</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- Blog Content --}}
 <div class="blog-page-section">
     <div class="blog-page-container">
-
-        {{-- Filter Bar --}}
-        <div class="blg-filter-bar">
-            <span class="blg-filter-label">LỌC:</span>
-            <div class="blg-filter-pills">
-                <a href="{{ route('blog.index') }}"
-                   class="blg-pill {{ !request('category') ? 'blg-pill--active' : '' }}">Tất cả</a>
-                @foreach($categories as $cat)
-                <a href="{{ route('blog.index', ['category' => $cat]) }}"
-                   class="blg-pill {{ request('category') === $cat ? 'blg-pill--active' : '' }}">{{ $cat }}</a>
-                @endforeach
-            </div>
-            <span class="blg-filter-count">{{ $posts->total() }} bài viết</span>
-        </div>
 
         {{-- Posts --}}
         @if($posts->isEmpty())
@@ -43,7 +61,6 @@
         @if($posts->currentPage() === 1)
         @php $featured = $posts->first(); @endphp
         <article class="blg-featured">
-            {{-- Image --}}
             <a href="{{ route('blog.show', $featured) }}" class="blg-featured__img-wrap">
                 @if($featured->thumb)
                 <img src="{{ str_starts_with($featured->thumb, 'http') ? $featured->thumb : asset('storage/' . $featured->thumb) }}"
@@ -52,7 +69,6 @@
                 <div class="blg-featured__img-placeholder">📰</div>
                 @endif
             </a>
-            {{-- Content --}}
             <div class="blg-featured__body">
                 <div class="blg-featured__badges">
                     @if($featured->category)
@@ -89,8 +105,6 @@
                 @continue
             @endif
             <article class="blog-card">
-
-                {{-- Thumbnail --}}
                 @if($post->thumb)
                 <div class="blog-card-img">
                     <img src="{{ str_starts_with($post->thumb, 'http') ? $post->thumb : asset('storage/' . $post->thumb) }}"
@@ -100,25 +114,17 @@
                 @else
                 <div class="blog-card-placeholder">📰</div>
                 @endif
-
-                {{-- Body --}}
                 <div class="blog-card-body">
-
                     @if($post->category)
                     <span class="blog-card-cat">
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
                         {{ $post->category }}
                     </span>
                     @endif
-
-                    <a href="{{ route('blog.show', $post) }}" class="blog-card-title">
-                        {{ $post->title }}
-                    </a>
-
+                    <a href="{{ route('blog.show', $post) }}" class="blog-card-title">{{ $post->title }}</a>
                     @if($post->summary)
                     <p class="blog-card-excerpt">{{ $post->summary }}</p>
                     @endif
-
                     <div class="blog-card-footer">
                         <span>{{ $post->created_at?->format('d/m/Y') }}</span>
                         <a href="{{ route('blog.show', $post) }}" class="blog-read-link">
@@ -126,7 +132,6 @@
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     </div>
-
                 </div>
             </article>
             @endforeach
@@ -144,6 +149,7 @@
 
 @push('styles')
 <style>
+/* ── Hero ── */
 .blog-hero {
     position: relative;
     min-height: 380px;
@@ -189,52 +195,22 @@
     .blog-hero-sub { font-size: 14px !important; }
 }
 
-/* ── Filter Bar ── */
-.blg-filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px 0 24px;
-    flex-wrap: wrap;
+/* ── Filter floating card (reuse deals styles, override active color) ── */
+.blg-ftab.active {
+    background: linear-gradient(135deg, #0052a3, #0088e0) !important;
+    color: #fff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 14px rgba(0,102,204,.35) !important;
 }
-.blg-filter-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .1em;
-    color: #6b7280;
-    text-transform: uppercase;
-    white-space: nowrap;
+.blg-ftab:hover:not(.active) {
+    background: #e8f0fe !important;
+    color: #0066cc !important;
+    border-color: #93c5fd !important;
 }
-.blg-filter-pills {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    flex: 1;
-}
-.blg-pill {
-    display: inline-block;
-    padding: 7px 18px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #374151;
-    background: #ffffff;
-    border: 1.5px solid #e5e7eb;
-    text-decoration: none;
-    transition: all .18s;
-    white-space: nowrap;
-}
-.blg-pill:hover { border-color: #0066cc; color: #0066cc; }
-.blg-pill--active {
-    background: #0d1b3e;
-    color: #ffffff !important;
-    border-color: #0d1b3e;
-}
-.blg-filter-count {
+.blg-total-count {
     font-size: 13px;
     color: #9ca3af;
     white-space: nowrap;
-    margin-left: auto;
 }
 
 /* ── Featured Post Card ── */
@@ -344,7 +320,6 @@
     .blg-featured__img-wrap { flex: 0 0 220px; max-width: 100%; height: 220px; }
     .blg-featured__body { padding: 24px 20px; }
     .blg-featured__title { font-size: 18px; }
-    .blg-filter-count { margin-left: 0; }
 }
 </style>
 @endpush

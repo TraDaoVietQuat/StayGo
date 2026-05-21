@@ -4268,3 +4268,51 @@ body.drawer-open { overflow: hidden; }
   }
   .otp-input-row { gap: 6px !important; }
 }
+
+/* ── Shared Filter Floating Card (dùng chung Ưu đãi + Cẩm nang) ──── */
+.dh-filter-wrap {
+    padding: 0;
+    margin-top: -28px;
+    position: relative; z-index: 20;
+}
+.dh-filter-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    padding: 18px 24px;
+    display: flex; align-items: center; gap: 20px;
+    overflow-x: auto; scrollbar-width: none;
+}
+.dh-filter-card::-webkit-scrollbar { display: none; }
+.dh-filter-label-col {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; color: #374151;
+    line-height: 1.4; white-space: nowrap; flex-shrink: 0;
+    min-width: 120px;
+}
+.dh-filter-label-col svg { color: #0064D2; flex-shrink: 0; }
+.dh-filter-divider {
+    width: 1px; height: 32px; background: #e2e8f0; flex-shrink: 0;
+}
+.dh-filter-tabs {
+    display: flex; gap: 10px; flex-shrink: 0;
+    overflow-x: auto; scrollbar-width: none;
+}
+.dh-filter-tabs::-webkit-scrollbar { display: none; }
+.dh-ftab {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px; border-radius: 99px;
+    font-size: 13.5px; font-weight: 600; color: #374151;
+    background: #f8fafc; text-decoration: none;
+    border: 1.5px solid #e2e8f0;
+    transition: all .2s; white-space: nowrap;
+}
+.dh-ftab:hover {
+    background: #ede9fe; color: #6d28d9; border-color: #c4b5fd;
+}
+.dh-ftab.active {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff; border-color: transparent;
+    box-shadow: 0 4px 14px rgba(124,58,237,.35);
+}
+.dh-ftab-icon { font-size: 15px; line-height: 1; }
