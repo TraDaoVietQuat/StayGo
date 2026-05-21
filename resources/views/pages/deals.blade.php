@@ -258,36 +258,59 @@
 </div>
 
 {{-- ======================================================
-     VÌ SAO CHỌN STAYGO — TRUST STATS
+     VÌ SAO CHỌN STAYGO — TRUST STATS (horizontal inline)
 ====================================================== --}}
 <div class="dh-trust-section">
     <div class="container">
-        <div class="dh-section-head dh-section-head--center">
-            <div class="dh-section-tag">Lý do tin tưởng</div>
-            <h2 class="dh-section-title">Vì sao chọn StayGo?</h2>
-            <p class="dh-section-sub">Hàng nghìn khách hàng đã tin tưởng đặt phòng qua StayGo</p>
-        </div>
-        <div class="dh-trust-grid">
-            <div class="dh-trust-card">
-                <div class="dh-trust-icon">🏨</div>
-                <div class="dh-trust-number">5.000+</div>
-                <div class="dh-trust-label">Lượt đặt phòng thành công</div>
+        <h2 class="dh-trust-title">Vì sao chọn StayGo?</h2>
+        <div class="dh-trust-row">
+
+            <div class="dh-trust-item">
+                <div class="dh-trust-icon-wrap dh-trust-icon-wrap--blue">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div class="dh-trust-info">
+                    <div class="dh-trust-number">5.000+</div>
+                    <div class="dh-trust-label">Lượt đặt phòng<br>mỗi tháng</div>
+                </div>
             </div>
-            <div class="dh-trust-card">
-                <div class="dh-trust-icon">⭐</div>
-                <div class="dh-trust-number">4.8/5</div>
-                <div class="dh-trust-label">Điểm đánh giá trung bình</div>
+
+            <div class="dh-trust-divider"></div>
+
+            <div class="dh-trust-item">
+                <div class="dh-trust-icon-wrap dh-trust-icon-wrap--yellow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#f59e0b"/></svg>
+                </div>
+                <div class="dh-trust-info">
+                    <div class="dh-trust-number">4.8/5</div>
+                    <div class="dh-trust-label">Đánh giá trung bình<br>từ khách hàng</div>
+                </div>
             </div>
-            <div class="dh-trust-card">
-                <div class="dh-trust-icon">🏩</div>
-                <div class="dh-trust-number">200+</div>
-                <div class="dh-trust-label">Khách sạn &amp; resort đối tác</div>
+
+            <div class="dh-trust-divider"></div>
+
+            <div class="dh-trust-item">
+                <div class="dh-trust-icon-wrap dh-trust-icon-wrap--green">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                </div>
+                <div class="dh-trust-info">
+                    <div class="dh-trust-number">200+</div>
+                    <div class="dh-trust-label">Khách sạn &amp; resort<br>đối tác</div>
+                </div>
             </div>
-            <div class="dh-trust-card">
-                <div class="dh-trust-icon">🛎️</div>
-                <div class="dh-trust-number">24/7</div>
-                <div class="dh-trust-label">Hỗ trợ khách hàng</div>
+
+            <div class="dh-trust-divider"></div>
+
+            <div class="dh-trust-item">
+                <div class="dh-trust-icon-wrap dh-trust-icon-wrap--purple">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.64A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+                </div>
+                <div class="dh-trust-info">
+                    <div class="dh-trust-number">Hỗ trợ 24/7</div>
+                    <div class="dh-trust-label">Đội ngũ chăm sóc<br>khách hàng tận tâm</div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -300,38 +323,56 @@
 
         {{-- Newsletter card --}}
         <div class="dh-bottom-card dh-bottom-card--blue">
-            <div class="dh-bottom-card-icon">📬</div>
-            <h3 class="dh-bottom-card-title">Nhận ưu đãi qua email</h3>
-            <p class="dh-bottom-card-sub">Đăng ký để không bỏ lỡ bất kỳ khuyến mãi độc quyền nào từ StayGo.</p>
-            <form class="dh-nl-form" onsubmit="handleNewsletter(event)">
-                <div class="dh-nl-input-wrap">
-                    <svg class="dh-nl-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    <input type="email" class="dh-nl-input" placeholder="email@example.com" required>
+            <div class="dh-bottom-card-header">
+                <div class="dh-bottom-card-ico">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0064D2" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 </div>
-                <button type="submit" class="dh-nl-btn">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    Đăng ký ngay
-                </button>
+                <div>
+                    <h3 class="dh-bottom-card-title">Nhận ưu đãi mới mỗi tuần!</h3>
+                    <p class="dh-bottom-card-sub">Đăng ký nhận newsletter để không bỏ lỡ khuyến mãi hấp dẫn</p>
+                </div>
+            </div>
+            <form class="dh-nl-form" onsubmit="handleNewsletter(event)">
+                <div class="dh-nl-row">
+                    <input type="email" class="dh-nl-input" placeholder="Nhập email của bạn..." required>
+                    <button type="submit" class="dh-nl-btn">Đăng ký ngay</button>
+                </div>
             </form>
-            <div class="dh-nl-note">🔒 Không spam &nbsp;·&nbsp; Hủy bất kỳ lúc nào</div>
+            <div class="dh-nl-note">Không spam. Hủy đăng ký bất cứ lúc nào.</div>
         </div>
 
         {{-- App download card --}}
-        <div class="dh-bottom-card dh-bottom-card--purple">
-            <div class="dh-bottom-card-icon">📱</div>
-            <h3 class="dh-bottom-card-title">Đặt phòng dễ dàng hơn</h3>
-            <p class="dh-bottom-card-sub">Trải nghiệm StayGo trên điện thoại — tìm phòng, đặt ngay, nhận ưu đãi riêng dành cho app.</p>
-            <div class="dh-app-badges">
-                <div class="dh-app-badge">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                    <div><div class="dh-app-badge-sub">Tải trên</div><div class="dh-app-badge-name">App Store</div></div>
+        <div class="dh-bottom-card dh-bottom-card--app">
+            <div class="dh-app-content">
+                <div class="dh-app-text">
+                    <h3 class="dh-bottom-card-title">Tải ứng dụng StayGo</h3>
+                    <p class="dh-bottom-card-sub">Đặt phòng nhanh hơn – Nhận ưu đãi độc quyền trên app</p>
+                    <div class="dh-app-badges">
+                        <div class="dh-app-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            <div><div class="dh-app-badge-sub">Tải về trên</div><div class="dh-app-badge-name">App Store</div></div>
+                        </div>
+                        <div class="dh-app-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14 8.5c.6.37.6 1.23 0 1.6l-14 8.5c-.66.5-1.6.03-1.6-.8z"/></svg>
+                            <div><div class="dh-app-badge-sub">TẢI TRÊN</div><div class="dh-app-badge-name">Google Play</div></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="dh-app-badge">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14 8.5c.6.37.6 1.23 0 1.6l-14 8.5c-.66.5-1.6.03-1.6-.8z"/></svg>
-                    <div><div class="dh-app-badge-sub">Tải trên</div><div class="dh-app-badge-name">Google Play</div></div>
+                <div class="dh-phone-mockup">
+                    <div class="dh-phone-frame">
+                        <div class="dh-phone-screen">
+                            <div class="dh-phone-bar">
+                                <span class="dh-phone-dot"></span>
+                                <span class="dh-phone-time">9:41</span>
+                            </div>
+                            <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="StayGo app" class="dh-phone-img">
+                            <div class="dh-phone-overlay">
+                                <div class="dh-phone-tag">Ưu đãi dành riêng<br>cho bạn</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="dh-app-note">✓ Miễn phí &nbsp;·&nbsp; ✓ Không quảng cáo &nbsp;·&nbsp; ✓ Bảo mật</div>
         </div>
 
     </div>
@@ -647,32 +688,53 @@
 .dh-how-step-title { font-size: 14.5px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
 .dh-how-step-desc  { font-size: 12.5px; color: #64748b; line-height: 1.6; max-width: 185px; }
 
-/* ---- Trust stats ---- */
+/* ---- Trust stats — horizontal row ---- */
 .dh-trust-section {
-    background: linear-gradient(135deg, #eff6ff, #f0f9ff);
-    padding: 60px 0;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 48px 0;
 }
-.dh-trust-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 20px; margin-top: 36px;
+.dh-trust-title {
+    font-size: 22px; font-weight: 800; color: #0f172a;
+    text-align: center; margin-bottom: 32px;
+    text-transform: uppercase; letter-spacing: .5px;
 }
-.dh-trust-card {
-    background: #fff; border-radius: 20px;
-    padding: 28px 20px; text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,.06);
+.dh-trust-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #fff;
+    border-radius: 20px;
     border: 1px solid #e2e8f0;
-    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 24px rgba(0,0,0,.05);
+    overflow: hidden;
 }
-.dh-trust-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,.1); }
-.dh-trust-icon  { font-size: 36px; margin-bottom: 12px; }
-.dh-trust-number { font-size: 30px; font-weight: 900; color: #0064D2; margin-bottom: 4px; }
-.dh-trust-label { font-size: 13px; color: #64748b; line-height: 1.4; }
+.dh-trust-item {
+    flex: 1; display: flex; align-items: center; gap: 14px;
+    padding: 28px 24px;
+    transition: background .2s;
+}
+.dh-trust-item:hover { background: #f8fafc; }
+.dh-trust-divider {
+    width: 1px; height: 60px;
+    background: #e2e8f0; flex-shrink: 0;
+}
+.dh-trust-icon-wrap {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.dh-trust-icon-wrap--blue   { background: #dbeafe; color: #1e40af; }
+.dh-trust-icon-wrap--yellow { background: #fef3c7; color: #d97706; }
+.dh-trust-icon-wrap--green  { background: #dcfce7; color: #065f46; }
+.dh-trust-icon-wrap--purple { background: #f3e8ff; color: #6d28d9; }
+.dh-trust-info { min-width: 0; }
+.dh-trust-number { font-size: 22px; font-weight: 900; color: #0064D2; line-height: 1.1; }
+.dh-trust-label  { font-size: 12px; color: #64748b; line-height: 1.5; margin-top: 3px; }
 
 /* ---- Bottom section ---- */
 .dh-bottom-section {
-    background: #f1f5f9;
-    border-top: 1px solid #e2e8f0;
-    padding: 60px 0;
+    background: #f8fafc;
+    padding: 56px 0;
 }
 .dh-bottom-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
@@ -682,97 +744,136 @@
 /* ---- Bottom cards ---- */
 .dh-bottom-card {
     background: #fff;
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 32px 28px;
-    box-shadow: 0 4px 24px rgba(0,0,0,.06);
+    box-shadow: 0 2px 16px rgba(0,0,0,.06);
     border: 1px solid #e2e8f0;
     display: flex; flex-direction: column;
 }
-.dh-bottom-card--blue   { border-top: 4px solid #0064D2; }
-.dh-bottom-card--purple { border-top: 4px solid #7c3aed; }
-.dh-bottom-card-icon  { font-size: 36px; margin-bottom: 14px; }
-.dh-bottom-card-title { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
-.dh-bottom-card-sub   { font-size: 14px; color: #64748b; line-height: 1.65; margin-bottom: 24px; }
+.dh-bottom-card--blue { border: 1px solid #e2e8f0; }
+.dh-bottom-card--app  { border: 1px solid #e2e8f0; overflow: hidden; }
+.dh-bottom-card-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 20px;
+}
+.dh-bottom-card-ico {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: #dbeafe; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.dh-bottom-card-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+.dh-bottom-card-sub   { font-size: 13px; color: #64748b; line-height: 1.55; }
 
 /* ---- Newsletter form ---- */
-.dh-nl-form { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
-.dh-nl-input-wrap {
-    position: relative;
-    display: flex; align-items: center;
-}
-.dh-nl-input-icon {
-    position: absolute; left: 14px;
-    color: #94a3b8; pointer-events: none;
-}
+.dh-nl-form { display: flex; flex-direction: column; gap: 10px; }
+.dh-nl-row  { display: flex; gap: 8px; }
 .dh-nl-input {
-    width: 100%; padding: 13px 16px 13px 42px;
-    border-radius: 99px;
+    flex: 1; padding: 12px 16px;
+    border-radius: 10px;
     border: 1.5px solid #e2e8f0;
     background: #f8fafc; color: #0f172a; font-size: 14px;
     outline: none; transition: border-color .2s, box-shadow .2s;
-    box-sizing: border-box;
 }
 .dh-nl-input::placeholder { color: #94a3b8; }
 .dh-nl-input:focus {
-    border-color: #0064D2;
-    background: #fff;
+    border-color: #0064D2; background: #fff;
     box-shadow: 0 0 0 3px rgba(0,100,210,.1);
 }
 .dh-nl-btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 13px 24px; border-radius: 99px;
-    background: linear-gradient(135deg, #0064D2, #0ea5e9);
-    color: #fff; border: none; cursor: pointer;
-    font-weight: 700; font-size: 14px;
-    box-shadow: 0 4px 16px rgba(0,100,210,.3);
-    transition: transform .18s, box-shadow .18s;
+    padding: 12px 22px; border-radius: 10px;
+    background: #0064D2; color: #fff;
+    border: none; cursor: pointer; font-weight: 700; font-size: 14px;
+    white-space: nowrap;
+    transition: background .18s, transform .18s;
 }
-.dh-nl-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,100,210,.4);
-}
-.dh-nl-note { font-size: 12px; color: #94a3b8; margin-top: 10px; text-align: center; }
+.dh-nl-btn:hover { background: #004fb3; transform: translateY(-1px); }
+.dh-nl-note { font-size: 12px; color: #94a3b8; margin-top: 8px; }
 
-/* ---- App badges ---- */
-.dh-app-badges { display: flex; gap: 12px; flex-wrap: wrap; margin-top: auto; }
+/* ---- App section inner ---- */
+.dh-app-content {
+    display: flex; align-items: center; gap: 16px; height: 100%;
+}
+.dh-app-text { flex: 1; min-width: 0; }
+.dh-app-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
 .dh-app-badge {
     display: flex; align-items: center; gap: 10px;
-    background: #f8fafc; border: 1.5px solid #e2e8f0;
-    border-radius: 14px; padding: 12px 20px;
-    color: #0f172a; cursor: pointer;
-    transition: background .2s, border-color .2s, color .2s, transform .18s, box-shadow .18s;
+    background: #0f172a; border: 1.5px solid #0f172a;
+    border-radius: 10px; padding: 10px 16px;
+    color: #fff; cursor: pointer;
+    transition: background .18s, transform .18s;
 }
-.dh-app-badge:hover {
-    background: #7c3aed; border-color: #7c3aed; color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(124,58,237,.3);
+.dh-app-badge:hover { background: #1e293b; transform: translateY(-1px); }
+.dh-app-badge-sub  { font-size: 8px; color: rgba(255,255,255,.7); text-transform: uppercase; letter-spacing: .5px; }
+.dh-app-badge-name { font-size: 14px; font-weight: 800; }
+
+/* ---- Phone mockup ---- */
+.dh-phone-mockup { flex-shrink: 0; }
+.dh-phone-frame {
+    width: 110px; height: 200px;
+    background: #0f172a;
+    border-radius: 20px;
+    padding: 8px 6px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.08);
+    position: relative;
 }
-.dh-app-badge:hover .dh-app-badge-sub { color: rgba(255,255,255,.7); }
-.dh-app-badge-sub  { font-size: 9px; color: #64748b; }
-.dh-app-badge-name { font-size: 15px; font-weight: 800; }
-.dh-app-note { font-size: 12px; color: #94a3b8; margin-top: 16px; }
+.dh-phone-screen {
+    width: 100%; height: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    background: #1e293b;
+}
+.dh-phone-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 8px;
+    background: rgba(0,0,0,.4);
+    position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+}
+.dh-phone-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #fff;
+}
+.dh-phone-time { font-size: 8px; color: #fff; font-weight: 700; }
+.dh-phone-img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.dh-phone-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,.7));
+    padding: 12px 8px 8px;
+    z-index: 2;
+}
+.dh-phone-tag {
+    font-size: 9px; font-weight: 700; color: #fff; line-height: 1.4;
+}
 
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
     .dh-cards-grid  { grid-template-columns: repeat(2, 1fr); }
-    .dh-trust-grid  { grid-template-columns: repeat(2, 1fr); }
     .dh-how-steps   { flex-wrap: wrap; gap: 24px; }
     .dh-how-arrow   { display: none; }
     .dh-how-step    { max-width: 200px; flex: 0 0 auto; }
+    .dh-trust-row   { flex-wrap: wrap; }
+    .dh-trust-item  { flex: 0 0 calc(50% - 1px); }
+    .dh-trust-divider:nth-child(4) { display: none; }
 }
 @media (max-width: 768px) {
-    .dh-hero-title  { font-size: 28px; }
-    .dh-coupon-card { display: none; }
-    .dh-cards-grid  { grid-template-columns: 1fr 1fr; gap: 14px; }
-    .dh-trust-grid  { grid-template-columns: repeat(2, 1fr); }
-    .dh-bottom-grid { grid-template-columns: 1fr; gap: 20px; }
-    .dh-how-steps   { justify-content: center; }
+    .dh-hero-title   { font-size: 28px; }
+    .dh-coupon-card  { display: none; }
+    .dh-cards-grid   { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .dh-bottom-grid  { grid-template-columns: 1fr; gap: 20px; }
+    .dh-how-steps    { justify-content: center; }
+    .dh-phone-mockup { display: none; }
+    .dh-trust-item   { padding: 20px 16px; }
 }
 @media (max-width: 480px) {
-    .dh-hero-inner  { flex-direction: column; align-items: flex-start; }
-    .dh-cards-grid  { grid-template-columns: 1fr; }
-    .dh-trust-grid  { grid-template-columns: 1fr 1fr; }
-    .dh-bottom-card { padding: 24px 18px; }
+    .dh-hero-inner   { flex-direction: column; align-items: flex-start; }
+    .dh-cards-grid   { grid-template-columns: 1fr; }
+    .dh-trust-row    { flex-direction: column; }
+    .dh-trust-item   { flex: 1 1 100%; }
+    .dh-trust-divider { width: 100%; height: 1px; }
+    .dh-bottom-card  { padding: 24px 18px; }
+    .dh-nl-row       { flex-direction: column; }
+    .dh-nl-btn       { width: 100%; }
 }
 </style>
 @endpush
