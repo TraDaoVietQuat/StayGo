@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Liên hệ & Hỗ trợ')
 
+@section('preload_assets')
+<link rel="preload" as="image" href="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" fetchpriority="high">
+@endsection
+
 @section('content')
 
 {{-- Hero --}}
@@ -224,6 +228,7 @@
     box-shadow: 0 2px 10px rgba(0,0,0,.06);
     transition: box-shadow .18s, transform .18s;
     min-height: 90px;
+    will-change: transform;
 }
 .ct-stat-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.1); transform: translateY(-2px); }
 .ct-stat-icon {
@@ -378,8 +383,18 @@ textarea.ct-in { resize: vertical; min-height: 110px; }
 @media (max-width: 900px) {
     .ct-stats-row { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+    .ct-layout     { grid-template-columns: 1fr; }
+    .ct-hero-title { font-size: 28px !important; }
+    .ct-hero-inner { padding: 44px 0; }
+    .ct-form-box   { padding: 22px 24px; }
+    .ct-wrap       { padding: 24px 16px 60px; }
+}
+
+/* Mobile */
 @media (max-width: 640px) {
-    .ct-layout    { grid-template-columns: 1fr; }
     .ct-grid2     { grid-template-columns: 1fr; }
     .ct-stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
     .ct-wrap      { padding: 20px 14px 56px; }
@@ -389,10 +404,13 @@ textarea.ct-in { resize: vertical; min-height: 110px; }
     .ct-stat-icon svg { width: 18px; height: 18px; }
     .ct-stat-value { font-size: 12.5px; word-break: break-all; }
     .ct-stat-note  { font-size: 11px; }
-    .ct-hero-title { font-size: 26px !important; }
+    .ct-hero-title { font-size: 24px !important; }
+    .ct-hero       { min-height: 200px; }
+    .ct-hero-inner { padding: 36px 0; }
 }
+
+/* Small mobile */
 @media (max-width: 420px) {
-    /* Ở màn <420px: 4 card thành 1 cột cho dễ đọc */
     .ct-stats-row { grid-template-columns: 1fr; }
     .ct-stat-card {
         flex-direction: row;
