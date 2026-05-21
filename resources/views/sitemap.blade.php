@@ -11,7 +11,7 @@
   <url>
     <loc>{{ url('/hotels/' . $hotel->id) }}</loc>
     @if($hotel->created_at)
-    <lastmod>{{ $hotel->created_at->toAtomString() }}</lastmod>
+    <lastmod>{{ \Carbon\Carbon::parse($hotel->created_at)->toAtomString() }}</lastmod>
     @endif
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -22,7 +22,7 @@
   <url>
     <loc>{{ url('/blog/' . $post->id) }}</loc>
     @if($post->updated_at)
-    <lastmod>{{ $post->updated_at->toAtomString() }}</lastmod>
+    <lastmod>{{ \Carbon\Carbon::parse($post->updated_at)->toAtomString() }}</lastmod>
     @endif
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
