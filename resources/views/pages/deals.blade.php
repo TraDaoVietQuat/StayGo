@@ -331,7 +331,7 @@
     <div class="container dh-bottom-grid">
 
         {{-- Newsletter card --}}
-        <div class="dh-bottom-card dh-bottom-card--blue">
+        <div class="dh-bottom-card dh-bottom-card--blue" style="justify-content: center;">
             <div class="dh-bottom-card-header">
                 <div class="dh-bottom-card-ico">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0064D2" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -343,7 +343,7 @@
             </div>
             <form class="dh-nl-form" onsubmit="handleNewsletter(event)">
                 <div class="dh-nl-row">
-                    <input type="email" class="dh-nl-input" placeholder="Nhập email của bạn..." required>
+                    <input type="email" class="dh-nl-input" placeholder="Nhập email của bạn..." required style="border-radius: 12px !important; height: 48px; box-sizing: border-box;">
                     <button type="submit" class="dh-nl-btn">Đăng ký ngay</button>
                 </div>
             </form>
