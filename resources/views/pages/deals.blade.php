@@ -343,7 +343,7 @@
             </div>
             <form class="dh-nl-form" onsubmit="handleNewsletter(event)">
                 <div class="dh-nl-row">
-                    <input type="email" class="dh-nl-input" placeholder="Nhập email của bạn..." required style="border-radius: 12px !important; height: 48px; box-sizing: border-box;">
+                    <input type="email" class="dh-nl-input" placeholder="Nhập email của bạn..." required style="border-radius: 12px !important; height: 48px !important; box-sizing: border-box !important; margin: 0 !important; padding: 0 18px !important; width: auto !important; flex: 1 1 0% !important; min-width: 0 !important;">
                     <button type="submit" class="dh-nl-btn">Đăng ký ngay</button>
                 </div>
             </form>
