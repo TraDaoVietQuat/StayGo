@@ -67,6 +67,8 @@ return [
 
     'timezone' => 'UTC',
 
+    'cron_token' => env('CRON_TOKEN'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

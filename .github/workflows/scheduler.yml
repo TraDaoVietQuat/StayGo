@@ -1,0 +1,18 @@
+name: Laravel Scheduler
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  scheduler:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Run Laravel Scheduler
+        run: |
+          curl -s -X POST https://staygo.site/cron/run \
+            -H "X-Cron-Token: ${{ secrets.CRON_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --fail-with-body

@@ -205,7 +205,7 @@ class BookingController extends Controller
         dispatch(function () use ($booking, $userId, $partnerUserId) {
             // Email xác nhận cho khách
             try {
-                Mail::to($booking->email)->queue(new BookingConfirmation($booking));
+                Mail::to($booking->email)->send(new BookingConfirmation($booking));
                 Log::info('BookingConfirmation queued', ['booking_id' => $booking->id, 'email' => $booking->email]);
             } catch (\Exception $e) {
                 Log::error('BookingConfirmation FAILED', ['booking_id' => $booking->id, 'email' => $booking->email, 'error' => $e->getMessage()]);

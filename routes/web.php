@@ -27,6 +27,16 @@ use App\Http\Controllers\Partner\PartnerAiController;
 use App\Http\Controllers\PartnerRegistrationController;
 use Illuminate\Support\Facades\Route;
 
+// ==================== CRON ENDPOINT (GitHub Actions) ====================
+Route::post('/cron/run', function (\Illuminate\Http\Request $request) {
+    $token = config('app.cron_token');
+    if (!$token || $request->header('X-Cron-Token') !== $token) {
+        abort(403);
+    }
+    \Illuminate\Support\Facades\Artisan::call('schedule:run');
+    return response()->json(['ok' => true, 'output' => \Illuminate\Support\Facades\Artisan::output()]);
+})->name('cron.run');
+
 // ==================== PUBLIC ROUTES ====================
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/luxury', fn() => view('luxury-landing'))->name('luxury.preview');
