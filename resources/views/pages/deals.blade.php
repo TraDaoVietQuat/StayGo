@@ -857,18 +857,18 @@
 /* ---- Newsletter form ---- */
 .dh-nl-form { display: flex; flex-direction: column; gap: 0; }
 .dh-nl-row  { display: flex; gap: 8px; align-items: center; }
-.dh-nl-input {
+.dh-nl-row .dh-nl-input[type="email"] {
     flex: 1; padding: 13px 18px;
     border-radius: 12px !important;
-    border: 1.5px solid #e2e8f0;
-    background: #f8fafc; color: #0f172a; font-size: 14px;
+    border: 1.5px solid #e2e8f0!important;
+    background: #f8fafc!important; color: #0f172a; font-size: 14px;
     height: 48px; box-sizing: border-box;
     outline: none; transition: border-color .2s, box-shadow .2s;
     -webkit-appearance: none; appearance: none;
 }
-.dh-nl-input::placeholder { color: #94a3b8; }
-.dh-nl-input:focus {
-    border-color: #0064D2; background: #fff;
+.dh-nl-row .dh-nl-input[type="email"]::placeholder { color: #94a3b8; }
+.dh-nl-row .dh-nl-input[type="email"]:focus {
+    border-color: #0064D2!important; background: #fff!important;
     box-shadow: 0 0 0 3px rgba(0,100,210,.1);
 }
 .dh-nl-btn {
