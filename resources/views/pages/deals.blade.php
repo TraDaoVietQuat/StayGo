@@ -900,7 +900,7 @@
     display: flex; align-items: flex-end; gap: 0; height: 100%;
     min-height: 220px;
 }
-.dh-app-text { flex: 1; min-width: 0; padding: 0 20px 28px 0; align-self: center; }
+.dh-app-text { flex: 1; min-width: 0; padding: 28px 16px 28px 28px; align-self: center; }
 .dh-app-card-title {
     font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; line-height: 1.2;
 }
