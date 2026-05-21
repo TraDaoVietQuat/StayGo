@@ -150,7 +150,7 @@
     <div class="container">
         <div class="blg-nl-card">
             <div class="blg-nl-text">
-                <p class="blg-nl-label">STAYGO NEWSLETTER</p>
+                <p class="blg-nl-label">Cẩm Nang Du Lịch · StayGo</p>
                 <h2 class="blg-nl-title">Nhận cẩm nang du lịch<br><em>mới nhất</em> mỗi tuần</h2>
                 <p class="blg-nl-sub">Mẹo đặt phòng, địa điểm ẩn, ưu đãi độc quyền — gửi thẳng vào hộp thư của bạn.</p>
             </div>
@@ -365,15 +365,15 @@
 
 /* ── Newsletter Card ── */
 .blg-nl-wrap {
-    padding: 48px 0 64px;
+    padding: 28px 0 48px;
 }
 .blg-nl-card {
     background: linear-gradient(135deg, #0d1b3e 0%, #0a3d7a 50%, #1565c0 100%);
-    border-radius: 20px;
-    padding: 48px 56px;
+    border-radius: 16px;
+    padding: 32px 44px;
     display: flex;
     align-items: center;
-    gap: 48px;
+    gap: 36px;
     overflow: hidden;
     position: relative;
 }
@@ -400,18 +400,18 @@
 }
 .blg-nl-label {
     font-size: 11px !important;
-    font-weight: 700 !important;
-    letter-spacing: .14em !important;
-    color: rgba(255,255,255,.55) !important;
+    font-weight: 600 !important;
+    letter-spacing: .12em !important;
+    color: rgba(255,255,255,.5) !important;
     text-transform: uppercase !important;
-    margin: 0 0 14px !important;
+    margin: 0 0 10px !important;
 }
 .blg-nl-title {
-    font-size: 28px !important;
+    font-size: 22px !important;
     font-weight: 800 !important;
     color: #ffffff !important;
     line-height: 1.3 !important;
-    margin: 0 0 12px !important;
+    margin: 0 0 8px !important;
     text-shadow: none !important;
 }
 .blg-nl-title em {
@@ -420,29 +420,29 @@
     font-family: Georgia, serif;
 }
 .blg-nl-sub {
-    font-size: 14px !important;
-    color: rgba(255,255,255,.70) !important;
-    line-height: 1.65 !important;
+    font-size: 13px !important;
+    color: rgba(255,255,255,.65) !important;
+    line-height: 1.6 !important;
     margin: 0 !important;
 }
 .blg-nl-form {
-    flex: 0 0 360px;
+    flex: 0 0 300px;
     position: relative; z-index: 1;
 }
 .blg-nl-row {
     display: flex;
     gap: 0;
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    box-shadow: 0 3px 14px rgba(0,0,0,.22);
 }
 .blg-nl-input {
     flex: 1;
-    padding: 0 18px !important;
-    height: 52px !important;
+    padding: 0 14px !important;
+    height: 46px !important;
     border: none !important;
     outline: none !important;
-    font-size: 14px !important;
+    font-size: 13.5px !important;
     color: #1a202c !important;
     background: #fff !important;
     border-radius: 0 !important;
@@ -453,11 +453,11 @@
 .blg-nl-input::placeholder { color: #94a3b8; }
 .blg-nl-btn {
     flex-shrink: 0;
-    padding: 0 26px;
-    height: 52px;
+    padding: 0 20px;
+    height: 46px;
     background: #1976d2;
     color: #fff;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 700;
     border: none;
     cursor: pointer;
@@ -466,15 +466,15 @@
 }
 .blg-nl-btn:hover { background: #1565c0; }
 .blg-nl-msg {
-    margin-top: 10px;
-    font-size: 13px;
-    min-height: 18px;
+    margin-top: 8px;
+    font-size: 12.5px;
+    min-height: 16px;
     color: rgba(255,255,255,.85);
 }
 @media (max-width: 768px) {
-    .blg-nl-card { flex-direction: column; padding: 36px 24px; gap: 28px; }
+    .blg-nl-card { flex-direction: column; padding: 28px 20px; gap: 20px; }
     .blg-nl-form { flex: unset; width: 100%; }
-    .blg-nl-title { font-size: 22px !important; }
+    .blg-nl-title { font-size: 19px !important; }
 }
 </style>
 @endpush
