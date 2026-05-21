@@ -5,7 +5,9 @@
 
 {{-- Hero --}}
 <div class="ct-hero">
-    <div class="container">
+    <div class="ct-hero-overlay"></div>
+    <img class="ct-hero-photo" src="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" alt="Liên hệ StayGo" loading="eager" fetchpriority="high">
+    <div class="container ct-hero-inner">
         <h1 class="ct-hero-title">Liên hệ & Hỗ trợ</h1>
         <p class="ct-hero-sub">Chúng tôi luôn sẵn sàng hỗ trợ bạn 24/7</p>
     </div>
@@ -152,12 +154,29 @@
 <style>
 /* ── Hero ── */
 .ct-hero {
-    background: linear-gradient(135deg, #0066cc 0%, #1976d2 60%, #42a5f5 100%) !important;
-    padding: 52px 0 44px !important;
-    text-align: center !important;
-    min-height: 140px !important;
+    position: relative;
+    min-height: 320px;
     display: flex !important;
     align-items: center !important;
+    overflow: hidden;
+    text-align: center !important;
+}
+.ct-hero-photo {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+    z-index: 0;
+}
+.ct-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(0,25,75,.90) 0%, rgba(0,55,160,.78) 35%, rgba(0,35,110,.45) 60%, rgba(0,15,50,.10) 100%);
+    z-index: 1;
+}
+.ct-hero-inner {
+    position: relative; z-index: 2;
+    width: 100%;
+    padding: 56px 0;
 }
 .ct-hero .container { width: 100%; }
 .ct-hero-title {
@@ -166,12 +185,17 @@
     color: #ffffff !important;
     margin: 0 0 8px !important;
     letter-spacing: -.3px !important;
-    text-shadow: none !important;
+    text-shadow: 0 2px 12px rgba(0,0,0,.45) !important;
 }
 .ct-hero-sub {
-    font-size: 15px;
-    color: rgba(255,255,255,.85) !important;
-    margin: 0;
+    font-size: 15px !important;
+    color: rgba(255,255,255,.88) !important;
+    margin: 0 !important;
+    text-shadow: 0 1px 6px rgba(0,0,0,.3) !important;
+}
+@media (max-width: 640px) {
+    .ct-hero { min-height: 220px; }
+    .ct-hero-inner { padding: 40px 0; }
 }
 
 /* ── Wrap ── */
