@@ -14,7 +14,7 @@
         {{-- Left text --}}
         <div class="dh-hero-left">
             <div class="dh-hero-badge">🔥 Ưu đãi có hạn</div>
-            <h1 class="dh-hero-title">Giảm giá đặc biệt<br><span class="dh-hero-accent">chỉ có tại StayGo</span></h1>
+            <h1 class="dh-hero-title">Giảm giá đặc biệt<br>chỉ có tại <span class="dh-hero-accent">StayGo</span></h1>
             <p class="dh-hero-sub">Khuyến mãi độc quyền mỗi ngày — không có ở nơi khác.<br>Đặt phòng sớm, tiết kiệm nhiều hơn.</p>
             <a href="{{ route('hotels.index') }}" class="dh-hero-btn">Tìm khách sạn ngay →</a>
         </div>
@@ -500,7 +500,7 @@
 }
 .dh-hero-title {
     font-size: 40px; font-weight: 800;
-    color: #fff; line-height: 1.15;
+    color: #fff !important; line-height: 1.15;
     margin-bottom: 12px;
 }
 .dh-hero-accent { color: #FFD700; }
