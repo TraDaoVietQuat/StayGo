@@ -22,16 +22,7 @@
     <meta name="twitter:description" content="@yield('og_description', 'Đặt phòng khách sạn giá tốt tại Đà Lạt, Nha Trang, Vũng Tàu & Đà Nẵng.')">
     <meta name="twitter:image"       content="@yield('og_image', asset('assets/images/StayGo.png'))">
 
-    {{-- SgDark apply — chỉ áp dụng dark khi user tự chọn, không tự detect hệ thống --}}
-    <script>
-    (function() {
-        if (localStorage.getItem('sg-theme') === 'dark') {
-            document.documentElement.classList.add('sg-dark');
-        }
-    })();
-    </script>
-
-    <title>@yield('title', 'StayGo') - StayGo</title>
+<title>@yield('title', 'StayGo') - StayGo</title>
     <link rel="icon" type="image/png" href="{{ asset('assets/images/StayGo.png') }}">
 
     {{-- Font: Inter + Be Vietnam Pro — async (non-blocking) --}}
@@ -174,13 +165,6 @@
                 <a href="{{ route('login') }}" class="btn-login-nav">Đăng nhập</a>
             @endauth
 
-            {{-- Dark mode toggle --}}
-            <button data-sg-dark-toggle title="Đổi giao diện"
-                style="background:#f1f5f9;border:none;border-radius:4px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#374151;flex-shrink:0;">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                </svg>
-            </button>
 
 {{-- Hamburger --}}
             <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Menu">
@@ -440,15 +424,7 @@ async function toggleFav(btn, e) {
     btn.style.opacity = '1';
 }
 
-// ── Dark mode toggle ──
 document.addEventListener('DOMContentLoaded', function() {
-    const toggle = document.querySelector('[data-sg-dark-toggle]');
-    if (!toggle) return;
-    toggle.addEventListener('click', function() {
-        const html = document.documentElement, isDark = html.classList.contains('sg-dark');
-        html.classList.toggle('sg-dark', !isDark);
-        localStorage.setItem('sg-theme', isDark ? 'light' : 'dark');
-    });
     // Close mobile nav / dropdown on outside click
     document.addEventListener('click', function(e) {
         const nav = document.getElementById('mainNav'), btn = document.getElementById('navHamburger');

@@ -16,10 +16,10 @@
 
     <div class="hero-slides">
         <div class="hero-slide" style="--delay:0s">
-            <img src="{{ asset('assets/images/ks-bien1.jpg') }}" alt="" fetchpriority="high">
+            <img src="{{ asset('assets/images/pexels-photo-258154.jpeg') }}" alt="" fetchpriority="high">
         </div>
         <div class="hero-slide" style="--delay:2s">
-            <img src="{{ asset('assets/images/ks-bien2.jpg') }}" alt="" loading="lazy">
+            <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="" loading="lazy" decoding="async">
         </div>
     </div>
 
