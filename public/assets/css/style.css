@@ -3427,8 +3427,8 @@ contact_floating.php
     .fp-icons { grid-template-columns: repeat(5, 1fr); }
 }
 .fp-badge-logo {
-    background: #fff;
-    border: 1px solid #e2e8f0;
+    background: transparent;
+    border: none;
     border-radius: 8px;
     padding: 8px 10px;
     display: flex;

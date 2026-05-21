@@ -2981,11 +2981,12 @@ footer a:hover {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: #fff !important;
-  border: 1px solid rgba(0,0,0,0.1) !important;
+  background: transparent !important;
+  border: none !important;
   border-radius: 8px !important;
   padding: 4px 8px !important;
   height: 38px !important;
+  box-shadow: none !important;
 }
 .fp-badge-logo img {
   height: 24px !important;
