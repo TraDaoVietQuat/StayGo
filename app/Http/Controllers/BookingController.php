@@ -205,15 +205,15 @@ class BookingController extends Controller
         dispatch(function () use ($booking, $userId, $partnerUserId) {
             // Email xác nhận cho khách
             try {
-                Mail::to($booking->email)->send(new BookingConfirmation($booking));
-                Log::info('BookingConfirmation sent', ['booking_id' => $booking->id, 'email' => $booking->email]);
+                Mail::to($booking->email)->queue(new BookingConfirmation($booking));
+                Log::info('BookingConfirmation queued', ['booking_id' => $booking->id, 'email' => $booking->email]);
             } catch (\Exception $e) {
                 Log::error('BookingConfirmation FAILED', ['booking_id' => $booking->id, 'email' => $booking->email, 'error' => $e->getMessage()]);
             }
 
             // Email cho admin
             try {
-                Mail::to(config('mail.from.address'))->send(new AdminNewBooking($booking));
+                Mail::to(config('mail.from.address'))->queue(new AdminNewBooking($booking));
             } catch (\Exception $e) {
                 Log::error('AdminNewBooking FAILED', ['booking_id' => $booking->id, 'error' => $e->getMessage()]);
             }
@@ -235,7 +235,7 @@ class BookingController extends Controller
                     $partner = User::find($partnerUserId);
                     $partner?->notify(new NewBookingPartnerNotification($booking));
                     if ($partner?->email) {
-                        Mail::to($partner->email)->send(new PartnerNewBooking($booking));
+                        Mail::to($partner->email)->queue(new PartnerNewBooking($booking));
                     }
                 }
             } catch (\Exception $e) {

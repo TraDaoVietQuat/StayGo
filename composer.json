@@ -13,7 +13,8 @@
         "laravel/socialite": "*",
         "laravel/tinker": "^2.10.1",
         "openai-php/laravel": "*",
-        "predis/predis": "^3.4"
+        "predis/predis": "^3.4",
+        "resend/resend-laravel": "^1.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
