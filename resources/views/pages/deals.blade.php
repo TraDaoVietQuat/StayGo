@@ -884,8 +884,8 @@
 
 /* ---- App card ---- */
 .dh-bottom-card--app {
-    background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 50%, #ede9fe 100%);
-    border: 1px solid #bfdbfe;
+    background: #fff;
+    border: 1px solid #e2e8f0;
     overflow: hidden;
     position: relative;
     padding-bottom: 0;
