@@ -836,27 +836,26 @@
 .dh-bottom-card {
     background: #fff;
     border-radius: 20px;
-    padding: 32px 28px;
+    padding: 28px 28px 24px;
     box-shadow: 0 2px 16px rgba(0,0,0,.06);
     border: 1px solid #e2e8f0;
-    display: flex; flex-direction: column;
+    display: flex; flex-direction: column; gap: 16px;
 }
 .dh-bottom-card--blue { border: 1px solid #e2e8f0; }
-.dh-bottom-card--app  { border: 1px solid #e2e8f0; overflow: hidden; }
+.dh-bottom-card--app  { border: 1px solid #e2e8f0; overflow: hidden; gap: 0; padding: 0; }
 .dh-bottom-card-header {
-    display: flex; align-items: flex-start; gap: 14px;
-    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
 }
 .dh-bottom-card-ico {
-    width: 48px; height: 48px; border-radius: 12px;
+    width: 44px; height: 44px; border-radius: 12px;
     background: #dbeafe; display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
 }
-.dh-bottom-card-title { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
-.dh-bottom-card-sub   { font-size: 13px; color: #64748b; line-height: 1.55; }
+.dh-bottom-card-title { font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
+.dh-bottom-card-sub   { font-size: 12.5px; color: #64748b; line-height: 1.5; }
 
 /* ---- Newsletter form ---- */
-.dh-nl-form { display: flex; flex-direction: column; gap: 10px; }
+.dh-nl-form { display: flex; flex-direction: column; gap: 0; }
 .dh-nl-row  { display: flex; gap: 8px; align-items: center; }
 .dh-nl-input {
     flex: 1; padding: 13px 18px;
@@ -881,7 +880,7 @@
     transition: background .18s, transform .18s;
 }
 .dh-nl-btn:hover { background: #004fb3; transform: translateY(-1px); }
-.dh-nl-note { font-size: 12px; color: #94a3b8; margin-top: 8px; }
+.dh-nl-note { font-size: 11.5px; color: #94a3b8; margin-top: 10px; }
 
 /* ---- App card ---- */
 .dh-bottom-card--app {
