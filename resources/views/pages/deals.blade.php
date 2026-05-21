@@ -664,26 +664,27 @@
 
 /* ---- Bottom section ---- */
 .dh-bottom-section {
-    background: #0f172a;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
     padding: 60px 0;
 }
 .dh-bottom-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
     align-items: start;
 }
-.dh-newsletter { color: #fff; }
+.dh-newsletter { color: #0f172a; }
 .dh-newsletter-icon { font-size: 36px; margin-bottom: 12px; }
-.dh-newsletter-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-.dh-newsletter-sub { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; }
+.dh-newsletter-title { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+.dh-newsletter-sub { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
 .dh-newsletter-form { display: flex; gap: 8px; }
 .dh-newsletter-input {
     flex: 1; padding: 12px 16px;
-    border-radius: 12px; border: 1px solid #334155;
-    background: #1e293b; color: #fff; font-size: 14px;
+    border-radius: 12px; border: 1px solid #cbd5e1;
+    background: #f8fafc; color: #0f172a; font-size: 14px;
     outline: none; transition: border-color .2s;
 }
-.dh-newsletter-input::placeholder { color: #64748b; }
-.dh-newsletter-input:focus { border-color: #0064D2; }
+.dh-newsletter-input::placeholder { color: #94a3b8; }
+.dh-newsletter-input:focus { border-color: #0064D2; background: #fff; }
 .dh-newsletter-btn {
     padding: 12px 22px; border-radius: 12px;
     background: #0064D2; color: #fff;
@@ -692,24 +693,25 @@
     white-space: nowrap;
 }
 .dh-newsletter-btn:hover { background: #004fb3; }
-.dh-newsletter-note { font-size: 11.5px; color: #475569; margin-top: 10px; }
+.dh-newsletter-note { font-size: 11.5px; color: #94a3b8; margin-top: 10px; }
 
-.dh-app-download { color: #fff; }
+.dh-app-download { color: #0f172a; }
 .dh-app-icon { font-size: 36px; margin-bottom: 12px; }
-.dh-app-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-.dh-app-sub { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 20px; }
+.dh-app-title { font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+.dh-app-sub { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
 .dh-app-badges { display: flex; gap: 12px; flex-wrap: wrap; }
 .dh-app-badge {
     display: flex; align-items: center; gap: 10px;
-    background: #1e293b; border: 1px solid #334155;
+    background: #f8fafc; border: 1.5px solid #e2e8f0;
     border-radius: 12px; padding: 11px 18px;
-    color: #fff; cursor: pointer;
-    transition: background .2s, border-color .2s;
+    color: #0f172a; cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s;
 }
-.dh-app-badge:hover { background: #0064D2; border-color: #0064D2; }
-.dh-app-badge-sub { font-size: 9px; color: #94a3b8; }
+.dh-app-badge:hover { background: #0064D2; border-color: #0064D2; color: #fff; }
+.dh-app-badge-sub { font-size: 9px; color: #64748b; }
+.dh-app-badge:hover .dh-app-badge-sub { color: rgba(255,255,255,.75); }
 .dh-app-badge-name { font-size: 15px; font-weight: 700; }
-.dh-app-note { font-size: 11.5px; color: #475569; margin-top: 16px; }
+.dh-app-note { font-size: 11.5px; color: #94a3b8; margin-top: 16px; }
 
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
