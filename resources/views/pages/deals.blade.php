@@ -352,23 +352,32 @@
 
         {{-- App download card --}}
         <div class="dh-bottom-card dh-bottom-card--app">
+            {{-- decorative blob --}}
+            <div class="dh-app-blob"></div>
             <div class="dh-app-content">
+
+                {{-- Left: text + buttons --}}
                 <div class="dh-app-text">
                     <h3 class="dh-app-card-title">Tải ứng dụng StayGo</h3>
                     <p class="dh-app-card-sub">Đặt phòng nhanh hơn – Nhận ưu đãi độc quyền trên app</p>
                     <div class="dh-store-badges">
+                        {{-- App Store --}}
                         <div class="dh-store-badge">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                            <svg width="22" height="26" viewBox="0 0 814 1000" fill="white">
+                                <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-127.4C46 790.9 0 663.8 0 541.4c0-189.2 123.5-289 244.7-289 65.3 0 119.7 42.8 160.4 42.8 39 0 99.9-45.3 173-45.3 27.7 0 108.4 2.6 168.1 98.2zM531.7 64.5C559.4 32.3 579.4 0 579.4 0c-8.9.3-24.3 2.6-41.6 11.7-27.1 14-53.8 44-74.1 77.8-20.7 33.2-40.6 77.2-33.2 118.2 42.4 1.3 88.4-22.7 101.2-43.2z"/>
+                            </svg>
                             <div>
-                                <div class="dh-store-sub">Tải về trên</div>
+                                <div class="dh-store-sub">TẢI VỀ TRÊN</div>
                                 <div class="dh-store-name">App Store</div>
                             </div>
                         </div>
+                        {{-- Google Play --}}
                         <div class="dh-store-badge">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                                <path d="M3.5 2.5L13 12L3.5 21.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M3.5 2.5L20 10.5L13 12" fill="white" stroke="white" stroke-width="0.5"/>
-                                <path d="M3.5 21.5L20 13.5L13 12" fill="white" stroke="white" stroke-width="0.5"/>
+                            <svg width="22" height="22" viewBox="0 0 24 24">
+                                <path d="M3 2.5L14.5 12 3 21.5V2.5z" fill="#EA4335"/>
+                                <path d="M3 2.5l11.5 9.5L20.5 7 3 2.5z" fill="#FBBC04"/>
+                                <path d="M3 21.5l11.5-9.5 6 4.5L3 21.5z" fill="#34A853"/>
+                                <path d="M14.5 12l6-5 1 5-1 5-6-5z" fill="#4285F4"/>
                             </svg>
                             <div>
                                 <div class="dh-store-sub">TẢI TRÊN</div>
@@ -377,30 +386,66 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Right: Phone mockup --}}
                 <div class="dh-phone-mockup">
                     <div class="dh-phone-frame">
+                        {{-- notch --}}
                         <div class="dh-phone-notch"></div>
                         <div class="dh-phone-screen">
+                            {{-- status bar --}}
                             <div class="dh-phone-status">
-                                <span>9:44</span>
-                                <div class="dh-phone-icons">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M1 6s4-4 11-4 11 4 11 4M5 10s3-3 7-3 7 3 7 3M9 14s1-1 3-1 3 1 3 1M11 18h2"/></svg>
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="white"><rect x="2" y="7" width="18" height="11" rx="2"/><path d="M22 11v4" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+                                <span class="dh-phone-time">9:44</span>
+                                <div class="dh-phone-status-icons">
+                                    {{-- wifi --}}
+                                    <svg width="12" height="9" viewBox="0 0 24 18" fill="#111">
+                                        <path d="M12 4C8.1 4 4.6 5.5 2 8l2 2c2-2 4.8-3.2 8-3.2s6 1.2 8 3.2l2-2C19.4 5.5 15.9 4 12 4zM12 8c-2.5 0-4.8 1-6.4 2.6l2 2C8.7 11.6 10.2 11 12 11s3.3.6 4.4 1.6l2-2C16.8 9 14.5 8 12 8zM12 12c-1.4 0-2.6.5-3.5 1.4l3.5 3.6 3.5-3.6C14.6 12.5 13.4 12 12 12z"/>
+                                    </svg>
+                                    {{-- battery --}}
+                                    <svg width="18" height="10" viewBox="0 0 28 14" fill="none">
+                                        <rect x="0.5" y="0.5" width="23" height="13" rx="3.5" stroke="#111" stroke-width="1.2"/>
+                                        <rect x="2" y="2" width="18" height="10" rx="2" fill="#111"/>
+                                        <path d="M25 4.5v5a2 2 0 000-5z" fill="#111"/>
+                                    </svg>
                                 </div>
                             </div>
-                            <div class="dh-phone-app-header">
-                                <div class="dh-phone-app-title">Ưu đãi dành riêng<br>cho bạn</div>
-                            </div>
-                            <div class="dh-phone-hotel-card">
-                                <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="Vinpearl Resort" class="dh-phone-hotel-img">
-                                <div class="dh-phone-hotel-info">
-                                    <div class="dh-phone-hotel-name">Vinpearl Resort<br>Nha Trang</div>
-                                    <div class="dh-phone-hotel-price">Free</div>
+                            {{-- nav bar --}}
+                            <div class="dh-phone-nav">
+                                <div class="dh-phone-nav-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+                                </div>
+                                <div class="dh-phone-nav-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
                                 </div>
                             </div>
+                            {{-- heading --}}
+                            <div class="dh-phone-heading">Ưu đãi dành riêng<br>cho bạn</div>
+                            {{-- hotel card 1 --}}
+                            <div class="dh-phone-card">
+                                <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="Resort" class="dh-phone-card-img">
+                                <div class="dh-phone-card-body">
+                                    <div class="dh-phone-card-name">Vinpearl Resort</div>
+                                    <div class="dh-phone-card-loc">Nha Trang</div>
+                                    <div class="dh-phone-card-footer">
+                                        <div class="dh-phone-stars">★★★★★</div>
+                                        <div class="dh-phone-price">1.2tr/đêm</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- hotel card 2 (faded) --}}
+                            <div class="dh-phone-card dh-phone-card--faded">
+                                <div class="dh-phone-card-img dh-phone-card-img--placeholder"></div>
+                                <div class="dh-phone-card-body">
+                                    <div class="dh-phone-card-name">Imperial Hotel</div>
+                                    <div class="dh-phone-card-loc">Đà Nẵng</div>
+                                </div>
+                            </div>
+                            {{-- home indicator --}}
+                            <div class="dh-phone-home-bar"></div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -837,93 +882,136 @@
 
 /* ---- App card ---- */
 .dh-bottom-card--app {
-    background: #f0f4ff;
-    border: 1px solid #e0e8ff;
-    overflow: visible;
+    background: linear-gradient(135deg, #dbeafe 0%, #e0f2fe 50%, #ede9fe 100%);
+    border: 1px solid #bfdbfe;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 0;
+}
+.dh-app-blob {
+    position: absolute; top: -40px; right: -40px;
+    width: 180px; height: 180px; border-radius: 50%;
+    background: rgba(255,255,255,.35);
+    pointer-events: none;
 }
 .dh-app-content {
-    display: flex; align-items: center; gap: 0; height: 100%;
+    display: flex; align-items: flex-end; gap: 0; height: 100%;
+    min-height: 220px;
 }
-.dh-app-text { flex: 1; min-width: 0; padding-right: 8px; }
+.dh-app-text { flex: 1; min-width: 0; padding: 0 20px 28px 0; align-self: center; }
 .dh-app-card-title {
-    font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 6px;
+    font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; line-height: 1.2;
 }
 .dh-app-card-sub {
-    font-size: 13.5px; color: #64748b; line-height: 1.55; margin-bottom: 20px;
+    font-size: 13px; color: #475569; line-height: 1.55; margin-bottom: 22px;
 }
 
 /* ---- Store badges ---- */
 .dh-store-badges { display: flex; gap: 10px; flex-wrap: wrap; }
 .dh-store-badge {
     display: flex; align-items: center; gap: 10px;
-    background: #0f172a; border-radius: 12px;
-    padding: 10px 16px; color: #fff; cursor: pointer;
+    background: #111; border-radius: 14px;
+    padding: 10px 18px; color: #fff; cursor: pointer;
     transition: background .18s, transform .18s, box-shadow .18s;
-    min-width: 130px;
+    min-width: 136px;
 }
 .dh-store-badge:hover {
     background: #1e293b; transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
 }
-.dh-store-sub  { font-size: 9px; color: rgba(255,255,255,.65); letter-spacing: .3px; }
-.dh-store-name { font-size: 15px; font-weight: 800; color: #fff; }
+.dh-store-sub  { font-size: 8.5px; color: rgba(255,255,255,.65); letter-spacing: .4px; text-transform: uppercase; }
+.dh-store-name { font-size: 15px; font-weight: 800; line-height: 1.2; }
 
 /* ---- Phone mockup ---- */
 .dh-phone-mockup {
     flex-shrink: 0;
-    transform: rotate(5deg) translateY(-10px);
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,.22));
+    align-self: flex-end;
+    margin-bottom: -1px;
 }
 .dh-phone-frame {
-    width: 130px; height: 240px;
-    background: #111827;
-    border-radius: 28px;
-    padding: 10px 7px;
+    width: 148px; height: 280px;
+    background: #fff;
+    border-radius: 32px;
+    border: 2px solid #e2e8f0;
+    box-shadow: 0 24px 60px rgba(0,0,0,.18), 0 4px 12px rgba(0,0,0,.08);
     position: relative;
-    border: 2px solid #374151;
-}
-.dh-phone-notch {
-    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-    width: 40px; height: 8px;
-    background: #111827; border-radius: 99px; z-index: 10;
-}
-.dh-phone-screen {
-    width: 100%; height: 100%;
-    border-radius: 20px; overflow: hidden;
-    background: #eff6ff;
+    overflow: hidden;
     display: flex; flex-direction: column;
 }
+.dh-phone-notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 52px; height: 10px;
+    background: #111; border-radius: 99px; z-index: 10;
+}
+.dh-phone-screen {
+    flex: 1; display: flex; flex-direction: column;
+    background: #f8fafc;
+    overflow: hidden;
+}
+
+/* status bar */
 .dh-phone-status {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 10px 4px;
-    font-size: 9px; font-weight: 700; color: #0f172a;
+    padding: 14px 12px 4px;
     background: #fff;
 }
-.dh-phone-icons { display: flex; gap: 3px; }
-.dh-phone-icons svg { color: #0f172a; }
-.dh-phone-app-header {
-    background: #0064D2;
-    padding: 10px 10px 14px;
-}
-.dh-phone-app-title {
-    font-size: 10px; font-weight: 800; color: #fff; line-height: 1.4;
-}
-.dh-phone-hotel-card {
-    margin: -8px 8px 0;
-    background: #fff; border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,.12);
-    flex: 1;
-}
-.dh-phone-hotel-img {
-    width: 100%; height: 80px; object-fit: cover; display: block;
-}
-.dh-phone-hotel-info {
+.dh-phone-time { font-size: 10px; font-weight: 700; color: #111; }
+.dh-phone-status-icons { display: flex; align-items: center; gap: 4px; }
+
+/* nav bar */
+.dh-phone-nav {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 6px 8px;
+    padding: 4px 12px 6px;
+    background: #fff;
+    border-bottom: 1px solid #f1f5f9;
 }
-.dh-phone-hotel-name { font-size: 8px; font-weight: 700; color: #0f172a; line-height: 1.3; }
-.dh-phone-hotel-price { font-size: 9px; font-weight: 800; color: #0064D2; }
+.dh-phone-nav-btn {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #f1f5f9;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* heading */
+.dh-phone-heading {
+    font-size: 11px; font-weight: 800; color: #0f172a;
+    line-height: 1.4; padding: 10px 12px 6px;
+    background: #fff;
+}
+
+/* hotel cards */
+.dh-phone-card {
+    margin: 4px 8px;
+    background: #fff; border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    flex-shrink: 0;
+}
+.dh-phone-card--faded { opacity: .45; margin-top: 6px; }
+.dh-phone-card-img {
+    width: 100%; height: 70px; object-fit: cover; display: block;
+}
+.dh-phone-card-img--placeholder {
+    height: 50px; background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+}
+.dh-phone-card-body { padding: 7px 8px 8px; }
+.dh-phone-card-name { font-size: 9px; font-weight: 800; color: #0f172a; }
+.dh-phone-card-loc  { font-size: 8px; color: #64748b; margin-top: 1px; }
+.dh-phone-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 4px;
+}
+.dh-phone-stars { font-size: 8px; color: #f59e0b; letter-spacing: -1px; }
+.dh-phone-price { font-size: 9px; font-weight: 800; color: #0064D2; }
+
+/* home indicator */
+.dh-phone-home-bar {
+    height: 18px; display: flex; align-items: center; justify-content: center;
+    background: #fff; margin-top: auto; flex-shrink: 0;
+}
+.dh-phone-home-bar::after {
+    content: '';
+    width: 40px; height: 4px; border-radius: 99px; background: #cbd5e1;
+}
 
 /* ---- Responsive ---- */
 @media (max-width: 1024px) {
