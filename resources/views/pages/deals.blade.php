@@ -56,20 +56,29 @@
 </div>
 
 {{-- ======================================================
-     BỘ LỌC ĐỊA ĐIỂM
+     BỘ LỌC ĐỊA ĐIỂM — floating card
 ====================================================== --}}
-<div class="dh-filter-bar">
+<div class="dh-filter-wrap">
     <div class="container">
-        <div class="dh-filter-inner">
-            <span class="dh-filter-label">Lọc theo địa điểm:</span>
+        <div class="dh-filter-card">
+            <div class="dh-filter-label-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>Lọc ưu đãi theo<br>địa điểm</span>
+            </div>
+            <div class="dh-filter-divider"></div>
             <div class="dh-filter-tabs">
+                @php
+                $locIcons = ['Đà Lạt'=>'🌲','Nha Trang'=>'🌊','Vũng Tàu'=>'⛱️','Đà Nẵng'=>'🏖️'];
+                @endphp
                 <a href="{{ route('deals.index') }}"
-                   class="dh-ftab {{ !request('location') ? 'active' : '' }}">Tất cả</a>
+                   class="dh-ftab {{ !request('location') ? 'active' : '' }}">
+                    <span class="dh-ftab-icon">🎯</span> Tất cả
+                </a>
                 @foreach($locations as $loc)
                 <a href="{{ route('deals.index', ['location' => $loc->id]) }}"
                    class="dh-ftab {{ request('location') == $loc->id ? 'active' : '' }}">
+                    <span class="dh-ftab-icon">{{ $locIcons[$loc->name] ?? '📍' }}</span>
                     {{ $loc->name }}
-                    <span class="dh-ftab-count">{{ $loc->hotels_count }}</span>
                 </a>
                 @endforeach
             </div>
@@ -505,36 +514,53 @@
 .dh-cd-lbl { font-size: 9px; color: #94a3b8; display: block; margin-top: 2px; }
 .dh-cd-sep { font-size: 20px; font-weight: 700; color: #64748b; padding-bottom: 14px; }
 
-/* ---- Filter bar ---- */
-.dh-filter-bar {
-    background: #fff;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 12px 0;
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+/* ---- Filter floating card ---- */
+.dh-filter-wrap {
+    padding: 0 0 0;
+    margin-top: -28px;
+    position: relative; z-index: 20;
 }
-.dh-filter-inner {
-    display: flex; align-items: center; gap: 12px;
+.dh-filter-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    padding: 18px 24px;
+    display: flex; align-items: center; gap: 20px;
     overflow-x: auto; scrollbar-width: none;
 }
-.dh-filter-inner::-webkit-scrollbar { display: none; }
-.dh-filter-label { font-size: 13px; font-weight: 600; color: #64748b; white-space: nowrap; flex-shrink: 0; }
-.dh-filter-tabs { display: flex; gap: 8px; flex-shrink: 0; }
+.dh-filter-card::-webkit-scrollbar { display: none; }
+.dh-filter-label-col {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 700; color: #374151;
+    line-height: 1.4; white-space: nowrap; flex-shrink: 0;
+    min-width: 120px;
+}
+.dh-filter-label-col svg { color: #0064D2; flex-shrink: 0; }
+.dh-filter-divider {
+    width: 1px; height: 32px; background: #e2e8f0; flex-shrink: 0;
+}
+.dh-filter-tabs {
+    display: flex; gap: 10px; flex-shrink: 0;
+    overflow-x: auto; scrollbar-width: none;
+}
+.dh-filter-tabs::-webkit-scrollbar { display: none; }
 .dh-ftab {
-    padding: 6px 16px; border-radius: 20px;
-    font-size: 13px; font-weight: 500; color: #374151;
-    background: #f1f5f9; text-decoration: none;
-    border: 1.5px solid transparent; transition: all .18s; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px; border-radius: 99px;
+    font-size: 13.5px; font-weight: 600; color: #374151;
+    background: #f8fafc; text-decoration: none;
+    border: 1.5px solid #e2e8f0;
+    transition: all .2s; white-space: nowrap;
 }
-.dh-ftab:hover { background: #dbeafe; color: #0064D2; }
-.dh-ftab.active { background: #0064D2; color: #fff; border-color: #0064D2; }
-.dh-ftab-count {
-    display: inline-flex; align-items: center; justify-content: center;
-    border-radius: 10px; font-size: 10px; font-weight: 700;
-    padding: 1px 6px; margin-left: 4px;
-    background: rgba(255,255,255,.3);
+.dh-ftab:hover {
+    background: #ede9fe; color: #6d28d9; border-color: #c4b5fd;
 }
-.dh-ftab:not(.active) .dh-ftab-count { background: #e2e8f0; color: #64748b; }
+.dh-ftab.active {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff; border-color: transparent;
+    box-shadow: 0 4px 14px rgba(124,58,237,.35);
+}
+.dh-ftab-icon { font-size: 15px; line-height: 1; }
 
 /* ---- Section headers ---- */
 .dh-cards-section { padding: 48px 0 16px; }
