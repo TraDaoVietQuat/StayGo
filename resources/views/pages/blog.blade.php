@@ -64,7 +64,7 @@
             <a href="{{ route('blog.show', $featured) }}" class="blg-featured__img-wrap">
                 @if($featured->thumb)
                 <img src="{{ str_starts_with($featured->thumb, 'http') ? $featured->thumb : asset('storage/' . $featured->thumb) }}"
-                     alt="{{ $featured->title }}" loading="eager">
+                     alt="{{ $featured->title }}" loading="eager" fetchpriority="high">
                 @else
                 <div class="blg-featured__img-placeholder">📰</div>
                 @endif
@@ -336,11 +336,31 @@
 }
 .blg-featured__cta:hover { color: #0052a3; text-decoration: underline; }
 
+/* Tablet landscape: thu nhỏ image width */
+@media (max-width: 1024px) {
+    .blg-featured__img-wrap { flex: 0 0 40%; max-width: 40%; }
+    .blg-featured__body { padding: 28px 28px; }
+    .blg-featured__title { font-size: 20px; }
+}
+/* Tablet portrait: stack dọc */
 @media (max-width: 768px) {
     .blg-featured { flex-direction: column; min-height: unset; }
     .blg-featured__img-wrap { flex: 0 0 220px; max-width: 100%; height: 220px; }
     .blg-featured__body { padding: 24px 20px; }
     .blg-featured__title { font-size: 18px; }
+    .blg-nl-card { padding: 32px 24px; gap: 24px; }
+    .blg-nl-title { font-size: 22px !important; }
+    .dh-filter-label-col { min-width: 100px; }
+}
+/* Mobile */
+@media (max-width: 480px) {
+    .blg-featured__body { padding: 20px 16px; }
+    .blg-featured__title { font-size: 16px; }
+    .blg-featured__excerpt { display: none; }
+    .blg-filter-count { display: none; }
+    .blg-nl-card { padding: 28px 18px; }
+    .blg-nl-title { font-size: 20px !important; }
+    .blg-nl-input { font-size: 13px !important; }
 }
 
 /* ── Newsletter Card ── */

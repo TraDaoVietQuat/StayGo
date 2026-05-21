@@ -422,7 +422,7 @@
                             <div class="dh-phone-heading">Ưu đãi dành riêng<br>cho bạn</div>
                             {{-- hotel card 1 --}}
                             <div class="dh-phone-card">
-                                <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="Resort" class="dh-phone-card-img">
+                                <img src="{{ asset('assets/images/pexels-caronoir-36758154.jpg') }}" alt="Resort" class="dh-phone-card-img" loading="lazy">
                                 <div class="dh-phone-card-body">
                                     <div class="dh-phone-card-name">Vinpearl Resort</div>
                                     <div class="dh-phone-card-loc">Nha Trang</div>
@@ -980,24 +980,38 @@
     .dh-trust-item  { flex: 0 0 calc(50% - 1px); }
     .dh-trust-divider:nth-child(4) { display: none; }
 }
+/* Tablet: coupon card drops below hero text, không ẩn hẳn */
+@media (max-width: 860px) {
+    .dh-hero-inner    { flex-direction: column; align-items: flex-start; gap: 24px; padding-top: 36px; padding-bottom: 36px; }
+    .dh-coupon-card   { align-self: stretch; max-width: 480px; }
+    .dh-hero-title    { font-size: 30px; }
+    .dh-filter-card   { padding: 14px 18px; gap: 14px; }
+    .dh-filter-label-col { min-width: 90px; font-size: 12px; }
+}
 @media (max-width: 768px) {
-    .dh-hero-title   { font-size: 28px; }
-    .dh-coupon-card  { display: none; }
     .dh-cards-grid   { grid-template-columns: 1fr 1fr; gap: 14px; }
     .dh-bottom-grid  { grid-template-columns: 1fr; gap: 20px; }
     .dh-how-steps    { justify-content: center; }
     .dh-phone-mockup { display: none; }
     .dh-trust-item   { padding: 20px 16px; }
 }
-@media (max-width: 480px) {
-    .dh-hero-inner   { flex-direction: column; align-items: flex-start; }
+/* Mobile nhỏ */
+@media (max-width: 600px) {
     .dh-cards-grid   { grid-template-columns: 1fr; }
+    .dh-hero-title   { font-size: 26px; }
+    .dh-hero-badge   { font-size: 11px; }
+    .dh-hero-sub     { font-size: 13px; }
+    .dh-coupon-card  { display: none; }
+    .dh-filter-tabs  { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
     .dh-trust-row    { flex-direction: column; }
     .dh-trust-item   { flex: 1 1 100%; }
     .dh-trust-divider { width: 100%; height: 1px; }
     .dh-bottom-card  { padding: 24px 18px; }
     .dh-nl-row       { flex-direction: column; }
     .dh-nl-btn       { width: 100%; }
+    .dh-hero-btn     { font-size: 13px; padding: 11px 22px; }
 }
 </style>
 @endpush
@@ -1068,6 +1082,7 @@ function handleNewsletter(e) {
 }
 
 /* ---- Countdown timers ---- */
+document.addEventListener('DOMContentLoaded', function() {
 (function() {
     const now = new Date();
 
@@ -1135,5 +1150,6 @@ function handleNewsletter(e) {
     tick();
     setInterval(tick, 1000);
 })();
+}); // end DOMContentLoaded
 </script>
 @endpush

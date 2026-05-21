@@ -5,8 +5,7 @@
    Surface: #f1f6fa
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* Fonts loaded non-blocking in app.blade.php via <link rel="preconnect"> */
 
 /* ---- Design Tokens ---- */
 :root {
@@ -26,8 +25,8 @@
   --sg-text-2:      #004391;
   --sg-text-muted:  #6b8db5;
 
-  --sg-font-body:    'Playfair Display', serif;
-  --sg-font-heading: 'Playfair Display', serif;
+  --sg-font-body:    'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  --sg-font-heading: 'Inter', 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
 
   --sg-edge: 8px;
 
