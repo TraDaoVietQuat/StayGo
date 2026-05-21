@@ -400,8 +400,9 @@ class PaymentWebhookController extends Controller
         $booking   = $bookingId ? Booking::find($bookingId) : null;
 
         if (!$booking) {
-            Log::warning('PayOS webhook: không tìm thấy booking', ['orderCode' => $bookingId]);
-            return response()->json(['error' => 'Booking not found'], 404);
+            // Test webhook from PayOS dashboard uses fake orderCode — acknowledge OK
+            Log::info('PayOS webhook: booking not found (likely test)', ['orderCode' => $bookingId]);
+            return response()->json(['error' => 0]);
         }
 
         if ($booking->payment && $booking->payment->payment_status === 'completed') {
