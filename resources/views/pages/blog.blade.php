@@ -3,16 +3,11 @@
 
 @section('content')
 
-{{-- Page Cover --}}
-<div class="sg-page-cover">
-    <div style="max-width:1200px;margin:0 auto;padding:0 32px;">
-        <span class="sg-label">StayGo Journal</span>
-        <h1>Cẩm Nang <span>Du Lịch</span></h1>
-        <nav class="sg-breadcrumb">
-            <a href="{{ route('home') }}">Trang chủ</a>
-            <span class="sep">/</span>
-            <span class="current">Cẩm nang</span>
-        </nav>
+{{-- Hero --}}
+<div class="blog-hero">
+    <div class="container">
+        <h1 class="blog-hero-title">Cẩm Nang Du Lịch</h1>
+        <p class="blog-hero-sub">Bí quyết, điểm đến và trải nghiệm nghỉ dưỡng tuyệt vời nhất Việt Nam</p>
     </div>
 </div>
 
@@ -98,3 +93,33 @@
 </div>
 
 @endsection
+
+@push('styles')
+<style>
+.blog-hero {
+    background: linear-gradient(135deg, #0066cc 0%, #1976d2 60%, #42a5f5 100%) !important;
+    padding: 52px 0 44px !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+}
+.blog-hero .container { width: 100%; }
+.blog-hero-title {
+    font-size: 34px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin: 0 0 10px !important;
+    letter-spacing: -.3px !important;
+    text-shadow: none !important;
+}
+.blog-hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,.85) !important;
+    margin: 0;
+}
+@media (max-width: 640px) {
+    .blog-hero { padding: 36px 0 30px !important; }
+    .blog-hero-title { font-size: 26px !important; }
+}
+</style>
+@endpush
