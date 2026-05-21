@@ -109,8 +109,8 @@ class PaymentController extends Controller
             }
         }
 
-        // --- ZaloPay & Card — qua PayOS (hỗ trợ ZaloPay, Visa/Mastercard, ATM) ---
-        if (in_array($method, ['zalopay', 'card'])) {
+        // --- ZaloPay, Card, VietQR, Wallet — qua PayOS ---
+        if (in_array($method, ['zalopay', 'card', 'vietqr', 'wallet'])) {
             try {
                 $payos    = app(PayOSService::class);
                 $response = $payos->createPaymentLink([

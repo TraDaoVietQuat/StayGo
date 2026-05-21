@@ -76,7 +76,7 @@ class BookingController extends Controller
             'phone'          => ['required', 'string', 'regex:/^[0-9\s\+\-\(\)]{8,20}$/'],
             'check_in'       => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
             'check_out'      => ['required', 'date_format:Y-m-d', 'after:check_in'],
-            'payment_method' => ['required', 'in:bank,momo,vnpay,card,hotel,zalopay,cod,bank_transfer'],
+            'payment_method' => ['required', 'in:bank,momo,vnpay,card,hotel,zalopay,cod,bank_transfer,vietqr,wallet'],
         ], [
             'full_name.required'      => 'Vui lòng nhập họ tên.',
             'email.required'          => 'Vui lòng nhập email.',
@@ -85,6 +85,7 @@ class BookingController extends Controller
             'check_in.after_or_equal' => 'Ngày nhận phòng phải từ hôm nay.',
             'check_out.after'         => 'Ngày trả phòng phải sau ngày nhận phòng.',
             'payment_method.required' => 'Vui lòng chọn phương thức thanh toán.',
+            'payment_method.in'       => 'Phương thức thanh toán không hợp lệ.',
         ]);
 
         $checkIn  = $request->input('check_in');
